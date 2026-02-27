@@ -1,46 +1,36 @@
-# AKWebSolution
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Site vitrine Next.js pour présenter et vendre vos services de création de sites web. Design aligné avec votre logo : minimaliste, élégant, thème sombre.
+## Getting Started
 
-## Structure du projet
-
-Le projet Next.js se trouve dans le dossier **`akweb-temp`**. Pour travailler dessus :
+First, run the development server:
 
 ```bash
-cd akweb-temp
-npm install
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Librairies installées
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-- **Next.js 16** (App Router, TypeScript, Tailwind CSS 4)
-- **Framer Motion** – animations fluides et discrètes
-- **Lucide React** – icônes épurées
-- **Tailwind CSS** – design utilitaire, thème sombre
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Style
+## Learn More
 
-- Fond noir, texte gris clair / blanc
-- Typographie : Outfit (sans-serif moderne)
-- Animations légères au scroll et au chargement
-- Sections : Hero, Services, Contact, Footer
+To learn more about Next.js, take a look at the following resources:
 
-## Commandes
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-| Commande        | Description              |
-|----------------|--------------------------|
-| `npm run dev`  | Lancer le serveur de dev |
-| `npm run build`| Build de production      |
-| `npm run start`| Démarrer en production   |
-| `npm run lint` | Vérifier le code         |
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Personnalisation
+## Deploy on Vercel
 
-- **Email de contact** : modifier l’adresse dans `akweb-temp/src/components/Contact.tsx`
-- **Services** : éditer le tableau dans `akweb-temp/src/components/Services.tsx`
-- **Couleurs** : variables dans `akweb-temp/src/app/globals.css`
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Si vous souhaitez que le projet soit à la racine (`d:\AKWEBSOLUTION`) au lieu de `akweb-temp`, vous pouvez déplacer le contenu de `akweb-temp` à la racine (y compris `package.json`, `src`, `public`, configs) puis lancer `npm install` à la racine.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
