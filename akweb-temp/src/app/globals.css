@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+:root {
+  /* Luminosité 80–90 % : fond très lumineux, côté aéré */
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+  --muted: #525252;
+  --muted-foreground: #737373;
+  --accent: #000000;
+  --border: rgba(0, 0, 0, 0.06);
+  --border-hover: rgba(0, 0, 0, 0.1);
+  --card: rgba(0, 0, 0, 0.02);
+  --card-hover: rgba(0, 0, 0, 0.04);
+  --radius: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --space-section: clamp(5rem, 12vw, 7rem);
+  --space-block: clamp(1.5rem, 4vw, 2.5rem);
+  --container: min(100% - 2rem, 75rem);
+  --container-narrow: 45rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-jost), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-cormorant), Georgia, serif;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgba(0, 0, 0, 0.12);
+  color: var(--foreground);
+}
+
+:focus-visible {
+  outline: 2px solid rgba(0, 0, 0, 0.5);
+  outline-offset: 2px;
+}
+
+.section-container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 5vw, 2.5rem);
+}
+
+.section-padding {
+  padding-block: var(--space-section);
+}
