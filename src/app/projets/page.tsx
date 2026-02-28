@@ -42,6 +42,7 @@ const projects = [
     images: [
       { src: "/images/thermochrono/acceuil.png",     alt: "ThermoChron - Page d'accueil" },
       { src: "/images/thermochrono/nosproduits.png", alt: "ThermoChron - Nos produits"   },
+      { src: "/images/thermochrono/produits.png",    alt: "ThermoChron - Fiche produit"  },
       { src: "/images/thermochrono/panier.png",      alt: "ThermoChron - Panier"         },
     ],
   },
