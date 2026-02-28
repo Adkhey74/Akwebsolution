@@ -17,15 +17,32 @@ const projects = [
     title: "HernTaxi",
     category: "Site vitrine",
     year: "2025",
+    url: "https://herntaxi.fr",
     tags: ["Site vitrine", "Responsive", "SEO", "Multi-pages"],
     description:
-      "Site vitrine pour une société de taxi : présentation des services (réservation, transport ski, CPAM), design responsive et pages dédiées pour chaque offre.",
+      "Site vitrine pour une société de taxi en Savoie : présentation des services (réservation, transport ski, CPAM), design responsive et pages dédiées pour chaque offre.",
     images: [
-      { src: "/images/herntaxi/acceuil.png",     alt: "HernTaxi - Page d'accueil"  },
-      { src: "/images/herntaxi/acceuil2.png",    alt: "HernTaxi - Accueil suite"   },
-      { src: "/images/herntaxi/reservation.png", alt: "HernTaxi - Réservation"     },
-      { src: "/images/herntaxi/ski.png",         alt: "HernTaxi - Transport ski"   },
-      { src: "/images/herntaxi/cpam.png",        alt: "HernTaxi - Transport CPAM"  },
+      { src: "/images/herntaxi/acceuil-new.png",  alt: "HernTaxi - Page d'accueil"       },
+      { src: "/images/herntaxi/acceuil2-new.png", alt: "HernTaxi - Accueil suite"         },
+      { src: "/images/herntaxi/vehicule.png",     alt: "HernTaxi - Nos véhicules"         },
+      { src: "/images/herntaxi/reservations.png", alt: "HernTaxi - Réservation"           },
+      { src: "/images/herntaxi/stationdeski.png", alt: "HernTaxi - Transfert stations ski"},
+      { src: "/images/herntaxi/cpamtaxi.png",     alt: "HernTaxi - Transport CPAM"        },
+    ],
+  },
+  {
+    id: "thermochrono",
+    title: "ThermoChron",
+    category: "E-commerce",
+    year: "2025",
+    url: "https://thermochrono.fr",
+    tags: ["E-commerce", "Responsive", "Paiement sécurisé", "SEO"],
+    description:
+      "Boutique e-commerce de gourdes connectées avec affichage de la température en temps réel. Catalogue produits, panier, paiement sécurisé (Visa, Mastercard, Apple Pay) et livraison rapide.",
+    images: [
+      { src: "/images/thermochrono/acceuil.png",     alt: "ThermoChron - Page d'accueil" },
+      { src: "/images/thermochrono/nosproduits.png", alt: "ThermoChron - Nos produits"   },
+      { src: "/images/thermochrono/panier.png",      alt: "ThermoChron - Panier"         },
     ],
   },
 ];

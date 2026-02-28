@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ExternalLink, Calendar, Tag } from "lucide-react";
 
 export type ProjectImage = { src: string; alt: string };
 
@@ -25,6 +25,7 @@ export function ProjectShowcase({
   images,
   tags = [],
   year,
+  url,
   index = 0,
 }: ProjectShowcaseProps) {
   const [current, setCurrent] = useState(0);
@@ -40,149 +41,172 @@ export function ProjectShowcase({
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 32 }}
+      initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.55, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="overflow-hidden rounded-2xl border border-[var(--border)] bg-white shadow-sm transition-shadow hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)]"
+      className="overflow-hidden rounded-2xl border border-[var(--border)] bg-white shadow-sm"
     >
-      {/* ── Info header ── */}
-      <div className="flex flex-col gap-6 p-6 md:flex-row md:items-start md:justify-between md:p-10">
-        {/* Left: category + title + description */}
-        <div className="flex-1">
-          <span className="mb-3 inline-block text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-[var(--muted)]">
-            {category}
-          </span>
-          <h2 className="text-[1.875rem] font-semibold tracking-tight text-[var(--foreground)] md:text-[2.25rem]">
-            {title}
-          </h2>
-          <p className="mt-3 max-w-xl text-[0.9375rem] leading-[1.7] text-[var(--muted)] md:text-[1rem]">
-            {description}
-          </p>
-        </div>
+      {/* ── Layout split : image gauche / info droite ── */}
+      <div className="flex flex-col lg:flex-row">
 
-        {/* Right: year + tags */}
-        <div className="flex shrink-0 flex-col items-start gap-4 md:items-end">
-          {year && (
-            <div className="text-right">
-              <p className="text-[0.7rem] font-medium uppercase tracking-[0.2em] text-[var(--muted)]">Année</p>
-              <p className="text-[1.125rem] font-semibold text-[var(--foreground)]">{year}</p>
+        {/* Colonne image (60%) */}
+        <div className="relative flex flex-col lg:w-[60%]">
+
+          {/* Browser chrome */}
+          <div className="flex items-center gap-3 border-b border-[var(--border)] bg-[#f5f5f5] px-4 py-2.5">
+            <div className="flex gap-1.5">
+              <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#ffbd2e]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
             </div>
-          )}
-          {tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 md:justify-end">
-              {tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full border border-[var(--border-hover)] px-3 py-1 text-[0.72rem] font-medium text-[var(--muted)]"
-                >
-                  {tag}
+            <div className="flex flex-1 items-center justify-center">
+              <div className="flex w-full max-w-xs items-center gap-2 rounded-md bg-white px-3 py-1 border border-[var(--border)]">
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green-500" />
+                <span className="truncate text-[0.68rem] text-[var(--muted)]">
+                  {url ? url.replace("https://", "") : `${title.toLowerCase().replace(/\s/g, "")}.fr`}
                 </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Image principale */}
+          <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#f9f9f9] lg:aspect-auto lg:flex-1 lg:min-h-[420px]">
+            <AnimatePresence mode="wait" initial={false} custom={direction}>
+              <motion.div
+                key={current}
+                custom={direction}
+                variants={{
+                  enter: (d: number) => ({ opacity: 0, x: d * 32 }),
+                  center: { opacity: 1, x: 0 },
+                  exit:  (d: number) => ({ opacity: 0, x: d * -32 }),
+                }}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={images[current].src}
+                  alt={images[current].alt}
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 1024px) 100vw, 60vw"
+                  priority={current === 0}
+                />
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Flèches */}
+            {total > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={goPrev}
+                  className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[var(--foreground)] shadow-md backdrop-blur-sm transition-all hover:bg-white hover:shadow-lg"
+                  aria-label="Image précédente"
+                >
+                  <ChevronLeft size={18} strokeWidth={2} />
+                </button>
+                <button
+                  type="button"
+                  onClick={goNext}
+                  className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[var(--foreground)] shadow-md backdrop-blur-sm transition-all hover:bg-white hover:shadow-lg"
+                  aria-label="Image suivante"
+                >
+                  <ChevronRight size={18} strokeWidth={2} />
+                </button>
+
+                {/* Compteur */}
+                <div className="absolute bottom-3 right-3 rounded-full bg-black/50 px-2.5 py-1 text-[0.7rem] font-medium text-white backdrop-blur-sm">
+                  {current + 1} / {total}
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Thumbnail strip */}
+          {total > 1 && (
+            <div className="flex items-center gap-2 overflow-x-auto border-t border-[var(--border)] bg-[#fafafa] px-4 py-3">
+              {images.map((img, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => go(i)}
+                  aria-label={`Voir ${img.alt}`}
+                  className={`relative h-12 w-20 shrink-0 overflow-hidden rounded-md border-2 transition-all ${
+                    i === current
+                      ? "border-[var(--accent)] opacity-100"
+                      : "border-transparent opacity-45 hover:opacity-70"
+                  }`}
+                >
+                  <Image src={img.src} alt={img.alt} fill className="object-cover object-top" sizes="80px" />
+                </button>
               ))}
             </div>
           )}
         </div>
-      </div>
 
-      {/* ── Browser mockup ── */}
-      <div className="mx-6 mb-6 overflow-hidden rounded-xl border border-[var(--border)] md:mx-10 md:mb-8">
+        {/* Colonne info (40%) */}
+        <div className="flex flex-col justify-between border-t border-[var(--border)] p-7 lg:w-[40%] lg:border-t-0 lg:border-l lg:p-10">
 
-        {/* Chrome bar */}
-        <div className="flex items-center gap-3 border-b border-[var(--border)] bg-[#f5f5f5] px-4 py-3">
-          <div className="flex gap-1.5">
-            <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
-            <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
-            <span className="h-3 w-3 rounded-full bg-[#28c840]" />
+          <div>
+            {/* Catégorie */}
+            <span className="inline-flex items-center gap-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[var(--muted)]">
+              <Tag size={10} strokeWidth={2} />
+              {category}
+            </span>
+
+            {/* Titre */}
+            <h2 className="mt-3 text-[2rem] font-semibold leading-[1.1] tracking-tight text-[var(--foreground)] md:text-[2.5rem]">
+              {title}
+            </h2>
+
+            {/* Année */}
+            {year && (
+              <div className="mt-3 flex items-center gap-1.5 text-[0.8125rem] text-[var(--muted)]">
+                <Calendar size={13} strokeWidth={1.75} />
+                {year}
+              </div>
+            )}
+
+            {/* Description */}
+            <p className="mt-5 text-[0.9375rem] leading-[1.75] text-[var(--muted)]">
+              {description}
+            </p>
+
+            {/* Tags */}
+            {tags.length > 0 && (
+              <div className="mt-6 flex flex-wrap gap-2">
+                {tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border border-[var(--border-hover)] px-3 py-1 text-[0.72rem] font-medium text-[var(--muted)]"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
-          <div className="flex flex-1 items-center justify-center">
-            <div className="flex w-full max-w-sm items-center gap-2 rounded-md bg-white px-3 py-1.5 border border-[var(--border)]">
-              <span className="h-2 w-2 rounded-full bg-green-500 opacity-80" />
-              <span className="truncate text-[0.7rem] text-[var(--muted)]">
-                {title.toLowerCase().replace(/\s/g, "")}.fr
-              </span>
+
+          {/* CTA */}
+          {url && (
+            <div className="mt-8 pt-6 border-t border-[var(--border)]">
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 rounded-full bg-[var(--accent)] px-6 py-3 text-[0.875rem] font-medium text-white transition-all hover:opacity-90 hover:shadow-lg hover:shadow-black/15"
+              >
+                Voir le site
+                <ExternalLink size={14} strokeWidth={2} />
+              </a>
             </div>
-          </div>
-        </div>
-
-        {/* Image area */}
-        <div className="relative aspect-video w-full overflow-hidden bg-[#f9f9f9]">
-          <AnimatePresence mode="wait" initial={false} custom={direction}>
-            <motion.div
-              key={current}
-              custom={direction}
-              variants={{
-                enter: (d: number) => ({ opacity: 0, x: d * 40 }),
-                center: { opacity: 1, x: 0 },
-                exit:  (d: number) => ({ opacity: 0, x: d * -40 }),
-              }}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="absolute inset-0"
-            >
-              <Image
-                src={images[current].src}
-                alt={images[current].alt}
-                fill
-                className="object-cover object-top"
-                sizes="(max-width: 1024px) 100vw, 75rem"
-                priority={current === 0}
-              />
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Prev / Next */}
-          {total > 1 && (
-            <>
-              <button
-                type="button"
-                onClick={goPrev}
-                className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[var(--foreground)] shadow-md backdrop-blur-sm transition-all hover:bg-white hover:shadow-lg"
-                aria-label="Image précédente"
-              >
-                <ChevronLeft size={20} strokeWidth={1.75} />
-              </button>
-              <button
-                type="button"
-                onClick={goNext}
-                className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[var(--foreground)] shadow-md backdrop-blur-sm transition-all hover:bg-white hover:shadow-lg"
-                aria-label="Image suivante"
-              >
-                <ChevronRight size={20} strokeWidth={1.75} />
-              </button>
-            </>
           )}
         </div>
       </div>
-
-      {/* ── Thumbnail strip ── */}
-      {total > 1 && (
-        <div className="flex items-center gap-2.5 overflow-x-auto px-6 pb-6 md:px-10 md:pb-8">
-          {images.map((img, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => go(i)}
-              aria-label={`Voir ${img.alt}`}
-              aria-current={i === current ? "true" : undefined}
-              className={`relative h-14 w-24 shrink-0 overflow-hidden rounded-lg border-2 transition-all md:h-16 md:w-28 ${
-                i === current
-                  ? "border-[var(--accent)] opacity-100 shadow-md"
-                  : "border-transparent opacity-50 hover:opacity-80"
-              }`}
-            >
-              <Image
-                src={img.src}
-                alt={img.alt}
-                fill
-                className="object-cover object-top"
-                sizes="112px"
-              />
-            </button>
-          ))}
-        </div>
-      )}
     </motion.article>
   );
 }

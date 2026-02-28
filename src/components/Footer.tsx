@@ -3,65 +3,137 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Logo } from "./Logo";
+import { Mail, MessageCircle, MapPin } from "lucide-react";
+
+const navLinks = [
+  { href: "/",          label: "Accueil"  },
+  { href: "/#services", label: "Services" },
+  { href: "/projets",   label: "Projets"  },
+  { href: "/#contact",  label: "Contact"  },
+];
+
+const services = [
+  "Sites vitrines",
+  "Design responsive",
+  "Performance & SEO",
+  "Identité visuelle",
+  "Maintenance",
+];
 
 export function Footer() {
   const year = new Date().getFullYear();
+
   return (
-    <footer className="relative border-t border-[var(--border)] overflow-hidden">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" aria-hidden />
-      <div className="section-container py-10 md:py-16">
+    <footer className="border-t border-[var(--border)] bg-[var(--foreground)] text-white">
+      <div className="section-container pt-16 pb-10 md:pt-20 md:pb-12">
+
+        {/* Grille principale */}
         <motion.div
-          className="flex flex-col items-center gap-8 text-center md:flex-row md:items-start md:justify-between md:text-left"
-          initial={{ opacity: 0, y: 12 }}
+          className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4"
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-32px" }}
-          transition={{ duration: 0.4 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.5 }}
         >
-          <div className="flex flex-col items-center gap-3 md:items-start">
-            <Logo variant="compact" />
-            <p className="max-w-xs text-[0.8125rem] leading-relaxed text-[var(--muted)]">
-              Création de sites web sur mesure. Design, performance et accompagnement.
+          {/* Col 1 — Marque */}
+          <div className="lg:col-span-1">
+            <Logo variant="compact" className="brightness-0 invert" />
+            <p className="mt-4 text-[0.875rem] leading-relaxed text-white/55">
+              Création de sites web sur mesure, élégants et performants pour
+              votre activité.
             </p>
+            <div className="mt-6 flex flex-col gap-3">
+              <a
+                href="mailto:contact@akwebsolution.com"
+                className="flex items-center gap-2.5 text-[0.8125rem] text-white/60 transition-colors hover:text-white"
+              >
+                <Mail size={14} strokeWidth={1.75} className="shrink-0" />
+                contact@akwebsolution.com
+              </a>
+              <a
+                href="https://wa.me/33782923806"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 text-[0.8125rem] text-white/60 transition-colors hover:text-white"
+              >
+                <MessageCircle size={14} strokeWidth={1.75} className="shrink-0" />
+                07 82 92 38 06
+              </a>
+              <span className="flex items-center gap-2.5 text-[0.8125rem] text-white/40">
+                <MapPin size={14} strokeWidth={1.75} className="shrink-0" />
+                France
+              </span>
+            </div>
           </div>
-          <nav
-            className="flex flex-col items-center gap-5 sm:flex-row sm:gap-8 text-[0.8125rem] font-medium text-[var(--muted)] md:items-start"
-            aria-label="Navigation secondaire"
-          >
-            <Link
-              href="/#services"
-              className="relative inline-block hover:text-[var(--foreground)] after:absolute after:left-0 after:bottom-0 after:h-px after:w-0 after:bg-[var(--foreground)] after:transition-all after:duration-200 hover:after:w-full"
-            >
-              Services
-            </Link>
-            <Link
-              href="/projets"
-              className="relative inline-block hover:text-[var(--foreground)] after:absolute after:left-0 after:bottom-0 after:h-px after:w-0 after:bg-[var(--foreground)] after:transition-all after:duration-200 hover:after:w-full"
-            >
-              Projets
-            </Link>
+
+          {/* Col 2 — Navigation */}
+          <div>
+            <p className="mb-5 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/35">
+              Navigation
+            </p>
+            <nav className="flex flex-col gap-3" aria-label="Navigation footer">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="group flex items-center gap-2 text-[0.875rem] text-white/60 transition-colors hover:text-white"
+                >
+                  <span className="h-px w-0 bg-white transition-all duration-200 group-hover:w-3" />
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+
+          {/* Col 3 — Services */}
+          <div>
+            <p className="mb-5 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/35">
+              Prestations
+            </p>
+            <ul className="flex flex-col gap-3">
+              {services.map((s) => (
+                <li
+                  key={s}
+                  className="text-[0.875rem] text-white/55"
+                >
+                  {s}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Col 4 — CTA */}
+          <div className="flex flex-col gap-5">
+            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/35">
+              Démarrer
+            </p>
+            <p className="text-[0.875rem] leading-relaxed text-white/55">
+              Un projet en tête ? Discutons-en, devis gratuit sous 24 h.
+            </p>
             <Link
               href="/#contact"
-              className="relative inline-block hover:text-[var(--foreground)] after:absolute after:left-0 after:bottom-0 after:h-px after:w-0 after:bg-[var(--foreground)] after:transition-all after:duration-200 hover:after:w-full"
+              className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 text-[0.8125rem] font-medium text-white transition-all hover:bg-white hover:text-[var(--foreground)]"
             >
-              Contact
+              Demander un devis
             </Link>
-            <a
-              href="mailto:contact@akwebsolution.com"
-              className="break-all relative inline-block hover:text-[var(--foreground)] after:absolute after:left-0 after:bottom-0 after:h-px after:w-0 after:bg-[var(--foreground)] after:transition-all after:duration-200 hover:after:w-full"
-            >
-              contact@akwebsolution.com
-            </a>
-          </nav>
+          </div>
         </motion.div>
-        <motion.p
-          className="mt-10 border-t border-[var(--border)] pt-6 text-center text-[0.75rem] text-[var(--muted-foreground)] md:mt-12 md:pt-8"
+
+        {/* Barre de bas */}
+        <motion.div
+          className="mt-14 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-8 sm:flex-row md:mt-16"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.3, delay: 0.1 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
         >
-          © {year} AKWebSolution. Tous droits réservés.
-        </motion.p>
+          <p className="text-[0.75rem] text-white/30">
+            © {year} AKWebSolution. Tous droits réservés.
+          </p>
+          <p className="text-[0.75rem] text-white/25">
+            Conçu & développé par AKWebSolution
+          </p>
+        </motion.div>
       </div>
     </footer>
   );
