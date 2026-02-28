@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Logo } from "./Logo";
 import { Mail, MessageCircle, MapPin } from "lucide-react";
+import { FaInstagram, FaTiktok } from "react-icons/fa";
 
 const navLinks = [
   { href: "/",          label: "Accueil"  },
@@ -121,7 +122,7 @@ export function Footer() {
 
         {/* Barre de bas */}
         <motion.div
-          className="mt-14 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-8 sm:flex-row md:mt-16"
+          className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row md:mt-16"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -130,6 +131,32 @@ export function Footer() {
           <p className="text-[0.75rem] text-white/30">
             © {year} AKWebSolution. Tous droits réservés.
           </p>
+
+          {/* Réseaux sociaux */}
+          <div className="flex items-center gap-2">
+            <a
+              href="#"
+              aria-label="Instagram"
+              className="group flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-white/40 transition-all duration-200 hover:border-white/30 hover:text-white"
+            >
+              <FaInstagram className="h-[15px] w-[15px]" />
+            </a>
+            <a
+              href="#"
+              aria-label="TikTok"
+              className="group flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-white/40 transition-all duration-200 hover:border-white/30 hover:text-white"
+            >
+              <FaTiktok className="h-[13px] w-[13px]" />
+            </a>
+            <a
+              href="mailto:contact@akwebsolution.com"
+              aria-label="Email"
+              className="group flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-white/40 transition-all duration-200 hover:border-white/30 hover:text-white"
+            >
+              <Mail size={14} strokeWidth={1.75} />
+            </a>
+          </div>
+
           <p className="text-[0.75rem] text-white/25">
             Conçu & développé par AKWebSolution
           </p>

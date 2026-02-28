@@ -87,14 +87,13 @@ export function Header() {
           <Logo variant="compact" className="block h-full w-auto" />
         </div>
 
-        {/* Right : CTA */}
+        {/* Right : bouton devis */}
         <div className="flex min-h-10 flex-1 shrink-0 items-center justify-end">
           <Link
             href="/#contact"
-            className="flex items-center justify-center whitespace-nowrap rounded-full bg-[var(--accent)] px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors hover:bg-[var(--foreground)] md:px-5 md:py-2.5 md:font-medium"
+            className="rounded-full bg-[var(--foreground)] px-5 py-2 text-[0.875rem] font-medium text-white transition-all duration-200 hover:opacity-80"
           >
-            <span className="md:hidden">Devis</span>
-            <span className="hidden md:inline">Demander un devis</span>
+            Devis
           </Link>
         </div>
       </div>

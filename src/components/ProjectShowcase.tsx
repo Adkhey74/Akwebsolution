@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, ExternalLink, Calendar, Tag } from "lucide-react";
@@ -32,6 +32,18 @@ export function ProjectShowcase({
   const [direction, setDirection] = useState<1 | -1>(1);
   const total = images.length;
 
+  // Swipe tactile
+  const touchStartX = useRef<number | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) diff > 0 ? goNext() : goPrev();
+    touchStartX.current = null;
+  };
+
   const go = (next: number) => {
     setDirection(next > current ? 1 : -1);
     setCurrent(next);
@@ -43,25 +55,50 @@ export function ProjectShowcase({
     <motion.article
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.55, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.52, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
       className="overflow-hidden rounded-2xl border border-[var(--border)] bg-white shadow-sm"
     >
-      {/* ── Layout split : image gauche / info droite ── */}
+      {/* ── Mobile : infos en haut ── */}
+      <div className="flex items-center justify-between gap-3 border-b border-[var(--border)] px-5 py-4 lg:hidden">
+        <div className="min-w-0">
+          <span className="flex items-center gap-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
+            <Tag size={9} strokeWidth={2.2} />
+            {category}
+            {year && <span className="opacity-50">· {year}</span>}
+          </span>
+          <h2 className="mt-0.5 truncate text-[1.375rem] font-semibold tracking-tight text-[var(--foreground)]">
+            {title}
+          </h2>
+        </div>
+        {url && (
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex shrink-0 items-center gap-1.5 rounded-full bg-[var(--accent)] px-4 py-2 text-[0.78rem] font-medium text-white"
+          >
+            Voir
+            <ExternalLink size={12} strokeWidth={2} />
+          </a>
+        )}
+      </div>
+
+      {/* ── Layout split desktop ── */}
       <div className="flex flex-col lg:flex-row">
 
-        {/* Colonne image (60%) */}
+        {/* Colonne image */}
         <div className="relative flex flex-col lg:w-[60%]">
 
-          {/* Browser chrome */}
-          <div className="flex items-center gap-3 border-b border-[var(--border)] bg-[#f5f5f5] px-4 py-2.5">
+          {/* Browser chrome — desktop only */}
+          <div className="hidden items-center gap-3 border-b border-[var(--border)] bg-[#f5f5f5] px-4 py-2.5 lg:flex">
             <div className="flex gap-1.5">
               <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
               <span className="h-2.5 w-2.5 rounded-full bg-[#ffbd2e]" />
               <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
             </div>
             <div className="flex flex-1 items-center justify-center">
-              <div className="flex w-full max-w-xs items-center gap-2 rounded-md bg-white px-3 py-1 border border-[var(--border)]">
+              <div className="flex w-full max-w-xs items-center gap-2 rounded-md border border-[var(--border)] bg-white px-3 py-1">
                 <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green-500" />
                 <span className="truncate text-[0.68rem] text-[var(--muted)]">
                   {url ? url.replace("https://", "") : `${title.toLowerCase().replace(/\s/g, "")}.fr`}
@@ -71,20 +108,24 @@ export function ProjectShowcase({
           </div>
 
           {/* Image principale */}
-          <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#f9f9f9] lg:aspect-auto lg:flex-1 lg:min-h-[420px]">
+          <div
+            className="relative aspect-[16/10] w-full overflow-hidden bg-[#f9f9f9] sm:aspect-video lg:aspect-auto lg:min-h-[420px] lg:flex-1"
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+          >
             <AnimatePresence mode="wait" initial={false} custom={direction}>
               <motion.div
                 key={current}
                 custom={direction}
                 variants={{
-                  enter: (d: number) => ({ opacity: 0, x: d * 32 }),
+                  enter: (d: number) => ({ opacity: 0, x: d * 28 }),
                   center: { opacity: 1, x: 0 },
-                  exit:  (d: number) => ({ opacity: 0, x: d * -32 }),
+                  exit:  (d: number) => ({ opacity: 0, x: d * -28 }),
                 }}
                 initial="enter"
                 animate="center"
                 exit="exit"
-                transition={{ duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
+                transition={{ duration: 0.26, ease: [0.25, 0.46, 0.45, 0.94] }}
                 className="absolute inset-0"
               >
                 <Image
@@ -98,13 +139,13 @@ export function ProjectShowcase({
               </motion.div>
             </AnimatePresence>
 
-            {/* Flèches */}
+            {/* Flèches — masquées sur petit mobile, visibles à partir de sm */}
             {total > 1 && (
               <>
                 <button
                   type="button"
                   onClick={goPrev}
-                  className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[var(--foreground)] shadow-md backdrop-blur-sm transition-all hover:bg-white hover:shadow-lg"
+                  className="absolute left-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[var(--foreground)] shadow-md backdrop-blur-sm transition-all hover:bg-white sm:flex"
                   aria-label="Image précédente"
                 >
                   <ChevronLeft size={18} strokeWidth={2} />
@@ -112,88 +153,93 @@ export function ProjectShowcase({
                 <button
                   type="button"
                   onClick={goNext}
-                  className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[var(--foreground)] shadow-md backdrop-blur-sm transition-all hover:bg-white hover:shadow-lg"
+                  className="absolute right-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[var(--foreground)] shadow-md backdrop-blur-sm transition-all hover:bg-white sm:flex"
                   aria-label="Image suivante"
                 >
                   <ChevronRight size={18} strokeWidth={2} />
                 </button>
 
                 {/* Compteur */}
-                <div className="absolute bottom-3 right-3 rounded-full bg-black/50 px-2.5 py-1 text-[0.7rem] font-medium text-white backdrop-blur-sm">
+                <div className="absolute bottom-2.5 right-3 rounded-full bg-black/50 px-2.5 py-1 text-[0.68rem] font-medium text-white backdrop-blur-sm">
                   {current + 1} / {total}
                 </div>
               </>
             )}
           </div>
 
-          {/* Thumbnail strip */}
+          {/* Dots mobile + thumbnails desktop */}
           {total > 1 && (
-            <div className="flex items-center gap-2 overflow-x-auto border-t border-[var(--border)] bg-[#fafafa] px-4 py-3">
-              {images.map((img, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => go(i)}
-                  aria-label={`Voir ${img.alt}`}
-                  className={`relative h-12 w-20 shrink-0 overflow-hidden rounded-md border-2 transition-all ${
-                    i === current
-                      ? "border-[var(--accent)] opacity-100"
-                      : "border-transparent opacity-45 hover:opacity-70"
-                  }`}
-                >
-                  <Image src={img.src} alt={img.alt} fill className="object-cover object-top" sizes="80px" />
-                </button>
-              ))}
-            </div>
+            <>
+              {/* Dots — mobile uniquement */}
+              <div className="flex items-center justify-center gap-2 py-3 lg:hidden">
+                {images.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => go(i)}
+                    aria-label={`Image ${i + 1}`}
+                    className={`h-2 rounded-full transition-all ${
+                      i === current
+                        ? "w-6 bg-[var(--accent)]"
+                        : "w-2 bg-[var(--accent)]/20"
+                    }`}
+                  />
+                ))}
+              </div>
+
+              {/* Thumbnails — desktop uniquement */}
+              <div className="hidden items-center gap-2 overflow-x-auto border-t border-[var(--border)] bg-[#fafafa] px-4 py-3 lg:flex">
+                {images.map((img, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => go(i)}
+                    aria-label={`Voir ${img.alt}`}
+                    className={`relative h-12 w-20 shrink-0 overflow-hidden rounded-md border-2 transition-all ${
+                      i === current
+                        ? "border-[var(--accent)] opacity-100"
+                        : "border-transparent opacity-40 hover:opacity-70"
+                    }`}
+                  >
+                    <Image src={img.src} alt={img.alt} fill className="object-cover object-top" sizes="80px" />
+                  </button>
+                ))}
+              </div>
+            </>
           )}
         </div>
 
-        {/* Colonne info (40%) */}
-        <div className="flex flex-col justify-between border-t border-[var(--border)] p-7 lg:w-[40%] lg:border-t-0 lg:border-l lg:p-10">
-
+        {/* Colonne info — desktop uniquement */}
+        <div className="hidden flex-col justify-between border-l border-[var(--border)] p-10 lg:flex lg:w-[40%]">
           <div>
-            {/* Catégorie */}
             <span className="inline-flex items-center gap-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[var(--muted)]">
               <Tag size={10} strokeWidth={2} />
               {category}
             </span>
-
-            {/* Titre */}
-            <h2 className="mt-3 text-[2rem] font-semibold leading-[1.1] tracking-tight text-[var(--foreground)] md:text-[2.5rem]">
+            <h2 className="mt-3 text-[2.25rem] font-semibold leading-[1.1] tracking-tight text-[var(--foreground)]">
               {title}
             </h2>
-
-            {/* Année */}
             {year && (
               <div className="mt-3 flex items-center gap-1.5 text-[0.8125rem] text-[var(--muted)]">
                 <Calendar size={13} strokeWidth={1.75} />
                 {year}
               </div>
             )}
-
-            {/* Description */}
             <p className="mt-5 text-[0.9375rem] leading-[1.75] text-[var(--muted)]">
               {description}
             </p>
-
-            {/* Tags */}
             {tags.length > 0 && (
               <div className="mt-6 flex flex-wrap gap-2">
                 {tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full border border-[var(--border-hover)] px-3 py-1 text-[0.72rem] font-medium text-[var(--muted)]"
-                  >
+                  <span key={tag} className="rounded-full border border-[var(--border-hover)] px-3 py-1 text-[0.72rem] font-medium text-[var(--muted)]">
                     {tag}
                   </span>
                 ))}
               </div>
             )}
           </div>
-
-          {/* CTA */}
           {url && (
-            <div className="mt-8 pt-6 border-t border-[var(--border)]">
+            <div className="mt-8 border-t border-[var(--border)] pt-6">
               <a
                 href={url}
                 target="_blank"
@@ -206,6 +252,22 @@ export function ProjectShowcase({
             </div>
           )}
         </div>
+      </div>
+
+      {/* ── Mobile : description + tags en bas ── */}
+      <div className="border-t border-[var(--border)] px-5 py-5 lg:hidden">
+        <p className="text-[0.9rem] leading-[1.7] text-[var(--muted)]">
+          {description}
+        </p>
+        {tags.length > 0 && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <span key={tag} className="rounded-full border border-[var(--border-hover)] px-3 py-1 text-[0.72rem] font-medium text-[var(--muted)]">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </motion.article>
   );
