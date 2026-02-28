@@ -32,7 +32,7 @@ const projects = [
   },
   {
     id: "thermochrono",
-    title: "ThermoChron",
+    title: "ThermoChrono",
     category: "E-commerce",
     year: "2025",
     url: "https://thermochrono.fr",
