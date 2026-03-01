@@ -10,6 +10,7 @@ const navLinks = [
   { href: "/",          label: "Accueil"  },
   { href: "/#services", label: "Services" },
   { href: "/projets",   label: "Projets"  },
+  { href: "/offres",    label: "Offres"   },
   { href: "/#contact",  label: "Contact"  },
 ];
 
@@ -109,13 +110,13 @@ export function Footer() {
               Démarrer
             </p>
             <p className="text-[0.875rem] leading-relaxed text-white/55">
-              Un projet en tête ? Discutons-en, devis gratuit sous 24 h.
+              Un projet en tête ? Tarifs fixes, réponse sous 24 h.
             </p>
             <Link
               href="/#contact"
               className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 text-[0.8125rem] font-medium text-white transition-all hover:bg-white hover:text-[var(--foreground)]"
             >
-              Demander un devis
+              Voir les offres
             </Link>
           </div>
         </motion.div>

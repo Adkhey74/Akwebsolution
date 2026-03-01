@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowDown, CheckCircle2 } from "lucide-react";
 
-const trust = ["Devis gratuit", "Sans engagement", "Livraison rapide"];
+const trust = ["Prix fixe, sans surprise", "Sans engagement", "Livraison rapide"];
 
 export function Hero() {
   return (
@@ -81,10 +81,10 @@ export function Hero() {
           >
             <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
               <Link
-                href="/#contact"
+                href="/offres"
                 className="inline-flex w-full items-center justify-center rounded-full bg-[var(--accent)] px-9 py-4 text-[0.9375rem] font-medium text-white shadow-lg transition-all hover:opacity-90 hover:shadow-xl hover:shadow-black/20"
               >
-                Demander un devis gratuit
+                Démarrer mon projet
               </Link>
             </motion.div>
             <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>

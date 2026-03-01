@@ -2,16 +2,16 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Home, Layers, FolderOpen, Mail } from "lucide-react";
+import { Menu, X, Home, FolderOpen, Mail, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "./Logo";
 import type { LucideIcon } from "lucide-react";
 
 const navLinks: { href: string; label: string; icon: LucideIcon }[] = [
-  { href: "/",          label: "Accueil",   icon: Home       },
-  { href: "/#services", label: "Services",  icon: Layers     },
-  { href: "/projets",   label: "Projets",   icon: FolderOpen },
-  { href: "/#contact",  label: "Contact",   icon: Mail       },
+  { href: "/",         label: "Accueil",  icon: Home       },
+  { href: "/projets",  label: "Projets",  icon: FolderOpen },
+  { href: "/offres",   label: "Offres",   icon: Sparkles   },
+  { href: "/#contact", label: "Contact",  icon: Mail       },
 ];
 
 
@@ -91,9 +91,10 @@ export function Header() {
         <div className="flex min-h-10 flex-1 shrink-0 items-center justify-end">
           <Link
             href="/#contact"
-            className="rounded-full bg-[var(--foreground)] px-5 py-2 text-[0.875rem] font-medium text-white transition-all duration-200 hover:opacity-80"
+            className="rounded-full bg-[var(--foreground)] px-4 py-2 text-[0.8125rem] font-medium text-white transition-all duration-200 hover:opacity-80 md:px-5 md:text-[0.875rem]"
           >
-            Devis
+            <span className="md:hidden">Contact</span>
+            <span className="hidden md:inline">Nous contacter</span>
           </Link>
         </div>
       </div>
@@ -171,10 +172,10 @@ export function Header() {
                   onClick={closeMenu}
                   className="block rounded-full bg-[var(--accent)] px-6 py-3.5 text-center text-[0.9375rem] font-medium text-white transition-colors hover:bg-[var(--foreground)]"
                 >
-                  Demander un devis
+                  Voir les offres
                 </Link>
                 <p className="mt-3 text-center text-[0.75rem] text-[var(--muted)]">
-                  Devis gratuit · Sans engagement
+                  Prix fixes · Sans engagement
                 </p>
               </motion.div>
             </motion.div>

@@ -23,8 +23,7 @@ export function ProjetsCta() {
             <span className="font-semibold">similaire ?</span>
           </h2>
           <p className="mt-4 text-[1rem] leading-[1.7] text-[var(--muted)] md:text-[1.0625rem]">
-            Discutons-en. Un devis personnalisé, gratuit et sans engagement,
-            vous sera envoyé sous 24 h.
+            Discutons-en. Tarifs fixes et transparents, réponse sous 24 h.
           </p>
           <motion.div
             className="mt-8 inline-block"
@@ -35,7 +34,7 @@ export function ProjetsCta() {
               href="/#contact"
               className="inline-flex items-center gap-2.5 rounded-full bg-[var(--accent)] px-8 py-4 text-[0.9375rem] font-medium text-white shadow-lg transition-all hover:opacity-90 hover:shadow-xl hover:shadow-black/20"
             >
-              Demander un devis gratuit
+              Démarrer mon projet
               <ArrowRight size={16} strokeWidth={2} />
             </Link>
           </motion.div>

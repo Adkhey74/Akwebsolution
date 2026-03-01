@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Mail, ArrowRight, CheckCircle2 } from "lucide-react";
 
 const perks = [
-  "Devis gratuit sous 24 h",
+  "Réponse sous 24 h",
   "Sans engagement",
   "Échange personnalisé",
 ];
@@ -62,7 +62,7 @@ export function Contact() {
             className="mt-5 text-[1rem] leading-[1.7] text-[var(--muted)] md:text-[1.0625rem]"
           >
             Une idée, un besoin, une question ? Envoyez-moi un message,
-            je vous réponds rapidement avec un devis clair et sans surprise.
+            je vous réponds rapidement. Tarifs clairs, prix fixes, sans mauvaise surprise.
           </motion.p>
 
           {/* Perks */}
