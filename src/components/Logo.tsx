@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const LOGO_SRC = "/images/logo.png";
+const LOGO_SRC = "/images/logo3.png";
 
 interface LogoProps {
   variant?: "default" | "compact";
