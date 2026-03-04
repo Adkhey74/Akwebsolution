@@ -1,22 +1,25 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Home, FolderOpen, Mail, Sparkles } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "./Logo";
-import type { LucideIcon } from "lucide-react";
 
-const navLinks: { href: string; label: string; icon: LucideIcon }[] = [
-  { href: "/",         label: "Accueil",  icon: Home       },
-  { href: "/projets",  label: "Projets",  icon: FolderOpen },
-  { href: "/offres",   label: "Offres",   icon: Sparkles   },
-  { href: "/#contact", label: "Contact",  icon: Mail       },
+const navLinks = [
+  { href: "/",         label: "Accueil"  },
+  { href: "/projets",  label: "Projets"  },
+  { href: "/offres",   label: "Offres"   },
+  { href: "/#contact", label: "Contact"  },
 ];
-
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolledPastHero, setScrolledPastHero] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const showSolidNav = !isHome || scrolledPastHero;
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -25,13 +28,30 @@ export function Header() {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
+  useEffect(() => {
+    if (!isHome) {
+      setScrolledPastHero(true);
+      return;
+    }
+    const onScroll = () => {
+      if (typeof window === "undefined") return;
+      const isMobile = window.innerWidth < 768;
+      const threshold = isMobile ? window.innerHeight * 0.15 : window.innerHeight * 0.15;
+      setScrolledPastHero(window.scrollY > threshold);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isHome]);
 
   return (
     <motion.header
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="fixed left-0 right-0 top-0 z-50 border-b border-[var(--border)] bg-white"
+      className={`fixed left-0 right-0 top-0 z-50 transition-colors duration-200 ${
+        showSolidNav ? "border-b border-[var(--border)] bg-white" : "bg-transparent"
+      }`}
     >
       <div className="flex h-[4.5rem] w-full items-center justify-between gap-4 px-4 sm:px-6 md:h-20 md:px-8 lg:px-10 xl:px-12">
         {/* Left : burger (mobile) | nav (desktop) */}
@@ -39,7 +59,9 @@ export function Header() {
           <button
             type="button"
             onClick={() => setMenuOpen((v) => !v)}
-            className="flex items-center justify-center p-2 text-[var(--foreground)] transition-colors hover:text-[var(--accent)] md:hidden"
+            className={`flex items-center justify-center p-2 transition-colors md:hidden ${
+              showSolidNav ? "text-[var(--foreground)] hover:text-[var(--accent)]" : "text-white hover:text-white/80"
+            }`}
             aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
             aria-expanded={menuOpen}
           >
@@ -69,13 +91,16 @@ export function Header() {
           </button>
 
           <nav className="hidden md:flex md:items-center md:gap-1 lg:gap-2" aria-label="Navigation principale">
-            {navLinks.map(({ href, label, icon: Icon }) => (
+            {navLinks.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
-                className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-[0.9375rem] font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--card)] hover:text-[var(--accent)]"
+                className={`rounded-lg px-3 py-2 text-[0.9375rem] font-medium transition-colors ${
+                  showSolidNav
+                    ? "text-[var(--foreground)] hover:bg-[var(--card)] hover:text-[var(--accent)]"
+                    : "text-white hover:bg-white/10 hover:text-white"
+                }`}
               >
-                <Icon size={15} strokeWidth={1.75} className="shrink-0 opacity-70" />
                 {label}
               </Link>
             ))}
@@ -83,7 +108,7 @@ export function Header() {
         </div>
 
         {/* Center : logo */}
-        <div className="flex h-[4.5rem] shrink-0 items-center justify-center md:h-20">
+        <div className={`flex h-[4.5rem] shrink-0 items-center justify-center md:h-20 ${!showSolidNav ? "[&_img]:brightness-0 [&_img]:invert" : ""}`}>
           <Logo variant="compact" className="block h-full w-auto" />
         </div>
 
@@ -91,7 +116,11 @@ export function Header() {
         <div className="flex min-h-10 flex-1 shrink-0 items-center justify-end">
           <Link
             href="/#contact"
-            className="rounded-full bg-[var(--foreground)] px-4 py-2 text-[0.8125rem] font-medium text-white transition-all duration-200 hover:opacity-80 md:px-5 md:text-[0.875rem]"
+            className={`rounded-full px-4 py-2 text-[0.8125rem] font-medium transition-all duration-200 md:px-5 md:text-[0.875rem] ${
+              showSolidNav
+                ? "bg-[var(--foreground)] text-white hover:opacity-80"
+                : "border border-white bg-transparent text-white hover:bg-white hover:text-[var(--foreground)]"
+            }`}
           >
             <span className="md:hidden">Contact</span>
             <span className="hidden md:inline">Nous contacter</span>
@@ -139,7 +168,7 @@ export function Header() {
 
               {/* Nav links */}
               <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto px-3 py-5" aria-label="Navigation mobile">
-                {navLinks.map(({ href, label, icon: Icon }, i) => (
+                {navLinks.map(({ href, label }, i) => (
                   <motion.div
                     key={href}
                     initial={{ opacity: 0, x: -14 }}
@@ -149,11 +178,8 @@ export function Header() {
                     <Link
                       href={href}
                       onClick={closeMenu}
-                      className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-[0.9375rem] font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--card)] hover:text-[var(--accent)]"
+                      className="block rounded-xl px-4 py-3.5 text-[0.9375rem] font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--card)] hover:text-[var(--accent)]"
                     >
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--card)]">
-                        <Icon size={16} strokeWidth={1.75} />
-                      </span>
                       {label}
                     </Link>
                   </motion.div>
