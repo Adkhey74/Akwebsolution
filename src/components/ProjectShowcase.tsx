@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, ExternalLink, Calendar, Tag } from "lucide-react";
+import { ChevronLeft, ChevronRight, ExternalLink, Calendar, Tag, X, ZoomIn } from "lucide-react";
 
 export type ProjectImage = { src: string; alt: string };
 
@@ -30,7 +30,24 @@ export function ProjectShowcase({
 }: ProjectShowcaseProps) {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
+  const [lightbox, setLightbox] = useState(false);
   const total = images.length;
+
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(false);
+      if (e.key === "ArrowRight") goNext();
+      if (e.key === "ArrowLeft") goPrev();
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lightbox, current]);
 
   // Swipe tactile
   const touchStartX = useRef<number | null>(null);
@@ -52,6 +69,7 @@ export function ProjectShowcase({
   const goNext = () => go(current === total - 1 ? 0 : current + 1);
 
   return (
+    <>
     <motion.article
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -71,17 +89,6 @@ export function ProjectShowcase({
             {title}
           </h2>
         </div>
-        {url && (
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex shrink-0 items-center gap-1.5 rounded-full bg-[var(--accent)] px-4 py-2 text-[0.78rem] font-medium text-white"
-          >
-            Voir
-            <ExternalLink size={12} strokeWidth={2} />
-          </a>
-        )}
       </div>
 
       {/* ── Layout split desktop ── */}
@@ -109,9 +116,10 @@ export function ProjectShowcase({
 
           {/* Image principale */}
           <div
-            className="relative aspect-[16/10] w-full overflow-hidden bg-[#f9f9f9] sm:aspect-video lg:aspect-auto lg:min-h-[420px] lg:flex-1"
+            className="group relative aspect-[16/10] w-full cursor-zoom-in overflow-hidden bg-[#f9f9f9] sm:aspect-video lg:aspect-[16/10] lg:min-h-0"
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
+            onClick={() => setLightbox(true)}
           >
             <AnimatePresence mode="wait" initial={false} custom={direction}>
               <motion.div
@@ -132,19 +140,24 @@ export function ProjectShowcase({
                   src={images[current].src}
                   alt={images[current].alt}
                   fill
-                  className="object-cover object-top"
+                  className="object-cover object-center transition-transform duration-300 group-hover:scale-[1.02]"
                   sizes="(max-width: 1024px) 100vw, 60vw"
                   priority={current === 0}
                 />
               </motion.div>
             </AnimatePresence>
 
+            {/* Icône zoom */}
+            <div className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-white opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100">
+              <ZoomIn size={15} strokeWidth={2} />
+            </div>
+
             {/* Flèches — masquées sur petit mobile, visibles à partir de sm */}
             {total > 1 && (
               <>
                 <button
                   type="button"
-                  onClick={goPrev}
+                  onClick={(e) => { e.stopPropagation(); goPrev(); }}
                   className="absolute left-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[var(--foreground)] shadow-md backdrop-blur-sm transition-all hover:bg-white sm:flex"
                   aria-label="Image précédente"
                 >
@@ -152,7 +165,7 @@ export function ProjectShowcase({
                 </button>
                 <button
                   type="button"
-                  onClick={goNext}
+                  onClick={(e) => { e.stopPropagation(); goNext(); }}
                   className="absolute right-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[var(--foreground)] shadow-md backdrop-blur-sm transition-all hover:bg-white sm:flex"
                   aria-label="Image suivante"
                 >
@@ -201,7 +214,7 @@ export function ProjectShowcase({
                         : "border-transparent opacity-40 hover:opacity-70"
                     }`}
                   >
-                    <Image src={img.src} alt={img.alt} fill className="object-cover object-top" sizes="80px" />
+                    <Image src={img.src} alt={img.alt} fill className="object-cover object-center" sizes="80px" />
                   </button>
                 ))}
               </div>
@@ -238,8 +251,16 @@ export function ProjectShowcase({
               </div>
             )}
           </div>
-          {url && (
-            <div className="mt-8 border-t border-[var(--border)] pt-6">
+          <div className="mt-8 flex flex-wrap gap-3 border-t border-[var(--border)] pt-6">
+            <button
+              type="button"
+              onClick={() => setLightbox(true)}
+              className="inline-flex items-center gap-2.5 rounded-full border border-[var(--border)] px-6 py-3 text-[0.875rem] font-medium text-[var(--foreground)] transition-all hover:bg-[var(--card)]"
+            >
+              <ZoomIn size={15} strokeWidth={1.75} />
+              Voir les photos
+            </button>
+            {url && (
               <a
                 href={url}
                 target="_blank"
@@ -249,8 +270,8 @@ export function ProjectShowcase({
                 Voir le site
                 <ExternalLink size={14} strokeWidth={2} />
               </a>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
@@ -268,7 +289,102 @@ export function ProjectShowcase({
             ))}
           </div>
         )}
+        <div className="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => setLightbox(true)}
+            className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-4 py-2 text-[0.8125rem] font-medium text-[var(--foreground)] transition-all hover:bg-[var(--card)]"
+          >
+            <ZoomIn size={14} strokeWidth={1.75} />
+            Voir les photos
+          </button>
+          {url && (
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-4 py-2 text-[0.8125rem] font-medium text-white"
+            >
+              Voir le site
+              <ExternalLink size={13} strokeWidth={2} />
+            </a>
+          )}
+        </div>
       </div>
     </motion.article>
+
+      {/* ── Lightbox ── */}
+
+      <AnimatePresence>
+        {lightbox && (
+          <motion.div
+            key="lightbox"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4"
+            onClick={() => setLightbox(false)}
+          >
+            {/* Bouton fermer */}
+            <button
+              type="button"
+              onClick={() => setLightbox(false)}
+              className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+              aria-label="Fermer"
+            >
+              <X size={20} strokeWidth={2} />
+            </button>
+
+            {/* Compteur */}
+            <div className="absolute left-1/2 top-4 -translate-x-1/2 rounded-full bg-white/10 px-3 py-1 text-[0.75rem] text-white backdrop-blur-sm">
+              {current + 1} / {total}
+            </div>
+
+            {/* Image */}
+            <motion.div
+              key={current}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.2 }}
+              className="relative max-h-[90vh] w-full max-w-6xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={images[current].src}
+                alt={images[current].alt}
+                width={1600}
+                height={1000}
+                className="max-h-[90vh] w-full rounded-lg object-contain"
+                sizes="100vw"
+              />
+            </motion.div>
+
+            {/* Flèches */}
+            {total > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); goPrev(); }}
+                  className="absolute left-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+                  aria-label="Image précédente"
+                >
+                  <ChevronLeft size={22} strokeWidth={2} />
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); goNext(); }}
+                  className="absolute right-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+                  aria-label="Image suivante"
+                >
+                  <ChevronRight size={22} strokeWidth={2} />
+                </button>
+              </>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

@@ -13,6 +13,22 @@ export const metadata: Metadata = {
 
 const projects = [
   {
+    id: "kabuki",
+    title: "Kabuki",
+    category: "Site vitrine",
+    year: "2025",
+    url: undefined,
+    tags: ["Restaurant", "Site vitrine", "Réservation", "Menu"],
+    description:
+      "Site vitrine pour un restaurant japonais : page d'accueil, menu, incontournables et réservation en ligne.",
+    images: [
+      { src: "/images/Kabuki/Acceuil.png",        alt: "Kabuki - Page d'accueil"     },
+      { src: "/images/Kabuki/Menu.png",           alt: "Kabuki - Menu"                },
+      { src: "/images/Kabuki/incontournable.png", alt: "Kabuki - Incontournables"     },
+      { src: "/images/Kabuki/réservation.png",   alt: "Kabuki - Réservation"         },
+    ],
+  },
+  {
     id: "herntaxi",
     title: "HernTaxi",
     category: "Site vitrine",
