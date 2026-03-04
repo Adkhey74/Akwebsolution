@@ -46,11 +46,11 @@ export function Footer() {
             </p>
             <div className="mt-6 flex flex-col gap-3">
               <a
-                href="mailto:contact@akwebsolution.com"
+                href="mailto:contact@akwebsolutions.fr"
                 className="flex items-center gap-2.5 text-[0.8125rem] text-white/60 transition-colors hover:text-white"
               >
                 <Mail size={14} strokeWidth={1.75} className="shrink-0" />
-                contact@akwebsolution.com
+                contact@akwebsolutions.fr
               </a>
               <a
                 href="https://wa.me/33782923806"
@@ -150,7 +150,7 @@ export function Footer() {
               <FaTiktok className="h-[13px] w-[13px]" />
             </a>
             <a
-              href="mailto:contact@akwebsolution.com"
+              href="mailto:contact@akwebsolutions.fr"
               aria-label="Email"
               className="group flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-white/40 transition-all duration-200 hover:border-white/30 hover:text-white"
             >

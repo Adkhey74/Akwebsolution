@@ -90,7 +90,7 @@ export function Contact() {
             className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
           >
             <motion.a
-              href="mailto:contact@akwebsolution.com"
+              href="mailto:contact@akwebsolutions.fr"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -126,7 +126,7 @@ export function Contact() {
             transition={{ delay: 0.42 }}
             className="mt-5 text-[0.8rem] text-[var(--muted)]"
           >
-            contact@akwebsolution.com
+            contact@akwebsolutions.fr
           </motion.p>
 
         </div>

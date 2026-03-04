@@ -14,7 +14,7 @@ const offers = [
     title: "Page Vitrine Rapide",
     price: "700",
     target: "Vous démarrez et voulez être visible sur internet rapidement",
-    delivery: "3 à 5 jours",
+    delivery: "5 à 7 j",
     features: [
       "Une seule page complète : présentation, services, contact…",
       "S'affiche parfaitement sur téléphone, tablette et ordinateur",
@@ -31,7 +31,7 @@ const offers = [
     title: "Site Vitrine Complet",
     price: "1 200",
     target: "Vous avez une activité et voulez un vrai site professionnel",
-    delivery: "7 à 10 jours",
+    delivery: "10 à 15 j",
     features: [
       "3 à 5 pages (Accueil, Services, À propos, Contact…)",
       "S'affiche parfaitement sur téléphone, tablette et ordinateur",
@@ -48,7 +48,7 @@ const offers = [
     title: "Site Pro & Sur Mesure",
     price: "3 000",
     target: "Vous voulez un site soigné qui donne envie de vous contacter",
-    delivery: "14 jours minimum",
+    delivery: "Selon le projet",
     features: [
       "Jusqu'à 8 pages entièrement personnalisées",
       "Vous pouvez modifier vous-même les textes et images facilement",
@@ -124,9 +124,6 @@ export default function OffresPage() {
                       <span className={`text-4xl font-bold tracking-tight ${isPro ? "text-white" : "text-[var(--foreground)]"}`}>
                         {offer.price} €
                       </span>
-                      {isPro && (
-                        <p className="mt-1.5 text-[0.8125rem] font-medium text-white/60">Sur devis selon votre projet</p>
-                      )}
                     </div>
 
                     {/* Cible */}
@@ -137,7 +134,7 @@ export default function OffresPage() {
                     {/* Délai */}
                     <div className={`mt-5 flex items-center gap-2 rounded-lg px-3 py-2 text-[0.8125rem] font-medium ${isPro ? "bg-white/10 text-white/80" : "bg-[var(--card)] text-[var(--muted)]"}`}>
                       <Clock size={13} strokeWidth={2} />
-                      Livraison en {offer.delivery}
+                      {offer.delivery === "Selon le projet" ? `Délai : ${offer.delivery}` : `Livraison en ${offer.delivery}`}
                     </div>
 
                     {/* Séparateur */}

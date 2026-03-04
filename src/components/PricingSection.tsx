@@ -12,7 +12,7 @@ const offers = [
     title: "Page Vitrine Rapide",
     price: "700",
     target: "Vous démarrez et voulez être visible rapidement",
-    delivery: "3 à 5 jours",
+    delivery: "5 à 7 j",
     features: [
       "Une seule page complète et soignée",
       "Visible sur téléphone, tablette et ordinateur",
@@ -27,7 +27,7 @@ const offers = [
     title: "Site Vitrine Complet",
     price: "1 200",
     target: "Vous avez une activité et voulez un vrai site pro",
-    delivery: "7 à 10 jours",
+    delivery: "10 à 15 j",
     features: [
       "3 à 5 pages personnalisées",
       "Visible sur téléphone, tablette et ordinateur",
@@ -42,7 +42,7 @@ const offers = [
     title: "Site Pro & Sur Mesure",
     price: "3 000",
     target: "Vous voulez un site soigné qui donne envie de vous contacter",
-    delivery: "14 jours minimum",
+    delivery: "Selon le projet",
     features: [
       "Jusqu'à 8 pages entièrement personnalisées",
       "Modifiable vous-même facilement",
@@ -108,9 +108,6 @@ export function PricingSection() {
                   <span className={`text-3xl font-bold tracking-tight ${isPro ? "text-white" : "text-[var(--foreground)]"}`}>
                     {offer.price} €
                   </span>
-                  {isPro && (
-                    <p className="mt-1 text-[0.75rem] font-medium text-white/60">Sur devis selon votre projet</p>
-                  )}
                 </div>
                 <p className={`mt-2 text-[0.8125rem] leading-relaxed ${isPro ? "text-white/60" : "text-[var(--muted)]"}`}>
                   {offer.target}
@@ -118,7 +115,7 @@ export function PricingSection() {
 
                 <div className={`mt-4 flex items-center gap-2 rounded-lg px-3 py-2 text-[0.8125rem] font-medium ${isPro ? "bg-white/10 text-white/80" : "bg-[var(--card)] text-[var(--muted)]"}`}>
                   <Clock size={12} strokeWidth={2} />
-                  Livraison en {offer.delivery}
+                  {offer.delivery === "Selon le projet" ? `Délai : ${offer.delivery}` : `Livraison en ${offer.delivery}`}
                 </div>
 
                 <div className={`my-5 h-px w-full ${isPro ? "bg-white/10" : "bg-[var(--border)]"}`} />
