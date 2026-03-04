@@ -14,7 +14,7 @@ const offers = [
     title: "Page Vitrine Rapide",
     price: "700",
     target: "Vous démarrez et voulez être visible sur internet rapidement",
-    delivery: "1 à 2 semaines",
+    delivery: "5 à 7 jours ouvrés",
     features: [
       "Une seule page complète : présentation, services, contact…",
       "S'affiche parfaitement sur téléphone, tablette et ordinateur",
@@ -31,7 +31,7 @@ const offers = [
     title: "Site Vitrine Complet",
     price: "1 500",
     target: "Vous avez une activité et voulez un vrai site professionnel",
-    delivery: "3 à 4 semaines",
+    delivery: "2 à 3 semaines",
     features: [
       "3 à 5 pages (Accueil, Services, À propos, Contact…)",
       "S'affiche parfaitement sur téléphone, tablette et ordinateur",
