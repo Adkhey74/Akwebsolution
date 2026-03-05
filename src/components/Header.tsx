@@ -53,7 +53,7 @@ export function Header() {
         showSolidNav ? "border-b border-[var(--border)] bg-white" : "bg-transparent"
       }`}
     >
-      <div className="flex h-[4.5rem] w-full items-center justify-between gap-4 px-4 sm:px-6 md:h-20 md:px-8 lg:px-10 xl:px-12">
+      <div className="flex h-[4.5rem] w-full items-center justify-between gap-4 px-6 sm:px-8 md:h-20 md:px-10 lg:px-14 xl:px-20">
         {/* Left : burger (mobile) | nav (desktop) */}
         <div className="flex min-h-10 flex-1 items-center justify-start">
           <button
