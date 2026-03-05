@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Check, Zap, Rocket, Star, Clock } from "lucide-react";
+import { Check, Zap, Rocket, ShoppingCart, Star, Clock } from "lucide-react";
 
 const offers = [
   {
@@ -36,6 +36,22 @@ const offers = [
     ],
   },
   {
+    id: "ecommerce",
+    icon: ShoppingCart,
+    badge: null,
+    title: "Site E-commerce",
+    price: "2 000",
+    priceFrom: true,
+    target: "Vous voulez vendre en ligne avec panier et paiement",
+    delivery: "Selon le projet",
+    features: [
+      "Boutique en ligne avec panier et tunnel de commande",
+      "Paiement en ligne sécurisé (CB, PayPal…)",
+      "Gestion des produits et des stocks",
+      "Visible sur téléphone, tablette et ordinateur",
+    ],
+  },
+  {
     id: "pro",
     icon: Star,
     badge: null,
@@ -55,7 +71,7 @@ const offers = [
 export function PricingSection() {
   return (
     <section className="border-t border-[var(--border)] py-24 md:py-32" id="offres">
-      <div className="mx-auto w-[min(100%-2rem,75rem)]">
+      <div className="mx-auto w-[min(100%-2rem,90rem)]">
 
         {/* En-tête */}
         <motion.div
@@ -74,7 +90,7 @@ export function PricingSection() {
         </motion.div>
 
         {/* Cartes */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {offers.map((offer, i) => {
             const Icon = offer.icon;
             const isPopular = offer.id === "starter";
@@ -85,9 +101,9 @@ export function PricingSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className={`relative flex flex-col rounded-2xl border p-7 transition-shadow hover:shadow-lg ${
+                className={`relative flex flex-col rounded-2xl border p-5 transition-shadow hover:shadow-lg ${
                   isPopular
-                    ? "border-[var(--foreground)] bg-[var(--foreground)] text-white"
+                    ? "border-[var(--foreground)] bg-[var(--foreground)] text-white shadow-xl ring-2 ring-[var(--foreground)] ring-offset-2"
                     : "border-[var(--border)] bg-white"
                 }`}
               >
@@ -105,6 +121,11 @@ export function PricingSection() {
                   {offer.title}
                 </h3>
                 <div className="mt-3">
+                  {offer.priceFrom && (
+                    <span className={`block text-[0.75rem] font-medium uppercase tracking-wider ${isPopular ? "text-white/60" : "text-[var(--muted)]"}`}>
+                      À partir de
+                    </span>
+                  )}
                   <span className={`text-3xl font-bold tracking-tight ${isPopular ? "text-white" : "text-[var(--foreground)]"}`}>
                     {offer.price} €
                   </span>

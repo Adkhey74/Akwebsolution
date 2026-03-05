@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Check, Zap, Rocket, Star, Clock } from "lucide-react";
+import { Check, Zap, Rocket, ShoppingCart, Star, Clock } from "lucide-react";
 
 const offers = [
   {
@@ -39,6 +39,24 @@ const offers = [
       "Mieux référencé sur Google pour attirer plus de visiteurs",
       "Site en ligne 24h/24 — aucun hébergement à gérer de votre côté",
       "Une série de retouches incluse après livraison",
+    ],
+  },
+  {
+    id: "ecommerce",
+    icon: ShoppingCart,
+    badge: null,
+    title: "Site E-commerce",
+    price: "2 000",
+    priceFrom: true,
+    target: "Vous voulez vendre en ligne avec panier et paiement sécurisé",
+    delivery: "Selon le projet",
+    features: [
+      "Boutique en ligne avec panier et tunnel de commande",
+      "Paiement en ligne sécurisé (CB, PayPal, etc.)",
+      "Gestion des produits et des stocks",
+      "S'affiche parfaitement sur téléphone, tablette et ordinateur",
+      "Visible sur Google pour attirer des clients",
+      "Site en ligne 24h/24 — hébergement inclus",
     ],
   },
   {
@@ -87,8 +105,8 @@ export default function OffresPage() {
 
         {/* Cards */}
         <section className="pb-28 md:pb-36">
-          <div className="mx-auto w-[min(100%-2rem,75rem)]">
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="mx-auto w-[min(100%-2rem,90rem)]">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {offers.map((offer, i) => {
                 const Icon = offer.icon;
                 const isPopular = offer.id === "starter";
@@ -98,9 +116,9 @@ export default function OffresPage() {
                     initial={{ opacity: 0, y: 24 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 + i * 0.1 }}
-                    className={`relative flex flex-col rounded-2xl border p-8 transition-shadow hover:shadow-lg ${
+                    className={`relative flex flex-col rounded-2xl border p-5 transition-shadow hover:shadow-lg ${
                       isPopular
-                        ? "border-[var(--foreground)] bg-[var(--foreground)] text-white"
+                        ? "border-[var(--foreground)] bg-[var(--foreground)] text-white shadow-xl ring-2 ring-[var(--foreground)] ring-offset-2"
                         : "border-[var(--border)] bg-white"
                     }`}
                   >
@@ -121,6 +139,11 @@ export default function OffresPage() {
                       {offer.title}
                     </h2>
                     <div className="mt-4">
+                      {offer.priceFrom && (
+                        <span className={`block text-[0.75rem] font-medium uppercase tracking-wider ${isPopular ? "text-white/60" : "text-[var(--muted)]"}`}>
+                          À partir de
+                        </span>
+                      )}
                       <span className={`text-4xl font-bold tracking-tight ${isPopular ? "text-white" : "text-[var(--foreground)]"}`}>
                         {offer.price} €
                       </span>
