@@ -1,17 +1,34 @@
 "use client";
 
+import { useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowDown, CheckCircle2 } from "lucide-react";
 
 const trust = ["Prix fixe, sans surprise", "Sans engagement", "Livraison rapide"];
 
-export function Hero() {
+type HeroProps = {
+  onVideoReady?: () => void;
+};
+
+export function Hero({ onVideoReady }: HeroProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !onVideoReady) return;
+    const handleCanPlay = () => onVideoReady();
+    video.addEventListener("canplay", handleCanPlay);
+    if (video.readyState >= 3) onVideoReady();
+    return () => video.removeEventListener("canplay", handleCanPlay);
+  }, [onVideoReady]);
+
   return (
     <section className="relative flex min-h-[calc(100vh+4rem)] flex-col justify-center overflow-hidden pb-20 pt-36 -mt-16 md:-mt-[4.5rem] md:min-h-[calc(100vh+4.5rem)] md:pt-44 md:pb-28">
 
       {/* Vidéo de fond */}
       <video
+        ref={videoRef}
         autoPlay
         muted
         loop

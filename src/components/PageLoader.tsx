@@ -1,0 +1,44 @@
+"use client";
+
+import { motion } from "framer-motion";
+import Image from "next/image";
+
+const LOGO_SRC = "/images/logo3.png";
+
+export function PageLoader() {
+  return (
+    <motion.div
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white"
+      aria-hidden
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className="relative w-[240px] sm:w-[300px] md:w-[340px]"
+      >
+        <Image
+          src={LOGO_SRC}
+          alt="AK Web Solutions"
+          width={340}
+          height={105}
+          className="h-auto w-full object-contain"
+          priority
+        />
+      </motion.div>
+
+      {/* Barre de chargement */}
+      <div className="absolute left-0 right-0 top-0 h-[3px] bg-black/10">
+        <motion.div
+          className="h-full bg-[var(--foreground)]"
+          initial={{ width: "0%" }}
+          animate={{ width: "100%" }}
+          transition={{ duration: 2.2, ease: [0.4, 0, 0.2, 1] }}
+        />
+      </div>
+    </motion.div>
+  );
+}

@@ -113,11 +113,11 @@ export function Header() {
           <Logo variant="compact" className="block h-full w-auto" />
         </div>
 
-        {/* Right : bouton devis */}
+        {/* Right : bouton contact */}
         <div className="flex min-h-10 flex-1 shrink-0 items-center justify-end">
           <Link
             href="/#contact"
-            className={`rounded-full px-4 py-2 text-[0.8rem] font-medium uppercase tracking-[0.12em] transition-all duration-200 md:px-5 ${
+            className={`rounded-full px-2 py-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] transition-all duration-200 md:px-5 ${
               showSolidNav
                 ? "bg-[var(--foreground)] text-white hover:opacity-80"
                 : "border border-white bg-transparent text-white hover:bg-white hover:text-[var(--foreground)]"
