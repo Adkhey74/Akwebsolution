@@ -5,7 +5,11 @@ import Image from "next/image";
 
 const LOGO_SRC = "/images/logo3.png";
 
-export function PageLoader() {
+type PageLoaderProps = {
+  progress: number;
+};
+
+export function PageLoader({ progress }: PageLoaderProps) {
   return (
     <motion.div
       initial={{ opacity: 1 }}
@@ -30,13 +34,13 @@ export function PageLoader() {
         />
       </motion.div>
 
-      {/* Barre de chargement */}
+      {/* Barre de chargement — synchronisée avec le chargement réel */}
       <div className="absolute left-0 right-0 top-0 h-[3px] bg-black/10">
         <motion.div
           className="h-full bg-[var(--foreground)]"
           initial={{ width: "0%" }}
-          animate={{ width: "100%" }}
-          transition={{ duration: 2.2, ease: [0.4, 0, 0.2, 1] }}
+          animate={{ width: `${Math.min(100, progress)}%` }}
+          transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
         />
       </div>
     </motion.div>

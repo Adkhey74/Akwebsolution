@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Jost, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { PageLoaderProvider } from "@/components/PageLoaderContext";
 
 const jost = Jost({
   variable: "--font-jost",
@@ -31,8 +32,10 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={`${jost.variable} ${cormorant.variable} font-sans antialiased`}>
-        {children}
-        <WhatsAppButton />
+        <PageLoaderProvider>
+          {children}
+          <WhatsAppButton />
+        </PageLoaderProvider>
       </body>
     </html>
   );

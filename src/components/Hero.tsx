@@ -4,24 +4,22 @@ import { useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowDown, CheckCircle2 } from "lucide-react";
+import { usePageLoader } from "@/components/PageLoaderContext";
 
 const trust = ["Prix fixe, sans surprise", "Sans engagement", "Livraison rapide"];
 
-type HeroProps = {
-  onVideoReady?: () => void;
-};
-
-export function Hero({ onVideoReady }: HeroProps) {
+export function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const setVideoReady = usePageLoader()?.setVideoReady;
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || !onVideoReady) return;
-    const handleCanPlay = () => onVideoReady();
+    if (!video || !setVideoReady) return;
+    const handleCanPlay = () => setVideoReady();
     video.addEventListener("canplay", handleCanPlay);
-    if (video.readyState >= 3) onVideoReady();
+    if (video.readyState >= 3) setVideoReady();
     return () => video.removeEventListener("canplay", handleCanPlay);
-  }, [onVideoReady]);
+  }, [setVideoReady]);
 
   return (
     <section className="relative flex min-h-[calc(100vh+4rem)] flex-col justify-center overflow-hidden pb-20 pt-36 -mt-16 md:-mt-[4.5rem] md:min-h-[calc(100vh+4.5rem)] md:pt-44 md:pb-28">
