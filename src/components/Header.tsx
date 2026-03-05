@@ -95,13 +95,14 @@ export function Header() {
               <Link
                 key={href}
                 href={href}
-                className={`rounded-lg px-3 py-2 text-[0.9375rem] font-medium transition-colors ${
-                  showSolidNav
-                    ? "text-[var(--foreground)] hover:bg-[var(--card)] hover:text-[var(--accent)]"
-                    : "text-white hover:bg-white/10 hover:text-white"
+                className={`group relative px-3 py-2 text-[0.8rem] font-medium uppercase tracking-[0.12em] transition-colors ${
+                  showSolidNav ? "text-[var(--foreground)]" : "text-white"
                 }`}
               >
                 {label}
+                <span className={`absolute bottom-0 left-3 right-3 h-px origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100 ${
+                  showSolidNav ? "bg-[var(--foreground)]" : "bg-white"
+                }`} />
               </Link>
             ))}
           </nav>
@@ -116,7 +117,7 @@ export function Header() {
         <div className="flex min-h-10 flex-1 shrink-0 items-center justify-end">
           <Link
             href="/#contact"
-            className={`rounded-full px-4 py-2 text-[0.8125rem] font-medium transition-all duration-200 md:px-5 md:text-[0.875rem] ${
+            className={`rounded-full px-4 py-2 text-[0.8rem] font-medium uppercase tracking-[0.12em] transition-all duration-200 md:px-5 ${
               showSolidNav
                 ? "bg-[var(--foreground)] text-white hover:opacity-80"
                 : "border border-white bg-transparent text-white hover:bg-white hover:text-[var(--foreground)]"
@@ -128,84 +129,69 @@ export function Header() {
         </div>
       </div>
 
-      {/* ── Drawer (tous écrans) ── */}
+      {/* ── Menu plein écran mobile ── */}
       <AnimatePresence>
         {menuOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              key="backdrop"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              className="fixed inset-0 z-40 bg-black/50 md:hidden"
-              onClick={closeMenu}
-              aria-hidden
-            />
-
-            {/* Drawer panel */}
-            <motion.div
-              key="drawer"
-              initial={{ x: "-100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ duration: 0.32, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="fixed bottom-0 left-0 top-0 z-50 flex w-[78vw] max-w-[300px] flex-col bg-white shadow-2xl md:hidden"
-            >
-              {/* Drawer header */}
-              <div className="flex h-[4.5rem] shrink-0 items-center justify-between border-b border-[var(--border)] px-5">
-                <Logo variant="compact" className="h-[4.5rem] w-auto" />
-                <button
-                  type="button"
-                  onClick={closeMenu}
-                  className="flex items-center justify-center rounded-full p-2 text-[var(--muted)] transition-colors hover:bg-[var(--card)] hover:text-[var(--foreground)]"
-                  aria-label="Fermer le menu"
-                >
-                  <X size={20} strokeWidth={1.5} />
-                </button>
-              </div>
-
-              {/* Nav links */}
-              <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto px-3 py-5" aria-label="Navigation mobile">
-                {navLinks.map(({ href, label }, i) => (
-                  <motion.div
-                    key={href}
-                    initial={{ opacity: 0, x: -14 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 + i * 0.07, duration: 0.22 }}
-                  >
-                    <Link
-                      href={href}
-                      onClick={closeMenu}
-                      className="block rounded-xl px-4 py-3.5 text-[0.9375rem] font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--card)] hover:text-[var(--accent)]"
-                    >
-                      {label}
-                    </Link>
-                  </motion.div>
-                ))}
-              </nav>
-
-              {/* CTA footer */}
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.32, duration: 0.22 }}
-                className="shrink-0 border-t border-[var(--border)] px-5 py-6"
+          <motion.div
+            key="fullscreen-menu"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="fixed inset-0 z-40 flex flex-col bg-white md:hidden"
+          >
+            {/* Header du menu */}
+            <div className="relative flex h-[4.5rem] shrink-0 items-center justify-center px-5">
+              <Logo variant="compact" className="h-[4.5rem] w-auto" />
+              <button
+                type="button"
+                onClick={closeMenu}
+                className="absolute right-5 flex h-10 w-10 items-center justify-center rounded-full bg-[var(--card)] text-[var(--foreground)] transition-colors hover:bg-[var(--border)]"
+                aria-label="Fermer le menu"
               >
-                <Link
-                  href="/#contact"
-                  onClick={closeMenu}
-                  className="block rounded-full bg-[var(--accent)] px-6 py-3.5 text-center text-[0.9375rem] font-medium text-white transition-colors hover:bg-[var(--foreground)]"
+                <X size={20} strokeWidth={1.5} />
+              </button>
+            </div>
+
+            {/* Liens de navigation */}
+            <nav className="flex flex-1 flex-col justify-center gap-1 px-6" aria-label="Navigation mobile">
+              {navLinks.map(({ href, label }, i) => (
+                <motion.div
+                  key={href}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.05 + i * 0.06, duration: 0.22 }}
                 >
-                  Voir les offres
-                </Link>
-                <p className="mt-3 text-center text-[0.75rem] text-[var(--muted)]">
-                  Prix fixes · Sans engagement
-                </p>
-              </motion.div>
+                  <Link
+                    href={href}
+                    onClick={closeMenu}
+                    className="block border-b border-[var(--border)] py-5 text-[1.75rem] font-light tracking-tight text-[var(--foreground)] transition-colors hover:text-[var(--muted)]"
+                  >
+                    {label}
+                  </Link>
+                </motion.div>
+              ))}
+            </nav>
+
+            {/* Footer */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.22 }}
+              className="shrink-0 px-6 py-8"
+            >
+              <Link
+                href="/offres"
+                onClick={closeMenu}
+                className="block rounded-full bg-[var(--foreground)] px-6 py-4 text-center text-[1rem] font-medium text-white transition-opacity hover:opacity-80"
+              >
+                Voir les offres
+              </Link>
+              <p className="mt-4 text-center text-[0.75rem] text-[var(--muted)]">
+                Prix fixes · Sans engagement
+              </p>
             </motion.div>
-          </>
+          </motion.div>
         )}
       </AnimatePresence>
     </motion.header>

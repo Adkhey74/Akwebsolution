@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Logo } from "./Logo";
 import { Mail, MessageCircle, MapPin } from "lucide-react";
-import { FaInstagram, FaTiktok } from "react-icons/fa";
+import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
 
 const navLinks = [
   { href: "/",          label: "Accueil"  },
@@ -136,18 +136,22 @@ export function Footer() {
           {/* Réseaux sociaux */}
           <div className="flex items-center gap-2">
             <a
-              href="#"
+              href="https://www.instagram.com/adil.khd/"
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="Instagram"
               className="group flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-white/40 transition-all duration-200 hover:border-white/30 hover:text-white"
             >
               <FaInstagram className="h-[15px] w-[15px]" />
             </a>
             <a
-              href="#"
-              aria-label="TikTok"
+              href="https://www.linkedin.com/in/adil-khadich/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
               className="group flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-white/40 transition-all duration-200 hover:border-white/30 hover:text-white"
             >
-              <FaTiktok className="h-[13px] w-[13px]" />
+              <FaLinkedinIn className="h-[14px] w-[14px]" />
             </a>
             <a
               href="mailto:contact@akwebsolutions.fr"
