@@ -133,6 +133,23 @@ export function Footer() {
             © {year} AKWebSolution. Tous droits réservés.
           </p>
 
+          {/* Liens légaux */}
+          <div className="flex items-center gap-4">
+            <Link
+              href="/mentions-legales"
+              className="text-[0.7rem] text-white/30 transition-colors hover:text-white/60"
+            >
+              Mentions légales
+            </Link>
+            <span className="text-white/15">·</span>
+            <Link
+              href="/confidentialite"
+              className="text-[0.7rem] text-white/30 transition-colors hover:text-white/60"
+            >
+              Confidentialité
+            </Link>
+          </div>
+
           {/* Réseaux sociaux */}
           <div className="flex items-center gap-2">
             <a

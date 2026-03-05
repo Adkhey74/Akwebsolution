@@ -6,9 +6,18 @@ import { ProjetsHeader } from "@/components/ProjetsHeader";
 import { ProjetsCta } from "@/components/ProjetsCta";
 
 export const metadata: Metadata = {
-  title: "Projets | AKWebSolution",
+  title: "Nos Projets | AKWebSolution",
   description:
-    "Réalisations et projets de création de sites web : vitrines, responsive, sur mesure.",
+    "Découvrez nos réalisations web : sites vitrines, restaurants, e-commerce et projets sur mesure. Portfolio de l'agence AKWebSolution.",
+  alternates: {
+    canonical: "https://akwebsolutions.fr/projets",
+  },
+  openGraph: {
+    url: "https://akwebsolutions.fr/projets",
+    title: "Nos Projets | AKWebSolution",
+    description:
+      "Portfolio — Sites vitrines, e-commerce et projets sur mesure réalisés par AKWebSolution.",
+  },
 };
 
 const projects = [
