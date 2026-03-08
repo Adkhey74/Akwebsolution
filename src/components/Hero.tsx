@@ -37,7 +37,7 @@ export function Hero() {
   const statsKey = !isLoading ? "ready" : "loading";
 
   return (
-    <section className="relative flex h-[calc(100vh+4rem)] min-h-[calc(100dvh+4rem)] flex-col justify-center overflow-hidden pb-24 pt-36 -mt-16 md:h-[calc(100vh+5rem)] md:min-h-[calc(100dvh+5rem)] md:-mt-20 md:pt-44 md:pb-32">
+    <section className="relative flex h-[calc(100vh+5.25rem)] min-h-[calc(100dvh+5.25rem)] flex-col justify-center overflow-hidden pb-24 pt-36 -mt-[5.25rem] md:h-[calc(100vh+6rem)] md:min-h-[calc(100dvh+6rem)] md:-mt-24 md:pt-44 md:pb-32">
 
       {/* Vidéo de fond — couvre toute la hauteur */}
       <video

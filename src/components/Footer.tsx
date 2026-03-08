@@ -7,11 +7,12 @@ import { Mail, MessageCircle, MapPin } from "lucide-react";
 import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
 
 const navLinks = [
-  { href: "/",          label: "Accueil"  },
+  { href: "/",          label: "Accueil"   },
   { href: "/#services", label: "Services" },
-  { href: "/projets",   label: "Projets"  },
-  { href: "/offres",    label: "Offres"   },
-  { href: "/#contact",  label: "Contact"  },
+  { href: "/projets",   label: "Projets"   },
+  { href: "/offres",    label: "Offres"    },
+  { href: "/a-propos",  label: "À propos"  },
+  { href: "/#contact",  label: "Contact"   },
 ];
 
 const services = [

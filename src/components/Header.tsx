@@ -8,10 +8,10 @@ import Link from "next/link";
 import { Logo } from "./Logo";
 
 const navLinks = [
-  { href: "/",         label: "Accueil"  },
-  { href: "/projets",  label: "Projets"  },
-  { href: "/offres",   label: "Offres"   },
-  { href: "/#contact", label: "Contact"  },
+  { href: "/",          label: "Accueil"   },
+  { href: "/projets",   label: "Projets"   },
+  { href: "/offres",    label: "Offres"    },
+  { href: "/a-propos",  label: "À propos" },
 ];
 
 export function Header() {
@@ -53,7 +53,7 @@ export function Header() {
         showSolidNav ? "border-b border-[var(--border)] bg-white" : "bg-transparent"
       }`}
     >
-      <div className="flex h-[4.5rem] w-full items-center justify-between gap-4 px-6 sm:px-8 md:h-20 md:px-10 lg:px-14 xl:px-20">
+      <div className="flex h-[5.25rem] w-full items-center justify-between gap-4 px-6 sm:px-8 md:h-24 md:px-10 lg:px-14 xl:px-20">
         {/* Left : burger (mobile) | nav (desktop) */}
         <div className="flex min-h-10 flex-1 items-center justify-start">
           <button
@@ -109,7 +109,7 @@ export function Header() {
         </div>
 
         {/* Center : logo */}
-        <div className={`flex h-[4.5rem] shrink-0 items-center justify-center md:h-20 ${!showSolidNav ? "[&_img]:brightness-0 [&_img]:invert" : ""}`}>
+        <div className={`flex h-[5.25rem] shrink-0 items-center justify-center md:h-24 ${!showSolidNav ? "[&_img]:brightness-0 [&_img]:invert" : ""}`}>
           <Logo variant="compact" className="block h-full w-auto" />
         </div>
 
@@ -141,8 +141,8 @@ export function Header() {
             className="fixed inset-0 z-40 flex flex-col bg-white md:hidden"
           >
             {/* Header du menu */}
-            <div className="relative flex h-[4.5rem] shrink-0 items-center justify-center px-5">
-              <Logo variant="compact" className="h-[4.5rem] w-auto" />
+            <div className="relative flex h-[5.25rem] shrink-0 items-center justify-center px-5">
+              <Logo variant="compact" className="h-[5.25rem] w-auto" />
               <button
                 type="button"
                 onClick={closeMenu}
