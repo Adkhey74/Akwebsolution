@@ -102,7 +102,7 @@ function renderLine(line: string) {
   const parts = line.split(/\*\*(.*?)\*\*/g);
   return parts.map((part, i) =>
     i % 2 === 1 ? (
-      <span key={i} className="font-medium text-[var(--foreground)]">
+      <span key={i} className="font-medium text-white">
         {part}
       </span>
     ) : (
@@ -113,7 +113,7 @@ function renderLine(line: string) {
 
 export default function ConfidentialitePage() {
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+    <div className="min-h-screen bg-transparent">
       <Header />
       <main>
         <section className="pt-36 pb-24 md:pt-44 md:pb-32">
@@ -122,17 +122,17 @@ export default function ConfidentialitePage() {
             <div className="mb-14">
               <Link
                 href="/"
-                className="mb-8 inline-flex items-center gap-1.5 text-[0.8rem] uppercase tracking-[0.1em] text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
+                className="mb-8 inline-flex items-center gap-1.5 text-[0.8rem] uppercase tracking-[0.1em] text-white/80 transition-colors hover:text-white"
               >
                 ← Retour
               </Link>
-              <h1 className="text-4xl font-semibold leading-tight md:text-5xl">
+              <h1 className="text-4xl font-semibold leading-tight text-white md:text-5xl">
                 Politique de confidentialité
               </h1>
-              <p className="mt-4 text-[0.9rem] text-[var(--muted)]">
+              <p className="mt-4 text-[0.9rem] text-white/75">
                 Dernière mise à jour : {new Date().toLocaleDateString("fr-FR", { year: "numeric", month: "long", day: "numeric" })}
               </p>
-              <p className="mt-3 max-w-lg text-[0.9rem] leading-relaxed text-[var(--muted)]">
+              <p className="mt-3 max-w-lg text-[0.9rem] leading-relaxed text-white/80">
                 AKWebSolution s'engage à protéger votre vie privée et à traiter vos
                 données personnelles conformément au RGPD (Règlement Général sur la
                 Protection des Données).
@@ -142,13 +142,13 @@ export default function ConfidentialitePage() {
             {/* Sections */}
             <div className="flex flex-col gap-6">
               {sections.map((s) => (
-                <div key={s.title} className="rounded-2xl border border-[var(--border)] bg-white p-7 md:p-8">
-                  <h2 className="mb-5 text-[1rem] font-semibold uppercase tracking-[0.08em] text-[var(--foreground)]">
+                <div key={s.title} className="rounded-2xl border border-white/15 bg-white/10 p-7 backdrop-blur-sm md:p-8">
+                  <h2 className="mb-5 text-[1rem] font-semibold uppercase tracking-[0.08em] text-white">
                     {s.title}
                   </h2>
                   <div className="flex flex-col gap-2.5">
                     {s.content.map((line, i) => (
-                      <p key={i} className="text-[0.9rem] leading-relaxed text-[var(--muted)]">
+                      <p key={i} className="text-[0.9rem] leading-relaxed text-white/90">
                         {renderLine(line)}
                       </p>
                     ))}
@@ -158,11 +158,11 @@ export default function ConfidentialitePage() {
             </div>
 
             {/* Footer note */}
-            <div className="mt-10 rounded-xl border border-[var(--border)] bg-[var(--card)] px-6 py-5 text-[0.8125rem] text-[var(--muted)]">
+            <div className="mt-10 rounded-xl border border-white/15 bg-white/10 px-6 py-5 text-[0.8125rem] text-white/90 backdrop-blur-sm">
               Des questions sur notre politique de confidentialité ?{" "}
               <a
                 href="mailto:contact@akwebsolutions.fr"
-                className="font-medium text-[var(--foreground)] underline underline-offset-2 hover:no-underline"
+                className="font-medium text-white underline underline-offset-2 hover:no-underline"
               >
                 Écrivez-nous
               </a>

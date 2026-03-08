@@ -75,7 +75,7 @@ const projects = [
 
 export default function ProjetsPage() {
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+    <div className="min-h-screen bg-transparent">
       <Header />
       <main>
         <ProjetsHeader />

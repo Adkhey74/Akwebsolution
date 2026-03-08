@@ -14,16 +14,16 @@ export function WhatsAppButton() {
       transition={{ delay: 1.2, duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
-      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-lg shadow-[#25D366]/30 transition-shadow hover:shadow-xl hover:shadow-[#25D366]/40"
+      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-lg shadow-black/20 transition-shadow hover:shadow-xl hover:shadow-black/30"
     >
       {/* Pulse ring */}
-      <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-25" />
+      <span className="absolute inset-0 rounded-full bg-white animate-ping opacity-20" />
 
       {/* WhatsApp SVG icon */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
-        fill="white"
+        fill="black"
         className="relative h-7 w-7"
         aria-hidden
       >

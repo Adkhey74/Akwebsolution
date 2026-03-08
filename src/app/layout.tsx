@@ -4,6 +4,7 @@ import "./globals.css";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { PageLoaderProvider } from "@/components/PageLoaderContext";
 import { JsonLd } from "@/components/JsonLd";
+import { GlobalBeamsBackground } from "@/components/GlobalBeamsBackground";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
@@ -101,6 +102,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className={cn("font-sans", geist.variable)}>
       <body className={`${jost.variable} ${cormorant.variable} font-sans antialiased`}>
+        <GlobalBeamsBackground />
         <JsonLd />
         <PageLoaderProvider>
           {children}

@@ -75,17 +75,17 @@ export function ProjectShowcase({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.52, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="overflow-hidden rounded-2xl border border-[var(--border)] bg-white shadow-sm"
+      className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-lg backdrop-blur-sm"
     >
       {/* ── Mobile : infos en haut ── */}
-      <div className="flex items-center justify-between gap-3 border-b border-[var(--border)] px-5 py-4 lg:hidden">
+      <div className="flex items-center justify-between gap-3 border-b border-white/10 px-5 py-4 lg:hidden">
         <div className="min-w-0">
-          <span className="flex items-center gap-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
+          <span className="flex items-center gap-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/80">
             <Tag size={9} strokeWidth={2.2} />
             {category}
-            {year && <span className="opacity-50">· {year}</span>}
+            {year && <span className="opacity-60">· {year}</span>}
           </span>
-          <h2 className="mt-0.5 truncate text-[1.375rem] font-semibold tracking-tight text-[var(--foreground)]">
+          <h2 className="mt-0.5 truncate text-[1.375rem] font-semibold tracking-tight text-white">
             {title}
           </h2>
         </div>
@@ -98,16 +98,16 @@ export function ProjectShowcase({
         <div className="relative flex flex-col lg:w-[60%]">
 
           {/* Browser chrome — desktop only */}
-          <div className="hidden items-center gap-3 border-b border-[var(--border)] bg-[#f5f5f5] px-4 py-2.5 lg:flex">
+          <div className="hidden items-center gap-3 border-b border-white/10 bg-black/30 px-4 py-2.5 lg:flex">
             <div className="flex gap-1.5">
               <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
               <span className="h-2.5 w-2.5 rounded-full bg-[#ffbd2e]" />
               <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
             </div>
             <div className="flex flex-1 items-center justify-center">
-              <div className="flex w-full max-w-xs items-center gap-2 rounded-md border border-[var(--border)] bg-white px-3 py-1">
+              <div className="flex w-full max-w-xs items-center gap-2 rounded-md border border-white/20 bg-white/5 px-3 py-1">
                 <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green-500" />
-                <span className="truncate text-[0.68rem] text-[var(--muted)]">
+                <span className="truncate text-[0.68rem] text-white/80">
                   {url ? url.replace("https://", "") : `${title.toLowerCase().replace(/\s/g, "")}.fr`}
                 </span>
               </div>
@@ -158,7 +158,7 @@ export function ProjectShowcase({
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goPrev(); }}
-                  className="absolute left-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[var(--foreground)] shadow-md backdrop-blur-sm transition-all hover:bg-white sm:flex"
+                  className="absolute left-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white shadow-md backdrop-blur-sm transition-all hover:bg-white/20 sm:flex"
                   aria-label="Image précédente"
                 >
                   <ChevronLeft size={18} strokeWidth={2} />
@@ -166,7 +166,7 @@ export function ProjectShowcase({
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goNext(); }}
-                  className="absolute right-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[var(--foreground)] shadow-md backdrop-blur-sm transition-all hover:bg-white sm:flex"
+                  className="absolute right-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white shadow-md backdrop-blur-sm transition-all hover:bg-white/20 sm:flex"
                   aria-label="Image suivante"
                 >
                   <ChevronRight size={18} strokeWidth={2} />
@@ -193,15 +193,15 @@ export function ProjectShowcase({
                     aria-label={`Image ${i + 1}`}
                     className={`h-2 rounded-full transition-all ${
                       i === current
-                        ? "w-6 bg-[var(--accent)]"
-                        : "w-2 bg-[var(--accent)]/20"
+                        ? "w-6 bg-white"
+                        : "w-2 bg-white/30"
                     }`}
                   />
                 ))}
               </div>
 
               {/* Thumbnails — desktop uniquement */}
-              <div className="hidden items-center gap-2 overflow-x-auto border-t border-[var(--border)] bg-[#fafafa] px-4 py-3 lg:flex">
+              <div className="hidden items-center gap-2 overflow-x-auto border-t border-white/10 bg-black/20 px-4 py-3 lg:flex">
                 {images.map((img, i) => (
                   <button
                     key={i}
@@ -210,8 +210,8 @@ export function ProjectShowcase({
                     aria-label={`Voir ${img.alt}`}
                     className={`relative h-12 w-20 shrink-0 overflow-hidden rounded-md border-2 transition-all ${
                       i === current
-                        ? "border-[var(--accent)] opacity-100"
-                        : "border-transparent opacity-40 hover:opacity-70"
+                        ? "border-white opacity-100"
+                        : "border-transparent opacity-50 hover:opacity-80"
                     }`}
                   >
                     <Image src={img.src} alt={img.alt} fill className="object-cover object-center" sizes="80px" />
@@ -223,39 +223,39 @@ export function ProjectShowcase({
         </div>
 
         {/* Colonne info — desktop uniquement */}
-        <div className="hidden flex-col justify-between border-l border-[var(--border)] p-10 lg:flex lg:w-[40%]">
+        <div className="hidden flex-col justify-between border-l border-white/10 p-10 lg:flex lg:w-[40%]">
           <div>
-            <span className="inline-flex items-center gap-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[var(--muted)]">
+            <span className="inline-flex items-center gap-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-white/80">
               <Tag size={10} strokeWidth={2} />
               {category}
             </span>
-            <h2 className="mt-3 text-[2.25rem] font-semibold leading-[1.1] tracking-tight text-[var(--foreground)]">
+            <h2 className="mt-3 text-[2.25rem] font-semibold leading-[1.1] tracking-tight text-white">
               {title}
             </h2>
             {year && (
-              <div className="mt-3 flex items-center gap-1.5 text-[0.8125rem] text-[var(--muted)]">
+              <div className="mt-3 flex items-center gap-1.5 text-[0.8125rem] text-white/70">
                 <Calendar size={13} strokeWidth={1.75} />
                 {year}
               </div>
             )}
-            <p className="mt-5 text-[0.9375rem] leading-[1.75] text-[var(--muted)]">
+            <p className="mt-5 text-[0.9375rem] leading-[1.75] text-white/90">
               {description}
             </p>
             {tags.length > 0 && (
               <div className="mt-6 flex flex-wrap gap-2">
                 {tags.map((tag) => (
-                  <span key={tag} className="rounded-full border border-[var(--border-hover)] px-3 py-1 text-[0.72rem] font-medium text-[var(--muted)]">
+                  <span key={tag} className="rounded-full border border-white/20 px-3 py-1 text-[0.72rem] font-medium text-white/90">
                     {tag}
                   </span>
                 ))}
               </div>
             )}
           </div>
-          <div className="mt-8 flex flex-wrap gap-3 border-t border-[var(--border)] pt-6">
+          <div className="mt-8 flex flex-wrap gap-3 border-t border-white/10 pt-6">
             <button
               type="button"
               onClick={() => setLightbox(true)}
-              className="inline-flex items-center gap-2.5 rounded-full border border-[var(--border)] px-6 py-3 text-[0.875rem] font-medium text-[var(--foreground)] transition-all hover:bg-[var(--card)]"
+              className="inline-flex items-center gap-2.5 rounded-full border border-white/20 px-6 py-3 text-[0.875rem] font-medium text-white transition-all hover:bg-white/10"
             >
               <ZoomIn size={15} strokeWidth={1.75} />
               Voir les photos
@@ -265,7 +265,7 @@ export function ProjectShowcase({
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 rounded-full bg-[var(--accent)] px-6 py-3 text-[0.875rem] font-medium text-white transition-all hover:opacity-90 hover:shadow-lg hover:shadow-black/15"
+                className="inline-flex items-center gap-2.5 rounded-full bg-white px-6 py-3 text-[0.875rem] font-medium text-black transition-all hover:bg-white/90 hover:shadow-lg"
               >
                 Voir le site
                 <ExternalLink size={14} strokeWidth={2} />
@@ -276,14 +276,14 @@ export function ProjectShowcase({
       </div>
 
       {/* ── Mobile : description + tags en bas ── */}
-      <div className="border-t border-[var(--border)] px-5 py-5 lg:hidden">
-        <p className="text-[0.9rem] leading-[1.7] text-[var(--muted)]">
+      <div className="border-t border-white/10 px-5 py-5 lg:hidden">
+        <p className="text-[0.9rem] leading-[1.7] text-white/90">
           {description}
         </p>
         {tags.length > 0 && (
           <div className="mt-4 flex flex-wrap gap-2">
             {tags.map((tag) => (
-              <span key={tag} className="rounded-full border border-[var(--border-hover)] px-3 py-1 text-[0.72rem] font-medium text-[var(--muted)]">
+              <span key={tag} className="rounded-full border border-white/20 px-3 py-1 text-[0.72rem] font-medium text-white/90">
                 {tag}
               </span>
             ))}
@@ -293,7 +293,7 @@ export function ProjectShowcase({
           <button
             type="button"
             onClick={() => setLightbox(true)}
-            className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-4 py-2 text-[0.8125rem] font-medium text-[var(--foreground)] transition-all hover:bg-[var(--card)]"
+            className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-[0.8125rem] font-medium text-white transition-all hover:bg-white/10"
           >
             <ZoomIn size={14} strokeWidth={1.75} />
             Voir les photos
@@ -303,7 +303,7 @@ export function ProjectShowcase({
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-4 py-2 text-[0.8125rem] font-medium text-white"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-[0.8125rem] font-medium text-black"
             >
               Voir le site
               <ExternalLink size={13} strokeWidth={2} />

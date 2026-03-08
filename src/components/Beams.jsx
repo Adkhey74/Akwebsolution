@@ -6,6 +6,8 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { PerspectiveCamera } from '@react-three/drei';
 import { degToRad } from 'three/src/math/MathUtils.js';
 
+import './Beams.css';
+
 function extendMaterial(BaseMaterial, cfg) {
   const physical = THREE.ShaderLib.physical;
   const { vertexShader: baseVert, fragmentShader: baseFrag, uniforms: baseUniforms } = physical;
@@ -48,7 +50,7 @@ function extendMaterial(BaseMaterial, cfg) {
 }
 
 const CanvasWrapper = ({ children }) => (
-  <Canvas dpr={[1, 2]} frameloop="always" className="w-full h-full relative">
+  <Canvas dpr={[1, 2]} frameloop="always" className="beams-container">
     {children}
   </Canvas>
 );
@@ -143,7 +145,7 @@ const Beams = ({
   beamHeight = 15,
   beamNumber = 12,
   lightColor = '#ffffff',
-  speed = 2,
+  speed = 7,
   noiseIntensity = 1.75,
   scale = 0.2,
   rotation = 0

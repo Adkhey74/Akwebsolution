@@ -62,7 +62,7 @@ const cardVariant = {
 
 export function Services() {
   return (
-    <section id="services" className="section-padding border-t border-[var(--border)] overflow-hidden">
+    <section id="services" className="section-padding border-t border-white/10 overflow-hidden">
       <div className="section-container">
 
         {/* Header */}
@@ -75,29 +75,29 @@ export function Services() {
         >
           <div className="max-w-xl">
             {/* Badge */}
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[var(--border-hover)] bg-white px-4 py-1.5 shadow-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
-              <span className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-sm">
+              <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
+              <span className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-white/90">
                 Prestations
               </span>
             </div>
 
-            <h2 className="text-[1.875rem] font-light leading-[1.15] tracking-tight text-[var(--foreground)] sm:text-[2.25rem] md:text-[2.75rem]">
+            <h2 className="text-[1.875rem] font-light leading-[1.15] tracking-tight text-white sm:text-[2.25rem] md:text-[2.75rem]">
               Tout ce qu'il faut pour{" "}
-              <span className="relative inline-block font-semibold">
+              <span className="relative inline-block font-serif italic font-semibold">
                 réussir en ligne
                 <motion.span
                   initial={{ scaleX: 0 }}
                   whileInView={{ scaleX: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.45, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-                  className="absolute -bottom-0.5 left-0 h-[2px] w-full origin-left bg-[var(--accent)]"
+                  className="absolute -bottom-0.5 left-0 h-[2px] w-full origin-left bg-white"
                 />
               </span>
             </h2>
           </div>
 
-          <p className="max-w-sm text-[0.9375rem] leading-relaxed text-[var(--muted)] md:text-right">
+          <p className="max-w-sm text-[0.9375rem] leading-relaxed text-white/80 md:text-right">
             Chaque prestation est pensée pour votre projet, de la conception
             jusqu'à la mise en ligne.
           </p>
@@ -116,22 +116,22 @@ export function Services() {
               key={service.title}
               variants={cardVariant}
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              className="group relative flex flex-col gap-4 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-7 transition-all hover:border-[var(--border-hover)] hover:bg-white hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.1)] md:p-8"
+              className="group relative flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/5 p-7 backdrop-blur-sm transition-all hover:border-white/20 hover:bg-white/10 hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.3)] md:p-8"
             >
               {/* Numéro */}
-              <span className="absolute right-6 top-6 text-[0.7rem] font-semibold tabular-nums text-[var(--border-hover)] select-none">
+              <span className="absolute right-6 top-6 text-[0.7rem] font-semibold tabular-nums text-white/50 select-none">
                 {String(i + 1).padStart(2, "0")}
               </span>
               {/* Icône */}
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--border)] bg-white shadow-sm transition-all group-hover:border-[var(--accent)] group-hover:shadow-md">
-                <service.icon className="h-5 w-5 text-[var(--foreground)]" strokeWidth={1.5} />
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/20 bg-white/10 transition-all group-hover:border-white/40 group-hover:bg-white/15">
+                <service.icon className="h-5 w-5 text-white" strokeWidth={1.5} />
               </div>
               {/* Texte */}
               <div>
-                <h3 className="mb-2 text-[1.0625rem] font-semibold tracking-tight text-[var(--foreground)]">
+                <h3 className="mb-2 text-[1.0625rem] font-semibold tracking-tight text-white">
                   {service.title}
                 </h3>
-                <p className="text-[0.875rem] leading-relaxed text-[var(--muted)]">
+                <p className="text-[0.875rem] leading-relaxed text-white/80">
                   {service.description}
                 </p>
               </div>

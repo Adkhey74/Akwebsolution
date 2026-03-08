@@ -13,7 +13,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="section-padding border-t border-[var(--border)] overflow-hidden"
+      className="section-padding border-t border-white/10 overflow-hidden"
     >
       <div className="section-container">
         <div className="mx-auto max-w-2xl text-center">
@@ -24,10 +24,10 @@ export function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--border-hover)] bg-white px-4 py-1.5 shadow-sm"
+            className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-sm"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
-            <span className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
+            <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
+            <span className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-white/90">
               Passons à l&apos;action
             </span>
           </motion.div>
@@ -38,17 +38,17 @@ export function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.52, delay: 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="text-[2rem] font-light leading-[1.18] tracking-tight text-[var(--foreground)] sm:text-[2.5rem] md:text-[3rem]"
+            className="text-[2rem] font-light leading-[1.18] tracking-tight text-white sm:text-[2.5rem] md:text-[3rem]"
           >
             Parlons de{" "}
-            <span className="relative inline-block font-semibold">
+            <span className="relative inline-block font-serif italic font-semibold">
               votre projet
               <motion.span
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="absolute -bottom-0.5 left-0 h-[2.5px] w-full origin-left bg-[var(--accent)]"
+                className="absolute -bottom-0.5 left-0 h-[2.5px] w-full origin-left bg-white"
               />
             </span>
           </motion.h2>
@@ -59,7 +59,7 @@ export function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="mt-5 text-center text-[1rem] leading-[1.7] text-[var(--muted)] md:text-[1.0625rem]"
+            className="mt-5 text-center text-[1rem] leading-[1.7] text-white/85 md:text-[1.0625rem]"
           >
             Une idée, un besoin, une question ? Envoyez-moi un message, je vous réponds rapidement. Tarifs clairs, prix fixes, sans mauvaise surprise.
           </motion.p>
@@ -88,7 +88,7 @@ export function Contact() {
                     transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] },
                   },
                 }}
-                className="flex items-center gap-1.5 text-[0.8125rem] text-[var(--muted)]"
+                className="flex items-center gap-1.5 text-[0.8125rem] text-white/75"
               >
                 <CheckCircle2 size={13} strokeWidth={2.2} className="shrink-0" />
                 {p}
@@ -123,7 +123,7 @@ export function Contact() {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              className="inline-flex items-center gap-2.5 rounded-full border border-[var(--border-hover)] bg-white px-8 py-4 text-[0.9375rem] font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--card)]"
+              className="inline-flex items-center gap-2.5 rounded-full border border-white/30 bg-white/10 px-8 py-4 text-[0.9375rem] font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/20"
             >
               {/* WhatsApp icon */}
               <svg viewBox="0 0 24 24" fill="currentColor" className="h-[17px] w-[17px] text-[#25D366]" aria-hidden>
@@ -139,7 +139,7 @@ export function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="mt-5 text-[0.8rem] text-[var(--muted)]"
+            className="mt-5 text-[0.8rem] text-white/60"
           >
             contact@akwebsolutions.fr
           </motion.p>

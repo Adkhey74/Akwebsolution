@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowDown, CheckCircle2 } from "lucide-react";
@@ -19,18 +19,12 @@ const stats = [
 const trust = ["Prix fixe, sans surprise", "Sans engagement", "Livraison rapide"];
 
 export function Hero() {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const loader = usePageLoader();
   const setVideoReady = loader?.setVideoReady;
   const isLoading = loader?.isLoading ?? true;
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video || !setVideoReady) return;
-    const handleCanPlay = () => setVideoReady();
-    video.addEventListener("canplay", handleCanPlay);
-    if (video.readyState >= 3) setVideoReady();
-    return () => video.removeEventListener("canplay", handleCanPlay);
+    if (setVideoReady) setVideoReady();
   }, [setVideoReady]);
 
   const animate = !isLoading ? "visible" : "hidden";
@@ -39,21 +33,8 @@ export function Hero() {
   return (
     <section className="relative flex h-[calc(100vh+4rem)] min-h-[calc(100dvh+4rem)] flex-col justify-center overflow-hidden pb-24 pt-36 -mt-16 md:h-[calc(100vh+5rem)] md:min-h-[calc(100dvh+5rem)] md:-mt-20 md:pt-44 md:pb-32">
 
-      {/* Vidéo de fond — couvre toute la hauteur */}
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute inset-0 h-full w-full object-cover"
-        aria-hidden
-      >
-        <source src="/videos/videoSection.mp4" type="video/mp4" />
-      </video>
-
-      {/* Voile sombre */}
-      <div className="absolute inset-0 bg-black/55" aria-hidden />
+      {/* Voile sombre pour lisibilité du texte (Beams en fond via layout) */}
+      <div className="absolute inset-0 z-[2] bg-black/55" aria-hidden />
 
       <div className="section-container relative z-10">
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
@@ -67,7 +48,7 @@ export function Hero() {
             className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-sm"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
-            <span className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-white/70">
+            <span className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-white/75">
               Agence Web · Sites sur mesure
             </span>
           </motion.div>
@@ -83,7 +64,7 @@ export function Hero() {
                 transition={{ duration: 0.7, delay: 0.1, ease: [0.76, 0, 0.24, 1] }}
               >
                 Des sites web{" "}
-                <span className="relative font-semibold">
+                <span className="relative font-semibold font-serif italic">
                   élégants
                   <motion.span
                     initial={{ scaleX: 0 }}
@@ -159,7 +140,7 @@ export function Hero() {
             className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-2"
           >
             {trust.map((item) => (
-              <span key={item} className="flex items-center gap-1.5 text-[0.8rem] text-white/55">
+              <span key={item} className="flex items-center gap-1.5 text-[0.8rem] text-white/70">
                 <CheckCircle2 size={12} strokeWidth={2} className="shrink-0" />
                 {item}
               </span>
@@ -175,7 +156,7 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 1.05, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="mx-auto mt-16 max-w-lg border-t border-white/10 pt-10 md:mt-20"
         >
-          <div className="grid grid-cols-3 divide-x divide-white/10">
+          <div className="grid grid-cols-3 divide-x divide-white/20">
             {stats.map((s) => (
               <div key={s.label} className="flex flex-col items-center gap-1 px-4">
                 <p className="text-[1.875rem] font-semibold leading-none text-white md:text-[2.25rem]">
@@ -190,7 +171,7 @@ export function Hero() {
                   />
                   <span className="ml-0.5">{s.suffix}</span>
                 </p>
-                <p className="text-center text-[0.7rem] font-medium uppercase tracking-[0.14em] text-white/45">
+                <p className="text-center text-[0.7rem] font-medium uppercase tracking-[0.14em] text-white/55">
                   {s.label}
                 </p>
               </div>
