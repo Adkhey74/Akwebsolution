@@ -188,7 +188,15 @@ export function Hero() {
             {stats.map((s) => (
               <div key={s.label} className="flex flex-col items-center gap-1 px-4">
                 <p className="text-[1.875rem] font-semibold leading-none text-white md:text-[2.25rem]">
-                  <CountUp key={`${s.label}-${statsKey}`} to={s.to} duration={1.8} delay={0.3} forceStart />
+                  <CountUp
+                    key={`${s.label}-${statsKey}`}
+                    to={s.to}
+                    duration={1.8}
+                    delay={0.3}
+                    forceStart
+                    onStart={undefined}
+                    onEnd={undefined}
+                  />
                   <span className="ml-0.5">{s.suffix}</span>
                 </p>
                 <p className="text-center text-[0.7rem] font-medium uppercase tracking-[0.14em] text-white/45">
