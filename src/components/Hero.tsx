@@ -1,12 +1,11 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowDown, CheckCircle2 } from "lucide-react";
 import { usePageLoader } from "@/components/PageLoaderContext";
 import dynamic from "next/dynamic";
-import { usePathname } from "next/navigation";
 
 const BlurText = dynamic(() => import("@/components/BlurText").then((m) => m.default), { ssr: false });
 const CountUp = dynamic(() => import("@/components/CountUp").then((m) => m.default), { ssr: false });
@@ -35,15 +34,7 @@ export function Hero() {
   }, [setVideoReady]);
 
   const animate = !isLoading ? "visible" : "hidden";
-  const pathname = usePathname();
-  const [statsKey, setStatsKey] = useState(0);
-
-  // Force le remontage des CountUp à chaque fois que le loader se termine
-  useEffect(() => {
-    if (!isLoading) {
-      setStatsKey((k) => k + 1);
-    }
-  }, [isLoading]);
+  const statsKey = !isLoading ? "ready" : "loading";
 
   return (
     <section className="relative flex h-[calc(100vh+4rem)] min-h-[calc(100dvh+4rem)] flex-col justify-center overflow-hidden pb-24 pt-36 -mt-16 md:h-[calc(100vh+5rem)] md:min-h-[calc(100dvh+5rem)] md:-mt-20 md:pt-44 md:pb-32">
