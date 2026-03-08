@@ -76,10 +76,10 @@ export function PricingSection() {
         {/* En-tête */}
         <motion.div
           className="mb-14 text-center"
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.5 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl">
             Des offres claires,<br className="hidden sm:block" /> à votre mesure
@@ -97,10 +97,15 @@ export function PricingSection() {
             return (
               <motion.div
                 key={offer.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                initial={{ opacity: 0, y: 32, scale: 0.97 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{
+                  duration: 0.55,
+                  delay: i * 0.1,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
                 className={`relative flex flex-col rounded-2xl border p-5 transition-shadow hover:shadow-lg ${
                   isPopular
                     ? "border-[var(--foreground)] bg-[var(--foreground)] text-white shadow-xl ring-2 ring-[var(--foreground)] ring-offset-2"
@@ -172,10 +177,10 @@ export function PricingSection() {
         {/* Lien vers page complète */}
         <motion.div
           className="mt-10 text-center"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.3 }}
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.45, delay: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <Link
             href="/offres"

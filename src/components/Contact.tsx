@@ -20,10 +20,10 @@ export function Contact() {
 
           {/* Badge */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--border-hover)] bg-white px-4 py-1.5 shadow-sm"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
@@ -34,10 +34,10 @@ export function Contact() {
 
           {/* Titre */}
           <motion.h2
-            initial={{ opacity: 0, y: 14 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.48, delay: 0.07 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.52, delay: 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="text-[2rem] font-light leading-[1.18] tracking-tight text-[var(--foreground)] sm:text-[2.5rem] md:text-[3rem]"
           >
             Parlons de{" "}
@@ -55,10 +55,10 @@ export function Contact() {
 
           {/* Sous-titre */}
           <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: 0.15 }}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.45, delay: 0.12, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="mt-5 text-[1rem] leading-[1.7] text-[var(--muted)] md:text-[1.0625rem]"
           >
             Une idée, un besoin, une question ? Envoyez-moi un message,
@@ -67,26 +67,42 @@ export function Contact() {
 
           {/* Perks */}
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.22 }}
             className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-30px" }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: { staggerChildren: 0.08, delayChildren: 0.18 },
+              },
+            }}
           >
             {perks.map((p) => (
-              <span key={p} className="flex items-center gap-1.5 text-[0.8125rem] text-[var(--muted)]">
+              <motion.span
+                key={p}
+                variants={{
+                  hidden: { opacity: 0, x: -8 },
+                  visible: {
+                    opacity: 1,
+                    x: 0,
+                    transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] },
+                  },
+                }}
+                className="flex items-center gap-1.5 text-[0.8125rem] text-[var(--muted)]"
+              >
                 <CheckCircle2 size={13} strokeWidth={2.2} className="shrink-0" />
                 {p}
-              </span>
+              </motion.span>
             ))}
           </motion.div>
 
           {/* CTA */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.38 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.5, delay: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
           >
             <motion.a
@@ -120,10 +136,10 @@ export function Contact() {
 
           {/* Email discret */}
           <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.42 }}
+            transition={{ duration: 0.4, delay: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="mt-5 text-[0.8rem] text-[var(--muted)]"
           >
             contact@akwebsolutions.fr

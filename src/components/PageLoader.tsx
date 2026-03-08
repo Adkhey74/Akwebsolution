@@ -24,14 +24,24 @@ export function PageLoader({ progress }: PageLoaderProps) {
         transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
         className="relative w-[240px] sm:w-[300px] md:w-[340px]"
       >
-        <Image
-          src={LOGO_SRC}
-          alt="AK Web Solutions"
-          width={340}
-          height={105}
-          className="h-auto w-full object-contain"
-          priority
-        />
+        <motion.div
+          animate={{ opacity: [1, 0.45, 1] }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 0.4,
+          }}
+        >
+          <Image
+            src={LOGO_SRC}
+            alt="AK Web Solutions"
+            width={340}
+            height={105}
+            className="h-auto w-full object-contain"
+            priority
+          />
+        </motion.div>
       </motion.div>
 
       {/* Barre de chargement — synchronisée avec le chargement réel */}

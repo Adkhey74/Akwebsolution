@@ -10,7 +10,9 @@ const trust = ["Prix fixe, sans surprise", "Sans engagement", "Livraison rapide"
 
 export function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const setVideoReady = usePageLoader()?.setVideoReady;
+  const loader = usePageLoader();
+  const setVideoReady = loader?.setVideoReady;
+  const isLoading = loader?.isLoading ?? true;
 
   useEffect(() => {
     const video = videoRef.current;
@@ -20,6 +22,9 @@ export function Hero() {
     if (video.readyState >= 3) setVideoReady();
     return () => video.removeEventListener("canplay", handleCanPlay);
   }, [setVideoReady]);
+
+  // Ne démarre les animations qu'une fois le loader disparu
+  const animate = !isLoading ? "visible" : "hidden";
 
   return (
     <section className="relative flex min-h-[calc(100vh+4rem)] flex-col justify-center overflow-hidden pb-20 pt-36 -mt-16 md:-mt-[4.5rem] md:min-h-[calc(100vh+4.5rem)] md:pt-44 md:pb-28">
@@ -45,9 +50,10 @@ export function Hero() {
 
           {/* Badge eyebrow */}
           <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.38, delay: 0.05 }}
+            initial={{ opacity: 0, y: 6 }}
+            animate={animate}
+            variants={{ hidden: { opacity: 0, y: 6 }, visible: { opacity: 1, y: 0 } }}
+            transition={{ duration: 0.6, delay: 0.05, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 backdrop-blur-sm"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
@@ -56,31 +62,50 @@ export function Hero() {
             </span>
           </motion.div>
 
-          {/* H1 */}
-          <motion.h1
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.48, delay: 0.11 }}
-            className="text-[2.125rem] font-light leading-[1.15] tracking-tight text-white sm:text-[2.75rem] md:text-[3.5rem] lg:text-[4rem]"
-          >
-            Des sites web{" "}
-            <span className="relative inline-block font-semibold">
-              élégants
+          {/* H1 — reveal par ligne */}
+          <h1 className="text-[2.125rem] font-light leading-[1.15] tracking-tight text-white sm:text-[2.75rem] md:text-[3.5rem] lg:text-[4rem]">
+            {/* Ligne 1 */}
+            <span className="block overflow-hidden">
               <motion.span
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ duration: 0.45, delay: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="absolute -bottom-0.5 left-0 h-[2.5px] w-full origin-left bg-white"
-              />
+                className="block"
+                initial={{ y: "105%" }}
+                animate={animate}
+                variants={{ hidden: { y: "105%" }, visible: { y: "0%" } }}
+                transition={{ duration: 0.8, delay: 0.15, ease: [0.76, 0, 0.24, 1] }}
+              >
+                Des sites web{" "}
+                <span className="relative inline-block font-semibold">
+                  élégants
+                  <motion.span
+                    initial={{ scaleX: 0 }}
+                    animate={animate}
+                    variants={{ hidden: { scaleX: 0 }, visible: { scaleX: 1 } }}
+                    transition={{ duration: 0.5, delay: 0.95, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    className="absolute -bottom-0.5 left-0 h-[2.5px] w-full origin-left bg-white"
+                  />
+                </span>
+              </motion.span>
             </span>
-            {" "}qui vous ressemblent
-          </motion.h1>
+            {/* Ligne 2 */}
+            <span className="block overflow-hidden">
+              <motion.span
+                className="block"
+                initial={{ y: "105%" }}
+                animate={animate}
+                variants={{ hidden: { y: "105%" }, visible: { y: "0%" } }}
+                transition={{ duration: 0.8, delay: 0.28, ease: [0.76, 0, 0.24, 1] }}
+              >
+                qui vous ressemblent
+              </motion.span>
+            </span>
+          </h1>
 
           {/* Sous-titre */}
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.22 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={animate}
+            variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
+            transition={{ duration: 0.7, delay: 0.65, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="mt-6 max-w-[30rem] text-[1rem] leading-[1.7] text-white/75 md:max-w-[34rem] md:text-[1.125rem]"
           >
             Sites rapides, clairs et adaptés à votre activité. Une présence en
@@ -89,9 +114,10 @@ export function Hero() {
 
           {/* CTAs */}
           <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.32, duration: 0.35 }}
+            initial={{ opacity: 0, y: 12 }}
+            animate={animate}
+            variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0 } }}
+            transition={{ duration: 0.7, delay: 0.82, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="mt-9 flex w-full flex-col gap-3 sm:flex-row sm:justify-center sm:gap-4"
           >
             <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
@@ -115,8 +141,9 @@ export function Hero() {
           {/* Ligne de confiance */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.44 }}
+            animate={animate}
+            variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+            transition={{ duration: 0.7, delay: 0.98, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
           >
             {trust.map((item) => (
@@ -134,8 +161,9 @@ export function Hero() {
       <motion.a
         href="/#services"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.7 }}
+        animate={animate}
+        variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+        transition={{ delay: 1.15, duration: 0.6 }}
         className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 flex flex-col items-center text-white/50 transition-colors hover:text-white"
         aria-label="Faire défiler vers les services"
       >

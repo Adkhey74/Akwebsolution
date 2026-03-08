@@ -32,13 +32,28 @@ export function Footer() {
         {/* Grille principale */}
         <motion.div
           className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.5 }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+            },
+          }}
         >
           {/* Col 1 — Marque */}
-          <div className="lg:col-span-1">
+          <motion.div
+            className="lg:col-span-1"
+            variants={{
+              hidden: { opacity: 0, y: 24 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] },
+              },
+            }}
+          >
             <Logo variant="compact" className="brightness-0 invert" />
             <p className="mt-4 text-[0.875rem] leading-relaxed text-white/55">
               Création de sites web sur mesure, élégants et performants pour
@@ -66,10 +81,19 @@ export function Footer() {
                 France
               </span>
             </div>
-          </div>
+          </motion.div>
 
           {/* Col 2 — Navigation */}
-          <div>
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 24 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] },
+              },
+            }}
+          >
             <p className="mb-5 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/35">
               Navigation
             </p>
@@ -85,10 +109,19 @@ export function Footer() {
                 </Link>
               ))}
             </nav>
-          </div>
+          </motion.div>
 
           {/* Col 3 — Services */}
-          <div>
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 24 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] },
+              },
+            }}
+          >
             <p className="mb-5 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/35">
               Prestations
             </p>
@@ -102,10 +135,20 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Col 4 — CTA */}
-          <div className="flex flex-col gap-5">
+          <motion.div
+            className="flex flex-col gap-5"
+            variants={{
+              hidden: { opacity: 0, y: 24 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] },
+              },
+            }}
+          >
             <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/35">
               Démarrer
             </p>
@@ -118,7 +161,7 @@ export function Footer() {
             >
               Voir les offres
             </Link>
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* Barre de bas */}

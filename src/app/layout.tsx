@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
-import { Jost, Cormorant_Garamond } from "next/font/google";
+import { Jost, Cormorant_Garamond, Geist } from "next/font/google";
 import "./globals.css";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { PageLoaderProvider } from "@/components/PageLoaderContext";
 import { JsonLd } from "@/components/JsonLd";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const jost = Jost({
   variable: "--font-jost",
@@ -96,7 +99,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
+    <html lang="fr" className={cn("font-sans", geist.variable)}>
       <body className={`${jost.variable} ${cormorant.variable} font-sans antialiased`}>
         <JsonLd />
         <PageLoaderProvider>

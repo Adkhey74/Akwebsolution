@@ -44,12 +44,20 @@ const services = [
 
 const container = {
   hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.07 } },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.09, delayChildren: 0.06 },
+  },
 };
 
 const cardVariant = {
-  hidden: { opacity: 0, y: 28 },
-  show:   { opacity: 1, y: 0,  transition: { duration: 0.42 } },
+  hidden: { opacity: 0, y: 36, scale: 0.98 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.52, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
 };
 
 export function Services() {
@@ -60,10 +68,10 @@ export function Services() {
         {/* Header */}
         <motion.div
           className="mb-14 flex flex-col items-start gap-4 md:mb-18 md:flex-row md:items-end md:justify-between"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.48 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <div className="max-w-xl">
             {/* Badge */}
@@ -101,7 +109,7 @@ export function Services() {
           variants={container}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: "-48px" }}
+          viewport={{ once: true, margin: "-60px" }}
         >
           {services.map((service, i) => (
             <motion.article

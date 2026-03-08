@@ -7,6 +7,7 @@ import { PageLoader } from "@/components/PageLoader";
 
 type PageLoaderContextValue = {
   setVideoReady: () => void;
+  isLoading: boolean;
 };
 
 const PageLoaderContext = createContext<PageLoaderContextValue | null>(null);
@@ -102,7 +103,7 @@ export function PageLoaderProvider({ children }: { children: React.ReactNode }) 
   }, [pathname]);
 
   return (
-    <PageLoaderContext.Provider value={{ setVideoReady }}>
+    <PageLoaderContext.Provider value={{ setVideoReady, isLoading }}>
       {children}
       <AnimatePresence mode="wait">
         {isLoading && <PageLoader key="loader" progress={progress} />}
