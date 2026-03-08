@@ -5,31 +5,33 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Luminosité 80–90 % : fond très lumineux, côté aéré */
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --border: oklch(0.922 0 0);
-  --border-hover: rgba(0, 0, 0, 0.1);
-  --card: oklch(1 0 0);
-  --card-hover: rgba(0, 0, 0, 0.04);
-  --radius: 0.625rem;
+  /* ── Palette AKWebSolution ── */
+  --background: oklch(1 0 0);           /* #ffffff */
+  --foreground: oklch(0.098 0 0);       /* #0a0a0a */
+  --muted: oklch(0.38 0 0);             /* #525252 */
+  --muted-foreground: oklch(0.48 0 0);  /* #737373 */
+  --accent: oklch(0 0 0);               /* #000000 — CTA noir */
+  --accent-foreground: oklch(1 0 0);    /* blanc sur fond noir */
+  --border: oklch(0 0 0 / 0.06);
+  --border-hover: oklch(0 0 0 / 0.1);
+  --card: oklch(0 0 0 / 0.02);
+  --card-foreground: oklch(0.098 0 0);
+  --card-hover: oklch(0 0 0 / 0.04);
+  --radius: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
   --space-section: clamp(5rem, 12vw, 7rem);
   --space-block: clamp(1.5rem, 4vw, 2.5rem);
   --container: min(100% - 2rem, 75rem);
   --container-narrow: 45rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card-foreground: oklch(0.145 0 0);
+
+  /* ── Variables shadcn (non surchargées) ── */
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
-  --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.58 0.22 27);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);

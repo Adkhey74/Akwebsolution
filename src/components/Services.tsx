@@ -122,12 +122,10 @@ export function Services() {
               <span className="absolute right-6 top-6 text-[0.7rem] font-semibold tabular-nums text-[var(--border-hover)] select-none">
                 {String(i + 1).padStart(2, "0")}
               </span>
-
               {/* Icône */}
               <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--border)] bg-white shadow-sm transition-all group-hover:border-[var(--accent)] group-hover:shadow-md">
                 <service.icon className="h-5 w-5 text-[var(--foreground)]" strokeWidth={1.5} />
               </div>
-
               {/* Texte */}
               <div>
                 <h3 className="mb-2 text-[1.0625rem] font-semibold tracking-tight text-[var(--foreground)]">

@@ -53,16 +53,15 @@ export function Contact() {
             </span>
           </motion.h2>
 
-          {/* Sous-titre */}
+          {/* Sous-titre — apparition douce */}
           <motion.p
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.45, delay: 0.12, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="mt-5 text-[1rem] leading-[1.7] text-[var(--muted)] md:text-[1.0625rem]"
+            transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="mt-5 text-center text-[1rem] leading-[1.7] text-[var(--muted)] md:text-[1.0625rem]"
           >
-            Une idée, un besoin, une question ? Envoyez-moi un message,
-            je vous réponds rapidement. Tarifs clairs, prix fixes, sans mauvaise surprise.
+            Une idée, un besoin, une question ? Envoyez-moi un message, je vous réponds rapidement. Tarifs clairs, prix fixes, sans mauvaise surprise.
           </motion.p>
 
           {/* Perks */}
