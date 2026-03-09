@@ -55,8 +55,8 @@ export function Hero() {
       {/* Voile sombre */}
       <div className="absolute inset-0 bg-black/55" aria-hidden />
 
-      <div className="section-container relative z-10">
-        <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
+      <div className="section-container relative z-10 min-w-0">
+        <div className="mx-auto flex w-full max-w-3xl flex-col items-center text-center">
 
           {/* Badge eyebrow */}
           <motion.div
@@ -173,12 +173,12 @@ export function Hero() {
           animate={animate}
           variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
           transition={{ duration: 0.6, delay: 1.05, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="mx-auto mt-16 max-w-lg border-t border-white/10 pt-10 md:mt-20"
+          className="mx-auto mt-16 w-full max-w-lg border-t border-white/10 pt-8 sm:pt-10 md:mt-20"
         >
           <div className="grid grid-cols-3 divide-x divide-white/10">
             {stats.map((s) => (
-              <div key={s.label} className="flex flex-col items-center gap-1 px-4">
-                <p className="text-[1.875rem] font-semibold leading-none text-white md:text-[2.25rem]">
+              <div key={s.label} className="flex flex-col items-center gap-1 px-2 min-w-0 sm:px-4">
+                <p className="text-[1.5rem] font-semibold leading-none text-white sm:text-[1.875rem] md:text-[2.25rem]">
                   <CountUp
                     key={`${s.label}-${statsKey}`}
                     to={s.to}
@@ -190,7 +190,7 @@ export function Hero() {
                   />
                   <span className="ml-0.5">{s.suffix}</span>
                 </p>
-                <p className="text-center text-[0.7rem] font-medium uppercase tracking-[0.14em] text-white/45">
+                <p className="text-center text-[0.6rem] font-medium uppercase tracking-[0.12em] text-white/45 sm:text-[0.7rem] sm:tracking-[0.14em]">
                   {s.label}
                 </p>
               </div>

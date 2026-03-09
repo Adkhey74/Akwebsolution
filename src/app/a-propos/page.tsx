@@ -26,15 +26,15 @@ const values = [
 
 export default function AProposPage() {
   return (
-    <div className="min-h-screen bg-transparent">
+    <div className="min-h-screen min-w-0 overflow-x-hidden bg-transparent">
       <Header />
-      <main>
+      <main className="min-w-0">
         {/* Layout principal : photo gauche + contenu droit */}
-        <div className="mx-auto w-[min(100%-2rem,72rem)] pt-28 pb-20 md:pt-36 md:pb-28">
-          <div className="grid min-h-[80vh] grid-cols-1 gap-0 overflow-hidden rounded-3xl bg-white shadow-2xl md:grid-cols-[420px_1fr] lg:grid-cols-[460px_1fr]">
+        <div className="section-container w-full max-w-[72rem] pt-28 pb-20 md:pt-36 md:pb-28">
+          <div className="grid min-h-[80vh] grid-cols-1 gap-0 overflow-hidden rounded-2xl bg-white shadow-2xl sm:rounded-3xl md:grid-cols-[minmax(0,420px)_1fr] lg:grid-cols-[minmax(0,460px)_1fr]">
 
             {/* Colonne photo — pleine hauteur */}
-            <div className="relative min-h-[340px] md:min-h-0">
+            <div className="relative min-h-[300px] sm:min-h-[340px] md:min-h-0">
               <Image
                 src="/images/adil.jpeg"
                 alt="Adil — Créateur AKWebSolution"
@@ -60,7 +60,7 @@ export default function AProposPage() {
             </div>
 
             {/* Colonne contenu */}
-            <div className="flex flex-col justify-between p-8 md:p-10 lg:p-14">
+            <div className="flex min-w-0 flex-col justify-between break-words p-6 sm:p-8 md:p-10 lg:p-14">
 
               {/* En-tête texte */}
               <div>
@@ -71,7 +71,7 @@ export default function AProposPage() {
                   Je crée des sites qui{" "}
                   <span className="font-serif italic font-semibold">travaillent pour vous</span>
                 </h1>
-                <p className="mt-5 text-[0.9375rem] leading-[1.8] text-neutral-600">
+                <p className="mt-5 text-[0.9375rem] leading-[1.8] text-neutral-600 break-words">
                   Je m'appelle <strong className="font-semibold text-neutral-900">Adil</strong>, développeur web freelance basé en France. Sous le nom <strong className="font-semibold text-neutral-900">AKWebSolution</strong>, j'accompagne les indépendants et les petites entreprises qui veulent une présence en ligne claire, professionnelle et efficace.
                 </p>
                 <p className="mt-4 text-[0.9375rem] leading-[1.8] text-neutral-600">
@@ -111,7 +111,7 @@ export default function AProposPage() {
               <div className="my-8 h-px w-full bg-neutral-100" />
 
               {/* CTAs */}
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3 gap-y-3">
                 <Link
                   href="/#contact"
                   className="inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-3 text-[0.9rem] font-semibold text-white transition-all hover:bg-neutral-700"

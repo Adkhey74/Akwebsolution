@@ -71,7 +71,7 @@ const offers = [
 export function PricingSection() {
   return (
     <section className="border-t border-[var(--border)] py-24 md:py-32" id="offres">
-      <div className="mx-auto w-[min(100%-2rem,90rem)]">
+      <div className="section-container mx-auto w-full max-w-[90rem]">
 
         {/* En-tête */}
         <motion.div

@@ -27,8 +27,8 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[var(--border)] bg-[var(--foreground)] text-white">
-      <div className="section-container pt-16 pb-10 md:pt-20 md:pb-12">
+    <footer className="min-w-0 border-t border-[var(--border)] bg-[var(--foreground)] text-white overflow-x-hidden">
+      <div className="section-container pt-12 pb-8 sm:pt-16 sm:pb-10 md:pt-20 md:pb-12">
 
         {/* Grille principale */}
         <motion.div
@@ -167,7 +167,7 @@ export function Footer() {
 
         {/* Barre de bas */}
         <motion.div
-          className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row md:mt-16"
+          className="mt-14 flex flex-col flex-wrap items-center justify-center gap-4 border-t border-white/10 pt-8 sm:flex-row sm:justify-between md:mt-16"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -178,7 +178,7 @@ export function Footer() {
           </p>
 
           {/* Liens légaux */}
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
             <Link
               href="/mentions-legales"
               className="text-[0.7rem] text-white/30 transition-colors hover:text-white/60"

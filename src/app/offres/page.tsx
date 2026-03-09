@@ -86,14 +86,15 @@ export default function OffresPage() {
       <Header />
       <main>
         {/* Header section */}
-        <section className="pt-36 pb-16 md:pt-44 md:pb-20">
-          <div className="mx-auto w-[min(100%-2rem,75rem)] text-center">
+        <section className="section-container pt-28 pb-12 sm:pt-36 sm:pb-16 md:pt-44 md:pb-20">
+          <div className="mx-auto w-full max-w-[75rem] text-center">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
+              className="min-w-0"
             >
-              <h1 className="text-4xl leading-tight md:text-5xl lg:text-6xl">
+              <h1 className="text-3xl leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
                 Des offres claires,<br />à votre mesure
               </h1>
               <p className="mx-auto mt-5 max-w-xl text-[1rem] leading-relaxed text-[var(--muted)]">
@@ -104,8 +105,8 @@ export default function OffresPage() {
         </section>
 
         {/* Cards */}
-        <section className="pb-28 md:pb-36">
-          <div className="mx-auto w-[min(100%-2rem,90rem)]">
+        <section className="section-container pb-20 md:pb-28 lg:pb-36">
+          <div className="mx-auto w-full max-w-[90rem]">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {offers.map((offer, i) => {
                 const Icon = offer.icon;

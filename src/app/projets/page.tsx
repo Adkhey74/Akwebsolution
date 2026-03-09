@@ -75,13 +75,13 @@ const projects = [
 
 export default function ProjetsPage() {
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+    <div className="min-h-screen min-w-0 overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]">
       <Header />
-      <main>
+      <main className="min-w-0">
         <ProjetsHeader />
 
-        <section className="section-container pb-24 md:pb-32">
-          <div className="space-y-24 md:space-y-32">
+        <section className="section-container min-w-0 pb-20 md:pb-24 lg:pb-32">
+          <div className="space-y-20 md:space-y-24 lg:space-y-32">
             {projects.map((project, i) => (
               <div key={project.id} id={project.id} className="scroll-mt-28">
                 <ProjectShowcase {...project} index={i} />

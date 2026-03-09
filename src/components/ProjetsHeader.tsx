@@ -4,12 +4,12 @@ import { motion } from "framer-motion";
 
 export function ProjetsHeader() {
   return (
-    <section className="section-container pb-16 pt-32 md:pb-20 md:pt-40">
+    <section className="section-container min-w-0 pb-12 pt-28 sm:pb-16 sm:pt-32 md:pb-20 md:pt-40">
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="max-w-2xl"
+        className="max-w-2xl min-w-0"
       >
         {/* Badge */}
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--border-hover)] bg-white px-4 py-1.5 shadow-sm">

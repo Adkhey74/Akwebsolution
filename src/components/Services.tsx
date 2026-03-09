@@ -63,7 +63,7 @@ const cardVariant = {
 export function Services() {
   return (
     <section id="services" className="section-padding border-t border-[var(--border)] overflow-hidden">
-      <div className="section-container">
+      <div className="section-container min-w-0">
 
         {/* Header */}
         <motion.div

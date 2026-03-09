@@ -78,8 +78,8 @@ export function ProjectShowcase({
       className="overflow-hidden rounded-2xl border border-[var(--border)] bg-white shadow-sm"
     >
       {/* ── Mobile : infos en haut ── */}
-      <div className="flex items-center justify-between gap-3 border-b border-[var(--border)] px-5 py-4 lg:hidden">
-        <div className="min-w-0">
+      <div className="flex min-w-0 items-center justify-between gap-3 border-b border-[var(--border)] px-4 py-4 sm:px-5 lg:hidden">
+        <div className="min-w-0 flex-1">
           <span className="flex items-center gap-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
             <Tag size={9} strokeWidth={2.2} />
             {category}
@@ -223,7 +223,7 @@ export function ProjectShowcase({
         </div>
 
         {/* Colonne info — desktop uniquement */}
-        <div className="hidden flex-col justify-between border-l border-[var(--border)] p-10 lg:flex lg:w-[40%]">
+        <div className="hidden min-w-0 flex-col justify-between break-words border-l border-[var(--border)] p-8 lg:flex lg:w-[40%] xl:p-10">
           <div>
             <span className="inline-flex items-center gap-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[var(--muted)]">
               <Tag size={10} strokeWidth={2} />
@@ -276,8 +276,8 @@ export function ProjectShowcase({
       </div>
 
       {/* ── Mobile : description + tags en bas ── */}
-      <div className="border-t border-[var(--border)] px-5 py-5 lg:hidden">
-        <p className="text-[0.9rem] leading-[1.7] text-[var(--muted)]">
+      <div className="min-w-0 border-t border-[var(--border)] px-4 py-5 sm:px-5 lg:hidden">
+        <p className="break-words text-[0.9rem] leading-[1.7] text-[var(--muted)]">
           {description}
         </p>
         {tags.length > 0 && (

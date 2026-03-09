@@ -15,8 +15,8 @@ export function Contact() {
       id="contact"
       className="section-padding border-t border-[var(--border)] overflow-hidden"
     >
-      <div className="section-container">
-        <div className="mx-auto max-w-2xl text-center">
+      <div className="section-container min-w-0">
+        <div className="mx-auto w-full max-w-2xl text-center">
 
           {/* Badge */}
           <motion.div
