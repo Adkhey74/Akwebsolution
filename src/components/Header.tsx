@@ -59,7 +59,7 @@ export function Header() {
           <button
             type="button"
             onClick={() => setMenuOpen((v) => !v)}
-            className={`flex items-center justify-center p-2 transition-colors md:hidden ${
+            className={`flex items-center justify-center p-2 transition-colors lg:hidden ${
               showSolidNav ? "text-[var(--foreground)] hover:text-[var(--accent)]" : "text-white hover:text-white/80"
             }`}
             aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
@@ -90,7 +90,7 @@ export function Header() {
             </AnimatePresence>
           </button>
 
-          <nav className="hidden md:flex md:items-center md:gap-1 lg:gap-2" aria-label="Navigation principale">
+          <nav className="hidden lg:flex lg:items-center lg:gap-2" aria-label="Navigation principale">
             {navLinks.map(({ href, label }) => (
               <Link
                 key={href}
@@ -117,14 +117,14 @@ export function Header() {
         <div className="flex min-h-10 min-w-0 shrink-0 items-center justify-end">
           <Link
             href="/#contact"
-            className={`whitespace-nowrap rounded-full px-3 py-2 text-[0.65rem] font-medium uppercase tracking-[0.1em] transition-all duration-200 sm:px-4 sm:text-[0.7rem] md:px-5 md:tracking-[0.12em] ${
+            className={`whitespace-nowrap rounded-full px-3 py-2 text-[0.65rem] font-medium uppercase tracking-[0.1em] transition-all duration-200 sm:px-4 sm:text-[0.7rem] lg:px-5 lg:tracking-[0.12em] ${
               showSolidNav
                 ? "bg-[var(--foreground)] text-white hover:opacity-80"
                 : "border border-white bg-transparent text-white hover:bg-white hover:text-[var(--foreground)]"
             }`}
           >
-            <span className="md:hidden">Contact</span>
-            <span className="hidden md:inline">Nous contacter</span>
+            <span className="lg:hidden">Contact</span>
+            <span className="hidden lg:inline">Nous contacter</span>
           </Link>
         </div>
       </div>
@@ -138,7 +138,7 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="fixed inset-0 z-40 flex flex-col bg-white md:hidden"
+            className="fixed inset-0 z-40 flex flex-col bg-white lg:hidden"
           >
             {/* Header du menu */}
             <div className="relative flex h-[5.25rem] shrink-0 items-center justify-center px-5">
