@@ -135,7 +135,7 @@ export function Hero() {
             <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
               <Link
                 href="/offres"
-                className="inline-flex w-full items-center justify-center rounded-full bg-white px-6 py-3 text-[0.8125rem] font-semibold text-black transition-all hover:bg-white/90 sm:px-9 sm:py-3.5 sm:text-[0.9375rem]"
+                className="inline-flex w-full items-center justify-center rounded-full bg-white px-5 py-2.5 text-[0.8125rem] font-semibold text-black transition-all hover:bg-white/90 sm:px-9 sm:py-3.5 sm:text-[0.9375rem]"
               >
                 Démarrer mon projet
               </Link>
@@ -143,7 +143,7 @@ export function Hero() {
             <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
               <Link
                 href="/#services"
-                className="inline-flex w-full items-center justify-center rounded-full border border-white/35 px-6 py-3 text-[0.8125rem] font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/10 sm:px-9 sm:py-3.5 sm:text-[0.9375rem]"
+                className="inline-flex w-full items-center justify-center rounded-full border border-white/35 px-5 py-2.5 text-[0.8125rem] font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/10 sm:px-9 sm:py-3.5 sm:text-[0.9375rem]"
               >
                 Voir nos services
               </Link>
