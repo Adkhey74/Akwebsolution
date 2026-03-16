@@ -27,7 +27,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="min-w-0 border-t border-[var(--border)] bg-[var(--foreground)] text-white overflow-x-hidden">
+    <footer className="min-w-0 border-t border-[var(--border)] bg-black text-white overflow-x-hidden">
       <div className="section-container pt-12 pb-8 sm:pt-16 sm:pb-10 md:pt-20 md:pb-12">
 
         {/* Grille principale */}
@@ -158,7 +158,7 @@ export function Footer() {
             </p>
             <Link
               href="/#contact"
-              className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 text-[0.8125rem] font-medium text-white transition-all hover:bg-white hover:text-[var(--foreground)]"
+              className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 text-[0.8125rem] font-medium text-white transition-all hover:bg-white hover:text-black"
             >
               Voir les offres
             </Link>

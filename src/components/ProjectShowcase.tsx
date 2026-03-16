@@ -75,7 +75,7 @@ export function ProjectShowcase({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.52, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="overflow-hidden rounded-2xl border border-[var(--border)] bg-white shadow-sm"
+      className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-sm"
     >
       {/* ── Mobile : infos en haut ── */}
       <div className="flex min-w-0 items-center justify-between gap-3 border-b border-[var(--border)] px-4 py-4 sm:px-5 lg:hidden">
@@ -98,14 +98,14 @@ export function ProjectShowcase({
         <div className="relative flex flex-col lg:w-[60%]">
 
           {/* Browser chrome — desktop only */}
-          <div className="hidden items-center gap-3 border-b border-[var(--border)] bg-[#f5f5f5] px-4 py-2.5 lg:flex">
+          <div className="hidden items-center gap-3 border-b border-[var(--border)] bg-[var(--background)] px-4 py-2.5 lg:flex">
             <div className="flex gap-1.5">
               <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
               <span className="h-2.5 w-2.5 rounded-full bg-[#ffbd2e]" />
               <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
             </div>
             <div className="flex flex-1 items-center justify-center">
-              <div className="flex w-full max-w-xs items-center gap-2 rounded-md border border-[var(--border)] bg-white px-3 py-1">
+              <div className="flex w-full max-w-xs items-center gap-2 rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-1">
                 <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green-500" />
                 <span className="truncate text-[0.68rem] text-[var(--muted)]">
                   {url ? url.replace("https://", "") : `${title.toLowerCase().replace(/\s/g, "")}.fr`}
@@ -116,7 +116,7 @@ export function ProjectShowcase({
 
           {/* Image principale */}
           <div
-            className="group relative aspect-[16/10] w-full cursor-zoom-in overflow-hidden bg-[#f9f9f9] sm:aspect-video lg:aspect-[16/10] lg:min-h-0"
+            className="group relative aspect-[16/10] w-full cursor-zoom-in overflow-hidden bg-[var(--background)] sm:aspect-video lg:aspect-[16/10] lg:min-h-0"
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
             onClick={() => setLightbox(true)}
@@ -158,7 +158,7 @@ export function ProjectShowcase({
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goPrev(); }}
-                  className="absolute left-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[var(--foreground)] shadow-md backdrop-blur-sm transition-all hover:bg-white sm:flex"
+                  className="absolute left-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white shadow-md backdrop-blur-sm transition-all hover:bg-white/20 sm:flex"
                   aria-label="Image précédente"
                 >
                   <ChevronLeft size={18} strokeWidth={2} />
@@ -166,7 +166,7 @@ export function ProjectShowcase({
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goNext(); }}
-                  className="absolute right-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[var(--foreground)] shadow-md backdrop-blur-sm transition-all hover:bg-white sm:flex"
+                  className="absolute right-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white shadow-md backdrop-blur-sm transition-all hover:bg-white/20 sm:flex"
                   aria-label="Image suivante"
                 >
                   <ChevronRight size={18} strokeWidth={2} />
@@ -201,7 +201,7 @@ export function ProjectShowcase({
               </div>
 
               {/* Thumbnails — desktop uniquement */}
-              <div className="hidden items-center gap-2 overflow-x-auto border-t border-[var(--border)] bg-[#fafafa] px-4 py-3 lg:flex">
+              <div className="hidden items-center gap-2 overflow-x-auto border-t border-[var(--border)] bg-[var(--background)] px-4 py-3 lg:flex">
                 {images.map((img, i) => (
                   <button
                     key={i}
@@ -265,7 +265,7 @@ export function ProjectShowcase({
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 rounded-full bg-[var(--accent)] px-6 py-3 text-[0.875rem] font-medium text-white transition-all hover:opacity-90 hover:shadow-lg hover:shadow-black/15"
+                className="inline-flex items-center gap-2.5 rounded-full bg-[var(--accent)] px-6 py-3 text-[0.875rem] font-medium text-[var(--background)] transition-all hover:opacity-90 hover:shadow-lg hover:shadow-black/15"
               >
                 Voir le site
                 <ExternalLink size={14} strokeWidth={2} />
@@ -303,7 +303,7 @@ export function ProjectShowcase({
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-4 py-2 text-[0.8125rem] font-medium text-white"
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-4 py-2 text-[0.8125rem] font-medium text-[var(--background)]"
             >
               Voir le site
               <ExternalLink size={13} strokeWidth={2} />

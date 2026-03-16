@@ -75,7 +75,7 @@ export function Services() {
         >
           <div className="max-w-xl">
             {/* Badge */}
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[var(--border-hover)] bg-white px-4 py-1.5 shadow-sm">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[var(--border-hover)] bg-[var(--surface)] px-4 py-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
               <span className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
                 Prestations
@@ -116,14 +116,14 @@ export function Services() {
               key={service.title}
               variants={cardVariant}
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              className="group relative flex flex-col gap-4 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-7 transition-all hover:border-[var(--border-hover)] hover:bg-white hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.1)] md:p-8"
+              className="group relative flex flex-col gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-7 transition-all hover:border-[var(--border-hover)] hover:bg-[var(--surface)] hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.4)] md:p-8"
             >
               {/* Numéro */}
               <span className="absolute right-6 top-6 text-[0.7rem] font-semibold tabular-nums text-[var(--border-hover)] select-none">
                 {String(i + 1).padStart(2, "0")}
               </span>
               {/* Icône */}
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--border)] bg-white shadow-sm transition-all group-hover:border-[var(--accent)] group-hover:shadow-md">
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface)] transition-all group-hover:border-[var(--accent)]">
                 <service.icon className="h-5 w-5 text-[var(--foreground)]" strokeWidth={1.5} />
               </div>
               {/* Texte */}

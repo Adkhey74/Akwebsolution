@@ -50,7 +50,7 @@ export function Header() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       className={`fixed left-0 right-0 top-0 z-50 transition-colors duration-200 ${
-        showSolidNav ? "border-b border-[var(--border)] bg-white" : "bg-transparent"
+        showSolidNav ? "border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur-md" : "bg-transparent"
       }`}
     >
       <div className="grid h-[5.25rem] w-full min-w-0 grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 sm:gap-4 sm:px-6 md:h-24 md:px-10 lg:px-14 xl:px-20">
@@ -109,7 +109,7 @@ export function Header() {
         </div>
 
         {/* Center : logo — centré mobile et desktop grâce à la grille 1fr auto 1fr */}
-        <div className={`flex h-[5.25rem] min-w-0 max-w-[130px] items-center justify-center sm:max-w-[160px] md:h-24 md:max-w-[200px] ${!showSolidNav ? "[&_img]:brightness-0 [&_img]:invert" : ""}`}>
+        <div className="flex h-[5.25rem] min-w-0 max-w-[130px] items-center justify-center sm:max-w-[160px] md:h-24 md:max-w-[200px] [&_img]:brightness-0 [&_img]:invert">
           <Logo variant="compact" className="block h-full w-auto max-w-full object-contain" />
         </div>
 
@@ -117,14 +117,15 @@ export function Header() {
         <div className="flex min-h-10 min-w-0 shrink-0 items-center justify-end">
           <Link
             href="/#contact"
-            className={`whitespace-nowrap rounded-full px-3 py-2 text-[0.65rem] font-medium uppercase tracking-[0.1em] transition-all duration-200 sm:px-4 sm:text-[0.7rem] lg:px-5 lg:tracking-[0.12em] ${
-              showSolidNav
-                ? "bg-[var(--foreground)] text-white hover:opacity-80"
-                : "border border-white bg-transparent text-white hover:bg-white hover:text-[var(--foreground)]"
+            className={`group relative px-3 py-2 text-[0.8rem] font-medium uppercase tracking-[0.12em] transition-colors ${
+              showSolidNav ? "text-foreground" : "text-white"
             }`}
           >
             <span className="lg:hidden">Contact</span>
             <span className="hidden lg:inline">Nous contacter</span>
+            <span className={`absolute bottom-0 left-3 right-3 h-px origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100 ${
+              showSolidNav ? "bg-foreground" : "bg-white"
+            }`} />
           </Link>
         </div>
       </div>
@@ -138,11 +139,11 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="fixed inset-0 z-40 flex flex-col bg-white lg:hidden"
+            className="fixed inset-0 z-40 flex flex-col bg-[var(--background)] lg:hidden"
           >
             {/* Header du menu */}
             <div className="relative flex h-[5.25rem] shrink-0 items-center justify-center px-5">
-              <Logo variant="compact" className="h-[5.25rem] w-auto" />
+              <Logo variant="compact" className="h-[5.25rem] w-auto brightness-0 invert" />
               <button
                 type="button"
                 onClick={closeMenu}

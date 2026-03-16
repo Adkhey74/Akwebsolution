@@ -18,6 +18,9 @@ export const metadata: Metadata = {
 import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
 import { PricingSection } from "@/components/PricingSection";
+import { ProjectsPreview } from "@/components/ProjectsPreview";
+import { Testimonials } from "@/components/Testimonials";
+import { AboutPreview } from "@/components/AboutPreview";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 
@@ -27,8 +30,11 @@ export default function Home() {
       <Header />
       <main className="min-w-0">
         <Hero />
-        <PricingSection />
         <Services />
+        <ProjectsPreview />
+        <Testimonials />
+        <AboutPreview />
+        <PricingSection />
         <Contact />
         <Footer />
       </main>

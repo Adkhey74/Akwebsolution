@@ -15,7 +15,7 @@ export function PageLoader({ progress }: PageLoaderProps) {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black"
       aria-hidden
     >
       <motion.div
@@ -38,14 +38,14 @@ export function PageLoader({ progress }: PageLoaderProps) {
             alt="AK Web Solutions"
             width={340}
             height={105}
-            className="h-auto w-full object-contain"
+            className="h-auto w-full object-contain brightness-0 invert"
             priority
           />
         </motion.div>
       </motion.div>
 
       {/* Barre de chargement — synchronisée avec le chargement réel */}
-      <div className="absolute left-0 right-0 top-0 h-[3px] bg-black/10">
+      <div className="absolute left-0 right-0 top-0 h-[3px] bg-white/10">
         <motion.div
           className="h-full bg-[var(--foreground)]"
           initial={{ width: "0%" }}

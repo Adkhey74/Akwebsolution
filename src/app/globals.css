@@ -5,18 +5,19 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* ── Palette AKWebSolution ── */
-  --background: oklch(1 0 0);           /* #ffffff */
-  --foreground: oklch(0.098 0 0);       /* #0a0a0a */
-  --muted: oklch(0.38 0 0);             /* #525252 */
-  --muted-foreground: oklch(0.48 0 0);  /* #737373 */
-  --accent: oklch(0 0 0);               /* #000000 — CTA noir */
-  --accent-foreground: oklch(1 0 0);    /* blanc sur fond noir */
-  --border: oklch(0 0 0 / 0.06);
-  --border-hover: oklch(0 0 0 / 0.1);
-  --card: oklch(0 0 0 / 0.02);
-  --card-foreground: oklch(0.098 0 0);
-  --card-hover: oklch(0 0 0 / 0.04);
+  /* ── Palette AKWebSolution — Dark Mode ── */
+  --background: oklch(0.07 0 0);         /* ~#0f0f0f */
+  --foreground: oklch(0.94 0 0);         /* ~#efefef */
+  --muted: oklch(0.55 0 0);             /* ~#7a7a7a */
+  --muted-foreground: oklch(0.62 0 0);
+  --accent: oklch(0.94 0 0);            /* near-white CTA */
+  --accent-foreground: oklch(0.07 0 0); /* dark text on accent */
+  --border: oklch(1 0 0 / 0.08);
+  --border-hover: oklch(1 0 0 / 0.14);
+  --card: oklch(1 0 0 / 0.04);
+  --card-foreground: oklch(0.94 0 0);
+  --card-hover: oklch(1 0 0 / 0.08);
+  --surface: oklch(0.13 0 0);           /* ~#1f1f1f — panel/card bg */
   --radius: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
@@ -115,12 +116,12 @@ body {
 }
 
 ::selection {
-  background: rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.15);
   color: var(--foreground);
 }
 
 :focus-visible {
-  outline: 2px solid rgba(0, 0, 0, 0.5);
+  outline: 2px solid rgba(255, 255, 255, 0.4);
   outline-offset: 2px;
 }
 

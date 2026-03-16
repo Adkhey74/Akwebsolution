@@ -32,7 +32,7 @@ export function ProjetsCta() {
           >
             <Link
               href="/#contact"
-              className="inline-flex items-center gap-2.5 rounded-full bg-[var(--accent)] px-8 py-4 text-[0.9375rem] font-medium text-white shadow-lg transition-all hover:opacity-90 hover:shadow-xl hover:shadow-black/20"
+              className="inline-flex items-center gap-2.5 rounded-full bg-[var(--accent)] px-8 py-4 text-[0.9375rem] font-medium text-[var(--background)] shadow-lg transition-all hover:opacity-90 hover:shadow-xl hover:shadow-black/20"
             >
               Démarrer mon projet
               <ArrowRight size={16} strokeWidth={2} />

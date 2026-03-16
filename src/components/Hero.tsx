@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowDown, CheckCircle2 } from "lucide-react";
@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 
 const BlurText = dynamic(() => import("@/components/BlurText").then((m) => m.default), { ssr: false });
 const CountUp = dynamic(() => import("@/components/CountUp").then((m) => m.default), { ssr: false });
+const Beams = dynamic(() => import("@/components/Beams").then((m) => m.Beams), { ssr: false });
 
 const stats = [
   { to: 5, suffix: "+", label: "ans d'expérience" },
@@ -19,18 +20,13 @@ const stats = [
 const trust = ["Prix fixe, sans surprise", "Sans engagement", "Livraison rapide"];
 
 export function Hero() {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const loader = usePageLoader();
   const setVideoReady = loader?.setVideoReady;
   const isLoading = loader?.isLoading ?? true;
 
+  // Plus de vidéo — on signale immédiatement que le hero est prêt
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video || !setVideoReady) return;
-    const handleCanPlay = () => setVideoReady();
-    video.addEventListener("canplay", handleCanPlay);
-    if (video.readyState >= 3) setVideoReady();
-    return () => video.removeEventListener("canplay", handleCanPlay);
+    if (setVideoReady) setVideoReady();
   }, [setVideoReady]);
 
   const animate = !isLoading ? "visible" : "hidden";
@@ -39,21 +35,20 @@ export function Hero() {
   return (
     <section className="relative flex h-[calc(100vh+5.25rem)] min-h-[calc(100dvh+5.25rem)] flex-col justify-center overflow-hidden pb-24 pt-36 -mt-[5.25rem] md:h-[calc(100vh+6rem)] md:min-h-[calc(100dvh+6rem)] md:-mt-24 md:pt-44 md:pb-32">
 
-      {/* Vidéo de fond — couvre toute la hauteur */}
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute inset-0 h-full w-full object-cover"
-        aria-hidden
-      >
-        <source src="/videos/videoSection.mp4" type="video/mp4" />
-      </video>
+      {/* Beams background */}
+      <Beams
+        beamNumber={10}
+        beamWidth={2}
+        beamHeight={18}
+        lightColor="#ffffff"
+        speed={1.2}
+        noiseIntensity={1.5}
+        scale={0.18}
+        rotation={20}
+      />
 
-      {/* Voile sombre */}
-      <div className="absolute inset-0 bg-black/55" aria-hidden />
+      {/* Radial gradient overlay — assombrit le centre pour la lisibilité */}
+      <div className="pointer-events-none absolute inset-0 z-[1]" style={{ background: "radial-gradient(ellipse 70% 60% at 50% 45%, rgba(0,0,0,0.55) 0%, transparent 100%)" }} />
 
       <div className="section-container relative z-10 min-w-0">
         <div className="mx-auto flex w-full max-w-3xl flex-col items-center text-center">
@@ -83,7 +78,7 @@ export function Hero() {
                 transition={{ duration: 0.7, delay: 0.1, ease: [0.76, 0, 0.24, 1] }}
               >
                 Des sites web{" "}
-                <span className="relative font-semibold">
+                <span className="relative font-semibold font-serif italic">
                   élégants
                   <motion.span
                     initial={{ scaleX: 0 }}
@@ -143,7 +138,7 @@ export function Hero() {
             <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
               <Link
                 href="/#services"
-                className="inline-flex w-full items-center justify-center rounded-full border border-white/35 px-5 py-2.5 text-[0.8125rem] font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/10 sm:px-9 sm:py-3.5 sm:text-[0.9375rem]"
+                className="inline-flex w-full items-center justify-center rounded-full border border-white/60 px-5 py-2.5 text-[0.8125rem] font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/15 sm:px-9 sm:py-3.5 sm:text-[0.9375rem]"
               >
                 Voir nos services
               </Link>
