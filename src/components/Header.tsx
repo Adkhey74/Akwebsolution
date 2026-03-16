@@ -19,7 +19,7 @@ export function Header() {
   const [scrolledPastHero, setScrolledPastHero] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const showSolidNav = !isHome || scrolledPastHero;
+  const showSolidNav = !isHome || scrolledPastHero || menuOpen;
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -45,6 +45,7 @@ export function Header() {
   }, [isHome]);
 
   return (
+    <>
     <motion.header
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -130,7 +131,9 @@ export function Header() {
         </div>
       </div>
 
-      {/* ── Menu plein écran mobile ── */}
+    </motion.header>
+
+      {/* ── Menu plein écran mobile — hors du header pour éviter le stacking context ── */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -139,7 +142,8 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="fixed inset-0 z-40 flex flex-col bg-[var(--background)] lg:hidden"
+            className="fixed inset-0 z-9999 flex flex-col lg:hidden"
+            style={{ backgroundColor: "#0f0f0f" }}
           >
             {/* Header du menu */}
             <div className="relative flex h-[5.25rem] shrink-0 items-center justify-center px-5">
@@ -184,7 +188,7 @@ export function Header() {
               <Link
                 href="/offres"
                 onClick={closeMenu}
-                className="block rounded-full bg-[var(--foreground)] px-6 py-4 text-center text-[1rem] font-medium text-white transition-opacity hover:opacity-80"
+                className="block rounded-full bg-[var(--foreground)] px-6 py-4 text-center text-[1rem] font-medium text-background transition-opacity hover:opacity-80"
               >
                 Voir les offres
               </Link>
@@ -195,6 +199,6 @@ export function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </>
   );
 }
