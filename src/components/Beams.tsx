@@ -115,7 +115,7 @@ const MergedPlanes = forwardRef<MergedRef, {
   height: number;
 }>(({ material, width, count, height }, ref) => {
   const mesh = useRef<THREE.Mesh>(null);
-  useImperativeHandle(ref, () => mesh.current);
+  useImperativeHandle(ref, () => mesh.current as THREE.Mesh);
   const geometry = useMemo(() => createStackedPlanesGeometry(count, width, height, 100), [count, width, height]);
   useFrame((_, delta) => {
     if (mesh.current) {
