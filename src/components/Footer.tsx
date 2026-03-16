@@ -157,7 +157,7 @@ export function Footer() {
               Un projet en tête ? Tarifs fixes, réponse sous 24 h.
             </p>
             <Link
-              href="/#contact"
+              href="/offres"
               className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 text-[0.8125rem] font-medium text-white transition-all hover:bg-white hover:text-black"
             >
               Voir les offres

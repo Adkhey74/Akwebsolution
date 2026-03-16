@@ -99,7 +99,7 @@ export default function OffresPage() {
               className="min-w-0"
             >
               <h1 className="text-3xl leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
-                Des offres claires,<br />à votre mesure
+                Des offres claires,<br /> à votre mesure
               </h1>
               <p className="mx-auto mt-5 max-w-xl text-[1rem] leading-relaxed text-[var(--muted)]">
                 Pas besoin de connaître les sites web — on s'occupe de tout. Choisissez ce qui correspond à votre situation, on fait le reste.

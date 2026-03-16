@@ -106,14 +106,16 @@ export function Contact() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8">
+              <form onSubmit={handleSubmit} method="post" className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">Nom *</label>
+                    <label htmlFor="contact-name" className="text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">Nom *</label>
                     <input
+                      id="contact-name"
                       type="text"
                       name="name"
                       required
+                      autoComplete="name"
                       placeholder="Votre nom"
                       value={form.name}
                       onChange={set("name")}
@@ -121,8 +123,9 @@ export function Contact() {
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">Email *</label>
+                    <label htmlFor="contact-email" className="text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">Email *</label>
                     <input
+                      id="contact-email"
                       type="email"
                       name="email"
                       required
@@ -136,8 +139,9 @@ export function Contact() {
                 </div>
 
                 <div className="mt-4 flex flex-col gap-1.5">
-                  <label className="text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">Type de projet</label>
+                  <label htmlFor="contact-project" className="text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">Type de projet</label>
                   <select
+                    id="contact-project"
                     value={form.projectType}
                     onChange={set("projectType")}
                     className={`${inputClass} cursor-pointer`}
@@ -150,8 +154,9 @@ export function Contact() {
                 </div>
 
                 <div className="mt-4 flex flex-col gap-1.5">
-                  <label className="text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">Message *</label>
+                  <label htmlFor="contact-message" className="text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">Message *</label>
                   <textarea
+                    id="contact-message"
                     required
                     rows={5}
                     placeholder="Décrivez votre projet, vos besoins, vos questions…"

@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 import { AProposContent } from "@/components/AProposContent";
 
 export const metadata: Metadata = {
-  title: "À propos | AKWebSolution",
+  title: "À propos",
   description:
     "Adil — Développeur web freelance. Sites sur mesure, élégants et performants pour les entrepreneurs.",
   alternates: { canonical: "https://akwebsolutions.fr/a-propos" },

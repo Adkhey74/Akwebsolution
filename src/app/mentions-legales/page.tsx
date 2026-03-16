@@ -116,7 +116,7 @@ export default function MentionsLegalesPage() {
             {/* Sections */}
             <div className="flex flex-col gap-10">
               {sections.map((s) => (
-                <div key={s.title} className="rounded-2xl border border-[var(--border)] bg-white p-7 md:p-8">
+                <div key={s.title} className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-7 md:p-8">
                   <h2 className="mb-5 text-[1rem] font-semibold uppercase tracking-[0.08em] text-[var(--foreground)]">
                     {s.title}
                   </h2>

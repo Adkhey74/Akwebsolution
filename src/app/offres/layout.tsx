@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Nos Offres & Tarifs | AKWebSolution",
+  title: "Nos Offres & Tarifs",
   description:
     "Découvrez les offres de création de site web d'AKWebSolution : Page Vitrine Rapide à 700 €, Site Vitrine Complet à 1 500 €, E-commerce à partir de 2 000 €, Site Pro à 3 000 €. Prix fixes, sans surprise.",
   alternates: {

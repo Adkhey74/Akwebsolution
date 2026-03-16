@@ -6,7 +6,7 @@ import { ProjetsHeader } from "@/components/ProjetsHeader";
 import { ProjetsCta } from "@/components/ProjetsCta";
 
 export const metadata: Metadata = {
-  title: "Nos Projets | AKWebSolution",
+  title: "Nos Projets",
   description:
     "Découvrez nos réalisations web : sites vitrines, restaurants, e-commerce et projets sur mesure. Portfolio de l'agence AKWebSolution.",
   alternates: {
