@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, ExternalLink } from "lucide-react";
+import { BlurFade } from "@/components/ui/blur-fade";
 
 const projects = [
   {
@@ -31,16 +32,6 @@ const projects = [
     url: "https://thermochrono.fr",
   },
 ];
-
-const cardVariant = {
-  hidden: { opacity: 0, y: 32, scale: 0.98 },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.52, ease: [0.25, 0.46, 0.45, 0.94] as const },
-  },
-};
 
 export function ProjectsPreview() {
   return (
@@ -87,26 +78,15 @@ export function ProjectsPreview() {
         </motion.div>
 
         {/* Grille projets */}
-        <motion.div
-          className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
-          variants={{
-            hidden: { opacity: 0 },
-            show: {
-              opacity: 1,
-              transition: { staggerChildren: 0.1, delayChildren: 0.05 },
-            },
-          }}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-60px" }}
-        >
-          {projects.map((project) => (
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project, i) => (
+            <BlurFade key={project.id} delay={0.05 + i * 0.1} inView className="min-w-0">
             <motion.div
-              key={project.id}
-              variants={cardVariant}
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              className="group relative flex flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-sm transition-shadow hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.5)]"
+              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-sm transition-all hover:border-[var(--border-hover)] hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.5)]"
             >
+              {/* Halo au survol */}
+              <div className="pointer-events-none absolute -top-1/3 left-1/2 z-0 h-2/3 w-2/3 -translate-x-1/2 rounded-full bg-white/[0.06] opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
               {/* Image */}
               <div className="relative aspect-[16/10] w-full overflow-hidden bg-[var(--surface)]">
                 <Image
@@ -163,8 +143,9 @@ export function ProjectsPreview() {
                 </Link>
               </div>
             </motion.div>
+            </BlurFade>
           ))}
-        </motion.div>
+        </div>
 
         {/* CTA mobile */}
         <motion.div

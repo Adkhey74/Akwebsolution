@@ -12,12 +12,7 @@ export function ProjetsHeader() {
         className="max-w-2xl min-w-0"
       >
         {/* Badge */}
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--border-hover)] bg-[var(--surface)] px-4 py-1.5">
-          <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
-          <span className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
-            Réalisations
-          </span>
-        </div>
+        <span className="eyebrow mb-6">Réalisations</span>
 
         <h1 className="text-[2.25rem] font-light leading-[1.15] tracking-tight text-[var(--foreground)] sm:text-[2.75rem] md:text-[3.25rem]">
           Nos{" "}

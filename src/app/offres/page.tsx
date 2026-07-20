@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Check, Zap, Rocket, ShoppingCart, Star, Clock } from "lucide-react";
+import { BlurFade } from "@/components/ui/blur-fade";
+import { BorderBeam } from "@/components/ui/border-beam";
 
 const offers = [
   {
@@ -116,69 +118,67 @@ export default function OffresPage() {
                 const Icon = offer.icon;
                 const isPopular = offer.id === "starter";
                 return (
+                  <BlurFade key={offer.id} delay={0.1 + i * 0.1} inView className="min-w-0">
                   <motion.div
-                    key={offer.id}
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.1 + i * 0.1 }}
-                    className={`relative flex flex-col rounded-2xl border p-5 transition-shadow hover:shadow-lg ${
+                    whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                    className={`relative flex h-full flex-col rounded-2xl border p-5 transition-all hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.5)] ${
                       isPopular
-                        ? "border-white bg-white shadow-xl ring-2 ring-white ring-offset-2 ring-offset-[var(--background)]"
-                        : "border-[var(--border)] bg-[var(--surface)]"
+                        ? "border-[var(--foreground)]/40 bg-[var(--surface)] glow-surface"
+                        : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-hover)]"
                     }`}
                   >
                     {/* Badge populaire */}
                     {offer.badge && (
-                      <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-neutral-900 px-4 py-1 text-[0.7rem] font-semibold uppercase tracking-widest text-white shadow-sm">
+                      <span className="absolute -top-3.5 left-1/2 z-10 -translate-x-1/2 rounded-full bg-[var(--foreground)] px-4 py-1 text-[0.7rem] font-semibold uppercase tracking-widest text-[var(--background)] shadow-sm">
                         {offer.badge}
                       </span>
                     )}
 
                     {/* Icône */}
-                    <div className={`mb-6 flex h-11 w-11 items-center justify-center rounded-xl ${isPopular ? "bg-neutral-100" : "bg-[var(--card)]"}`}>
-                      <Icon size={20} strokeWidth={1.75} className={isPopular ? "text-neutral-900" : "text-[var(--foreground)]"} />
+                    <div className="mb-6 flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--card)]">
+                      <Icon size={20} strokeWidth={1.75} className="text-[var(--foreground)]" />
                     </div>
 
                     {/* Titre & prix */}
-                    <h2 className={`text-2xl font-semibold ${isPopular ? "text-neutral-900" : "text-[var(--foreground)]"}`} style={{ fontFamily: "var(--font-display)" }}>
+                    <h2 className="text-2xl font-semibold text-[var(--foreground)]" style={{ fontFamily: "var(--font-display)" }}>
                       {offer.title}
                     </h2>
-                    <p className={`mt-2 text-[0.875rem] font-medium leading-snug ${isPopular ? "text-neutral-700" : "text-[var(--foreground)]"}`}>
+                    <p className="mt-2 text-[0.875rem] font-medium leading-snug text-[var(--foreground)]">
                       {offer.result}
                     </p>
                     <div className="mt-4">
                       {offer.priceFrom && (
-                        <span className={`block text-[0.75rem] font-medium uppercase tracking-wider ${isPopular ? "text-neutral-500" : "text-[var(--muted)]"}`}>
+                        <span className="block text-[0.75rem] font-medium uppercase tracking-wider text-[var(--muted)]">
                           À partir de
                         </span>
                       )}
-                      <span className={`text-4xl font-bold tracking-tight ${isPopular ? "text-neutral-900" : "text-[var(--foreground)]"}`}>
+                      <span className="text-4xl font-bold tracking-tight text-[var(--foreground)]">
                         {offer.price} €
                       </span>
                     </div>
 
                     {/* Cible */}
-                    <p className={`mt-2 text-[0.75rem] leading-relaxed ${isPopular ? "text-neutral-500" : "text-[var(--muted)]"}`}>
+                    <p className="mt-2 text-[0.75rem] leading-relaxed text-[var(--muted)]">
                       {offer.target}
                     </p>
 
                     {/* Délai */}
-                    <div className={`mt-5 flex items-center gap-2 rounded-lg px-3 py-2 text-[0.8125rem] font-medium ${isPopular ? "bg-neutral-100 text-neutral-600" : "bg-[var(--card)] text-[var(--muted)]"}`}>
+                    <div className="mt-5 flex items-center gap-2 rounded-lg bg-[var(--card)] px-3 py-2 text-[0.8125rem] font-medium text-[var(--muted)]">
                       <Clock size={13} strokeWidth={2} />
                       {offer.delivery === "Selon le projet" ? `Délai : ${offer.delivery}` : `Livraison en ${offer.delivery}`}
                     </div>
 
                     {/* Séparateur */}
-                    <div className={`my-6 h-px w-full ${isPopular ? "bg-neutral-200" : "bg-[var(--border)]"}`} />
+                    <div className="my-6 h-px w-full bg-[var(--border)]" />
 
                     {/* Features */}
                     <ul className="flex flex-1 flex-col gap-3">
                       {offer.features.map((feat) => (
                         <li key={feat} className="flex items-start gap-2.5">
-                          <span className={`mt-0.5 flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full ${isPopular ? "bg-neutral-100" : "bg-[var(--card)]"}`}>
-                            <Check size={10} strokeWidth={2.5} className={isPopular ? "text-neutral-900" : "text-[var(--foreground)]"} />
+                          <span className="mt-0.5 flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-[var(--card)]">
+                            <Check size={10} strokeWidth={2.5} className="text-[var(--foreground)]" />
                           </span>
-                          <span className={`text-[0.875rem] leading-snug ${isPopular ? "text-neutral-600" : "text-[var(--muted)]"}`}>
+                          <span className="text-[0.875rem] leading-snug text-[var(--muted)]">
                             {feat}
                           </span>
                         </li>
@@ -190,13 +190,24 @@ export default function OffresPage() {
                       href="/#contact"
                       className={`mt-8 block rounded-full py-3 text-center text-[0.875rem] font-medium transition-all duration-200 ${
                         isPopular
-                          ? "bg-neutral-900 text-white hover:bg-neutral-800"
-                          : "bg-[var(--foreground)] text-[var(--background)] hover:opacity-80"
+                          ? "bg-[var(--foreground)] text-[var(--background)] hover:opacity-85"
+                          : "border border-[var(--border-hover)] text-[var(--foreground)] hover:bg-[var(--card)]"
                       }`}
                     >
                       Choisir cette offre
                     </Link>
+
+                    {isPopular && (
+                      <BorderBeam
+                        size={120}
+                        duration={7}
+                        borderWidth={1.5}
+                        colorFrom="rgba(255,255,255,0)"
+                        colorTo="rgba(255,255,255,0.7)"
+                      />
+                    )}
                   </motion.div>
+                  </BlurFade>
                 );
               })}
             </div>

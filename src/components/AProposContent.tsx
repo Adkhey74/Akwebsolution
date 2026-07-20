@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { Aurora } from "@/components/Aurora";
+import { BorderBeam } from "@/components/ui/border-beam";
 
 const values = [
   "Design soigné, responsive, adapté à votre activité",
@@ -14,13 +16,32 @@ const values = [
 
 export function AProposContent() {
   return (
-    <div className="section-container w-full max-w-[72rem] pt-28 pb-20 md:pt-36 md:pb-28">
+    <div className="relative section-container w-full max-w-[72rem] pt-28 pb-20 md:pt-36 md:pb-28">
+      {/* Halo Aurora ambiant */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0 opacity-60"
+        style={{
+          maskImage: "radial-gradient(ellipse 65% 55% at 50% 30%, #000 0%, transparent 80%)",
+          WebkitMaskImage: "radial-gradient(ellipse 65% 55% at 50% 30%, #000 0%, transparent 80%)",
+        }}
+        aria-hidden
+      >
+        <Aurora />
+      </div>
+
       <motion.div
-        className="grid min-h-[80vh] grid-cols-1 gap-0 overflow-hidden rounded-2xl bg-[var(--surface)] shadow-2xl sm:rounded-3xl md:grid-cols-[minmax(0,420px)_1fr] lg:grid-cols-[minmax(0,460px)_1fr]"
+        className="relative z-10 grid min-h-[80vh] grid-cols-1 gap-0 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-2xl sm:rounded-3xl md:grid-cols-[minmax(0,420px)_1fr] lg:grid-cols-[minmax(0,460px)_1fr]"
         initial={{ opacity: 0, y: 32 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
+        <BorderBeam
+          size={160}
+          duration={10}
+          borderWidth={1.5}
+          colorFrom="rgba(255,255,255,0)"
+          colorTo="rgba(255,255,255,0.5)"
+        />
         {/* Colonne photo */}
         <motion.div
           className="relative min-h-[300px] sm:min-h-[340px] md:min-h-0"
@@ -45,7 +66,7 @@ export function AProposContent() {
           >
             <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/60">Créateur</p>
             <p className="mt-1 text-xl font-light text-white md:text-2xl">
-              Adil <span className="font-serif italic font-semibold">Khadich</span>
+              Adil <span className="font-display italic font-semibold">Khadich</span>
             </p>
             <p className="mt-0.5 text-[0.8rem] text-white/60">AKWebSolution · Développeur freelance</p>
           </motion.div>
@@ -62,7 +83,7 @@ export function AProposContent() {
             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">À propos</p>
             <h1 className="mt-3 text-3xl font-light leading-[1.2] tracking-tight text-[var(--foreground)] md:text-4xl">
               Je crée des sites qui{" "}
-              <span className="font-serif italic font-semibold">travaillent pour vous</span>
+              <span className="font-display italic font-semibold">travaillent pour vous</span>
             </h1>
             <p className="mt-5 text-[0.9375rem] leading-[1.8] text-[var(--muted)] break-words">
               Je m'appelle <strong className="font-semibold text-[var(--foreground)]">Adil</strong>, développeur web freelance basé en France. Sous le nom <strong className="font-semibold text-[var(--foreground)]">AKWebSolution</strong>, j'accompagne les indépendants et les petites entreprises qui veulent une présence en ligne claire, professionnelle et efficace.

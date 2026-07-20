@@ -3,12 +3,28 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
+import { Aurora } from "@/components/Aurora";
+import { BorderBeam } from "@/components/ui/border-beam";
+
+const credentials = ["Basé en France", "Next.js · React", "Réponse sous 24 h"];
 
 export function AboutPreview() {
   return (
-    <section className="section-padding border-t border-[var(--border)] overflow-hidden">
-      <div className="section-container min-w-0">
+    <section className="relative section-padding border-t border-[var(--border)] bg-[var(--section-alt)] overflow-hidden">
+      {/* Halo Aurora ambiant, fondu sur les bords */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0 opacity-70"
+        style={{
+          maskImage: "radial-gradient(ellipse 60% 60% at 50% 40%, #000 0%, transparent 80%)",
+          WebkitMaskImage: "radial-gradient(ellipse 60% 60% at 50% 40%, #000 0%, transparent 80%)",
+        }}
+        aria-hidden
+      >
+        <Aurora />
+      </div>
+
+      <div className="section-container relative z-10 min-w-0">
         <motion.div
           className="mx-auto flex w-full max-w-4xl flex-col items-center gap-10 md:flex-row md:gap-16"
           initial={{ opacity: 0, y: 28 }}
@@ -17,7 +33,7 @@ export function AboutPreview() {
           transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           {/* Photo */}
-          <div className="relative w-full shrink-0 overflow-hidden rounded-2xl shadow-lg md:w-[340px] lg:w-[380px]" style={{ aspectRatio: "4/5" }}>
+          <div className="relative w-full shrink-0 overflow-hidden rounded-2xl border border-[var(--border)] shadow-lg glow-surface md:w-[340px] lg:w-[380px]" style={{ aspectRatio: "4/5" }}>
             <Image
               src="/images/adil.jpeg"
               alt="Adil — Créateur AKWebSolution"
@@ -25,17 +41,19 @@ export function AboutPreview() {
               className="object-cover object-top"
               sizes="(max-width: 768px) 100vw, 380px"
             />
+            <BorderBeam
+              size={110}
+              duration={9}
+              borderWidth={1.5}
+              colorFrom="rgba(255,255,255,0)"
+              colorTo="rgba(255,255,255,0.55)"
+            />
           </div>
 
           {/* Contenu */}
           <div className="flex flex-col items-center gap-5 text-center md:items-start md:text-left">
             <div>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border-hover)] bg-[var(--surface)] px-4 py-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
-                <span className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
-                  Qui suis-je
-                </span>
-              </div>
+              <span className="eyebrow mb-4">Qui suis-je</span>
               <h2 className="text-[1.75rem] font-light leading-[1.2] tracking-tight text-[var(--foreground)] sm:text-[2.25rem]">
                 Un développeur{" "}
                 <span className="relative inline-block font-semibold">
@@ -55,9 +73,24 @@ export function AboutPreview() {
               Je m'appelle <strong className="font-semibold text-[var(--foreground)]">Adil</strong>, développeur web freelance basé en France. J'accompagne les indépendants et petites entreprises qui veulent une présence en ligne claire, professionnelle et efficace — du sur mesure, du début à la fin.
             </p>
 
+            {/* Signature */}
+            <p className="font-display text-[1.5rem] italic leading-none text-[var(--foreground)]">Adil</p>
+
+            {/* Gages de confiance */}
+            <ul className="flex flex-wrap justify-center gap-x-5 gap-y-2 md:justify-start">
+              {credentials.map((c) => (
+                <li key={c} className="flex items-center gap-1.5 text-[0.8rem] text-[var(--muted)]">
+                  <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-[var(--border-hover)]">
+                    <Check size={9} strokeWidth={2.5} className="text-[var(--foreground)]" />
+                  </span>
+                  {c}
+                </li>
+              ))}
+            </ul>
+
             <Link
               href="/a-propos"
-              className="group inline-flex items-center gap-2 text-[0.9rem] font-medium text-[var(--foreground)] underline underline-offset-4 transition-opacity hover:opacity-60"
+              className="group mt-1 inline-flex items-center gap-2 text-[0.9rem] font-medium text-[var(--foreground)] underline underline-offset-4 transition-opacity hover:opacity-60"
             >
               En savoir plus sur moi
               <ArrowRight size={15} strokeWidth={2} className="transition-transform group-hover:translate-x-0.5" />

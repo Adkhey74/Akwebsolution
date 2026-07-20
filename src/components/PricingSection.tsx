@@ -2,7 +2,9 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Check, Zap, Rocket, ShoppingCart, Star, Clock } from "lucide-react";
+import { Zap, Rocket, ShoppingCart, Star, Clock, ArrowRight } from "lucide-react";
+import { BlurFade } from "@/components/ui/blur-fade";
+import { BorderBeam } from "@/components/ui/border-beam";
 
 const offers = [
   {
@@ -79,12 +81,13 @@ export function PricingSection() {
 
         {/* En-tête */}
         <motion.div
-          className="mb-14 text-center"
+          className="mb-14 flex flex-col items-center text-center"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
+          <span className="eyebrow mb-5">Offres</span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl">
             Des offres claires,<br className="hidden sm:block" /> à votre mesure
           </h2>
@@ -99,84 +102,72 @@ export function PricingSection() {
             const Icon = offer.icon;
             const isPopular = offer.id === "starter";
             return (
+              <BlurFade key={offer.id} delay={0.05 + i * 0.1} inView className="min-w-0">
               <motion.div
-                key={offer.id}
-                initial={{ opacity: 0, y: 32, scale: 0.97 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{
-                  duration: 0.55,
-                  delay: i * 0.1,
-                  ease: [0.25, 0.46, 0.45, 0.94],
-                }}
                 whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                className={`relative flex flex-col rounded-2xl border p-5 transition-shadow hover:shadow-lg ${
+                className={`relative flex h-full flex-col rounded-2xl border p-5 transition-all hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.5)] ${
                   isPopular
-                    ? "border-white bg-white shadow-xl ring-2 ring-white ring-offset-2 ring-offset-[var(--background)]"
-                    : "border-[var(--border)] bg-[var(--surface)]"
+                    ? "border-[var(--foreground)]/40 bg-[var(--surface)] glow-surface"
+                    : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-hover)]"
                 }`}
               >
                 {offer.badge && (
-                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-neutral-900 px-4 py-1 text-[0.7rem] font-semibold uppercase tracking-widest text-white shadow-sm">
+                  <span className="absolute -top-3.5 left-1/2 z-10 -translate-x-1/2 rounded-full bg-[var(--foreground)] px-4 py-1 text-[0.7rem] font-semibold uppercase tracking-widest text-[var(--background)] shadow-sm">
                     {offer.badge}
                   </span>
                 )}
 
-                <div className={`mb-5 flex h-10 w-10 items-center justify-center rounded-xl ${isPopular ? "bg-neutral-100" : "bg-[var(--card)]"}`}>
-                  <Icon size={18} strokeWidth={1.75} className={isPopular ? "text-neutral-900" : "text-[var(--foreground)]"} />
+                <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--card)]">
+                  <Icon size={18} strokeWidth={1.75} className="text-[var(--foreground)]" />
                 </div>
 
-                <h3 className={`text-xl font-semibold ${isPopular ? "text-neutral-900" : "text-[var(--foreground)]"}`}>
+                <h3 className="text-xl font-semibold text-[var(--foreground)]">
                   {offer.title}
                 </h3>
-                <p className={`mt-2 text-[0.875rem] font-medium leading-snug ${isPopular ? "text-neutral-700" : "text-[var(--foreground)]"}`}>
+                <p className="mt-2 text-[0.875rem] leading-relaxed text-[var(--muted)]">
                   {offer.result}
                 </p>
-                <div className="mt-3">
+
+                <div className="mt-5 mb-8">
                   {offer.priceFrom && (
-                    <span className={`block text-[0.75rem] font-medium uppercase tracking-wider ${isPopular ? "text-neutral-500" : "text-[var(--muted)]"}`}>
+                    <span className="block text-[0.7rem] font-medium uppercase tracking-wider text-[var(--muted)]">
                       À partir de
                     </span>
                   )}
-                  <span className={`text-3xl font-bold tracking-tight ${isPopular ? "text-neutral-900" : "text-[var(--foreground)]"}`}>
-                    {offer.price} €
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-3xl font-bold tracking-tight text-[var(--foreground)]">
+                      {offer.price} €
+                    </span>
+                  </div>
+                  <span className="mt-2 inline-flex items-center gap-1.5 text-[0.75rem] font-medium text-[var(--muted)]">
+                    <Clock size={12} strokeWidth={2} />
+                    {offer.delivery === "Selon le projet" ? `Délai : ${offer.delivery}` : `Livraison en ${offer.delivery}`}
                   </span>
                 </div>
-                <p className={`mt-2 text-[0.75rem] leading-relaxed ${isPopular ? "text-neutral-500" : "text-[var(--muted)]"}`}>
-                  {offer.target}
-                </p>
-
-                <div className={`mt-4 flex items-center gap-2 rounded-lg px-3 py-2 text-[0.8125rem] font-medium ${isPopular ? "bg-neutral-100 text-neutral-600" : "bg-[var(--card)] text-[var(--muted)]"}`}>
-                  <Clock size={12} strokeWidth={2} />
-                  {offer.delivery === "Selon le projet" ? `Délai : ${offer.delivery}` : `Livraison en ${offer.delivery}`}
-                </div>
-
-                <div className={`my-5 h-px w-full ${isPopular ? "bg-neutral-200" : "bg-[var(--border)]"}`} />
-
-                <ul className="flex flex-1 flex-col gap-2.5">
-                  {offer.features.map((feat) => (
-                    <li key={feat} className="flex items-start gap-2.5">
-                      <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${isPopular ? "bg-neutral-100" : "bg-[var(--card)]"}`}>
-                        <Check size={9} strokeWidth={2.5} className={isPopular ? "text-neutral-900" : "text-[var(--foreground)]"} />
-                      </span>
-                      <span className={`text-[0.8125rem] leading-snug ${isPopular ? "text-neutral-600" : "text-[var(--muted)]"}`}>
-                        {feat}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
 
                 <Link
                   href="/offres"
-                  className={`mt-7 block rounded-full py-3 text-center text-[0.875rem] font-medium transition-all duration-200 ${
+                  className={`group/cta mt-auto flex items-center justify-center gap-1.5 rounded-full py-3 text-[0.875rem] font-medium transition-all duration-200 ${
                     isPopular
-                      ? "bg-neutral-900 text-white hover:bg-neutral-800"
-                      : "bg-[var(--foreground)] text-[var(--background)] hover:opacity-80"
+                      ? "bg-[var(--foreground)] text-[var(--background)] hover:opacity-85"
+                      : "border border-[var(--border-hover)] text-[var(--foreground)] hover:bg-[var(--card)]"
                   }`}
                 >
                   Choisir cette offre
+                  <ArrowRight size={14} strokeWidth={2} className="transition-transform group-hover/cta:translate-x-0.5" />
                 </Link>
+
+                {isPopular && (
+                  <BorderBeam
+                    size={120}
+                    duration={7}
+                    borderWidth={1.5}
+                    colorFrom="rgba(255,255,255,0)"
+                    colorTo="rgba(255,255,255,0.7)"
+                  />
+                )}
               </motion.div>
+              </BlurFade>
             );
           })}
         </div>

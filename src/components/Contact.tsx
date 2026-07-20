@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
 
 const projectTypes = [
   "Page Vitrine Rapide",
@@ -49,7 +50,7 @@ export function Contact() {
   const inputClass = "w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[0.9375rem] text-[var(--foreground)] placeholder:text-[var(--muted)] outline-none transition-colors focus:border-[var(--foreground)] hover:border-[var(--border-hover)]";
 
   return (
-    <section id="contact" className="section-padding border-t border-[var(--border)] overflow-hidden">
+    <section id="contact" className="section-padding border-t border-[var(--border)] bg-[var(--section-alt)] overflow-hidden">
       <div className="section-container min-w-0">
         <div className="mx-auto w-full max-w-2xl">
 
@@ -61,12 +62,7 @@ export function Contact() {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.52, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[var(--border-hover)] bg-[var(--surface)] px-4 py-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
-              <span className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
-                Passons à l&apos;action
-              </span>
-            </div>
+            <span className="eyebrow mb-5">Passons à l&apos;action</span>
             <h2 className="text-[2rem] font-light leading-[1.18] tracking-tight text-[var(--foreground)] sm:text-[2.5rem] md:text-[3rem]">
               Parlons de{" "}
               <span className="relative inline-block font-semibold">
@@ -167,7 +163,7 @@ export function Contact() {
                 </div>
 
                 {status === "error" && (
-                  <div className="mt-4 flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-[0.875rem] text-red-600">
+                  <div className="mt-4 flex items-center gap-2 rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[0.875rem] text-red-300">
                     <AlertCircle size={15} strokeWidth={2} className="shrink-0" />
                     Une erreur est survenue. Réessayez ou écrivez directement à contact@akwebsolutions.fr
                   </div>
@@ -180,19 +176,20 @@ export function Contact() {
                       07 82 92 38 06
                     </a>
                   </p>
-                  <motion.button
+                  <ShimmerButton
                     type="submit"
                     disabled={status === "loading"}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="inline-flex items-center justify-center gap-2.5 rounded-full bg-[var(--foreground)] px-8 py-3.5 text-[0.9375rem] font-medium text-[var(--background)] transition-opacity hover:opacity-80 disabled:opacity-50"
+                    background="var(--foreground)"
+                    shimmerColor="rgba(0,0,0,0.65)"
+                    borderRadius="9999px"
+                    className="gap-2.5 border-transparent px-8 py-3.5 text-[0.9375rem] font-medium !text-[var(--background)] disabled:opacity-50"
                   >
                     {status === "loading" ? (
                       <><Loader2 size={16} strokeWidth={2} className="animate-spin" /> Envoi…</>
                     ) : (
                       <><Send size={15} strokeWidth={2} /> Envoyer le message</>
                     )}
-                  </motion.button>
+                  </ShimmerButton>
                 </div>
               </form>
             )}

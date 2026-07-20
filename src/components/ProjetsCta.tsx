@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
 
 export function ProjetsCta() {
   return (
@@ -15,9 +16,7 @@ export function ProjetsCta() {
           transition={{ duration: 0.45 }}
           className="mx-auto max-w-2xl text-center"
         >
-          <p className="mb-3 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
-            Votre projet
-          </p>
+          <span className="eyebrow mb-3">Votre projet</span>
           <h2 className="text-[1.875rem] font-light tracking-tight text-[var(--foreground)] sm:text-[2.25rem] md:text-[2.75rem]">
             Vous avez un projet{" "}
             <span className="font-semibold">similaire ?</span>
@@ -25,19 +24,19 @@ export function ProjetsCta() {
           <p className="mt-4 text-[1rem] leading-[1.7] text-[var(--muted)] md:text-[1.0625rem]">
             Discutons-en. Tarifs fixes et transparents, réponse sous 24 h.
           </p>
-          <motion.div
-            className="mt-8 inline-block"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            <Link
-              href="/#contact"
-              className="inline-flex items-center gap-2.5 rounded-full bg-[var(--accent)] px-8 py-4 text-[0.9375rem] font-medium text-[var(--background)] shadow-lg transition-all hover:opacity-90 hover:shadow-xl hover:shadow-black/20"
-            >
-              Démarrer mon projet
-              <ArrowRight size={16} strokeWidth={2} />
+          <div className="mt-8 flex justify-center">
+            <Link href="/#contact" aria-label="Démarrer mon projet">
+              <ShimmerButton
+                background="var(--foreground)"
+                shimmerColor="rgba(0,0,0,0.65)"
+                borderRadius="9999px"
+                className="gap-2.5 border-transparent px-8 py-4 text-[0.9375rem] font-medium !text-[var(--background)]"
+              >
+                Démarrer mon projet
+                <ArrowRight size={16} strokeWidth={2} />
+              </ShimmerButton>
             </Link>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>

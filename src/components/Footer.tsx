@@ -5,6 +5,20 @@ import Link from "next/link";
 import { Logo } from "./Logo";
 import { Mail, MessageCircle, MapPin } from "lucide-react";
 import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { Marquee } from "@/components/ui/marquee";
+
+const keywords = [
+  "Sites vitrines",
+  "E-commerce",
+  "Sur mesure",
+  "Design responsive",
+  "SEO",
+  "Performance",
+  "Next.js",
+  "Identité visuelle",
+  "Prix fixes",
+  "Livraison rapide",
+];
 
 const navLinks = [
   { href: "/",          label: "Accueil"   },
@@ -28,6 +42,23 @@ export function Footer() {
 
   return (
     <footer className="min-w-0 border-t border-[var(--border)] bg-black text-white overflow-x-hidden">
+      {/* Bande de mots-clés défilante */}
+      <div className="relative border-b border-white/10 py-4">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-black to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-black to-transparent" />
+        <Marquee pauseOnHover className="[--duration:38s]">
+          {keywords.map((kw) => (
+            <span
+              key={kw}
+              className="mx-2 flex items-center gap-4 text-[0.8rem] font-medium uppercase tracking-[0.18em] text-white/35"
+            >
+              {kw}
+              <span className="h-1 w-1 rounded-full bg-white/20" />
+            </span>
+          ))}
+        </Marquee>
+      </div>
+
       <div className="section-container pt-12 pb-8 sm:pt-16 sm:pb-10 md:pt-20 md:pb-12">
 
         {/* Grille principale */}
