@@ -3,6 +3,7 @@ import { Fraunces, Geist } from "next/font/google";
 import "./globals.css";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { PageLoaderProvider } from "@/components/PageLoaderContext";
+import { SmoothScroll } from "@/components/SmoothScroll";
 import { JsonLd } from "@/components/JsonLd";
 import { cn } from "@/lib/utils";
 
@@ -99,9 +100,12 @@ export default function RootLayout({
     <html lang="fr" className={cn("font-sans", geist.variable)}>
       <body className={`${fraunces.variable} font-sans antialiased`}>
         <JsonLd />
+        <a href="#main" className="skip-link">Aller au contenu</a>
         <PageLoaderProvider>
-          {children}
-          <WhatsAppButton />
+          <SmoothScroll>
+            {children}
+            <WhatsAppButton />
+          </SmoothScroll>
         </PageLoaderProvider>
       </body>
     </html>

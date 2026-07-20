@@ -19,7 +19,7 @@ import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
 import { PricingSection } from "@/components/PricingSection";
 import { ProjectsPreview } from "@/components/ProjectsPreview";
-import { Testimonials } from "@/components/Testimonials";
+// import { Testimonials } from "@/components/Testimonials"; // réactivé plus tard
 import { AboutPreview } from "@/components/AboutPreview";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
@@ -28,11 +28,11 @@ export default function Home() {
   return (
     <div className="min-h-screen min-w-0 overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]">
       <Header />
-      <main className="min-w-0">
+      <main id="main" className="min-w-0">
         <Hero />
         <Services />
         <ProjectsPreview />
-        {/* <Testimonials /> */}
+        {/* <Testimonials /> — à réactiver quand les vrais avis seront prêts */}
         <AboutPreview />
         <PricingSection />
         <Contact />

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "./Logo";
@@ -25,6 +25,16 @@ export function Header() {
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
+    if (menuOpen) {
+      const onKey = (e: KeyboardEvent) => {
+        if (e.key === "Escape") setMenuOpen(false);
+      };
+      window.addEventListener("keydown", onKey);
+      return () => {
+        window.removeEventListener("keydown", onKey);
+        document.body.style.overflow = "";
+      };
+    }
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
@@ -101,9 +111,7 @@ export function Header() {
                 }`}
               >
                 {label}
-                <span className={`absolute bottom-0 left-3 right-3 h-px origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100 ${
-                  showSolidNav ? "bg-[var(--foreground)]" : "bg-white"
-                }`} />
+                <span className="absolute bottom-0 left-3 right-3 h-px origin-left scale-x-0 bg-[var(--accent)] transition-transform duration-300 group-hover:scale-x-100" />
               </Link>
             ))}
           </nav>
@@ -118,15 +126,14 @@ export function Header() {
         <div className="flex min-h-10 min-w-0 shrink-0 items-center justify-end">
           <Link
             href="/#contact"
-            className={`group relative px-3 py-2 text-[0.8rem] font-medium uppercase tracking-[0.12em] transition-colors ${
-              showSolidNav ? "text-foreground" : "text-white"
-            }`}
+            className="group relative inline-flex items-center overflow-hidden rounded-full border border-[var(--accent)]/50 bg-[var(--accent)]/10 px-4 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-[var(--accent-soft)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-white hover:shadow-[0_8px_28px_-8px_var(--accent)] sm:text-[0.75rem]"
           >
-            <span className="lg:hidden">Contact</span>
-            <span className="hidden lg:inline">Nous contacter</span>
-            <span className={`absolute bottom-0 left-3 right-3 h-px origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100 ${
-              showSolidNav ? "bg-foreground" : "bg-white"
-            }`} />
+            {/* remplissage violet depuis la gauche */}
+            <span aria-hidden className="absolute inset-0 origin-left scale-x-0 bg-[var(--accent)] transition-transform duration-300 ease-out group-hover:scale-x-100" />
+            {/* reflet qui balaye */}
+            <span aria-hidden className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full" />
+            <span className="relative z-10 lg:hidden">Contact</span>
+            <span className="relative z-10 hidden lg:inline">Nous contacter</span>
           </Link>
         </div>
       </div>
@@ -142,8 +149,10 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="fixed inset-0 z-9999 flex flex-col lg:hidden"
-            style={{ backgroundColor: "#0f0f0f" }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu de navigation"
+            className="fixed inset-0 z-9999 flex flex-col bg-[var(--background)] lg:hidden"
           >
             {/* Header du menu */}
             <div className="relative flex h-[5.25rem] shrink-0 items-center justify-center px-5">
@@ -188,7 +197,7 @@ export function Header() {
               <Link
                 href="/offres"
                 onClick={closeMenu}
-                className="block rounded-full bg-[var(--foreground)] px-6 py-4 text-center text-[1rem] font-medium text-background transition-opacity hover:opacity-80"
+                className="block rounded-full bg-[var(--accent)] px-6 py-4 text-center text-[1rem] font-medium text-white shadow-[0_10px_40px_-10px_var(--accent)] transition-colors hover:bg-[var(--accent-hover)]"
               >
                 Voir les offres
               </Link>

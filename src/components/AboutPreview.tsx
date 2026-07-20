@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { ArrowRight, Check } from "lucide-react";
 import { Aurora } from "@/components/Aurora";
 import { BorderBeam } from "@/components/ui/border-beam";
@@ -45,8 +45,8 @@ export function AboutPreview() {
               size={110}
               duration={9}
               borderWidth={1.5}
-              colorFrom="rgba(255,255,255,0)"
-              colorTo="rgba(255,255,255,0.55)"
+              colorFrom="rgba(109,94,255,0)"
+              colorTo="rgba(167,139,250,0.85)"
             />
           </div>
 

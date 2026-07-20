@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Send, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 
@@ -15,8 +15,11 @@ const projectTypes = [
 
 type Status = "idle" | "loading" | "success" | "error";
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export function Contact() {
   const [form, setForm] = useState({ name: "", email: "", projectType: "", message: "" });
+  const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
 
   const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
@@ -30,7 +33,7 @@ export function Contact() {
       projectType: form.projectType.trim(),
       message: form.message.trim(),
     };
-    if (!payload.email) {
+    if (!payload.name || !EMAIL_RE.test(payload.email) || !payload.message || !consent) {
       setStatus("error");
       return;
     }
@@ -47,7 +50,7 @@ export function Contact() {
     }
   };
 
-  const inputClass = "w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[0.9375rem] text-[var(--foreground)] placeholder:text-[var(--muted)] outline-none transition-colors focus:border-[var(--foreground)] hover:border-[var(--border-hover)]";
+  const inputClass = "w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[0.9375rem] text-[var(--foreground)] placeholder:text-[var(--muted)] outline-none transition-colors focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/30 hover:border-[var(--border-hover)]";
 
   return (
     <section id="contact" className="section-padding border-t border-[var(--border)] bg-[var(--section-alt)] overflow-hidden">
@@ -89,7 +92,7 @@ export function Contact() {
             transition={{ duration: 0.52, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             {status === "success" ? (
-              <div className="flex flex-col items-center gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-12 text-center">
+              <div role="status" aria-live="polite" className="flex flex-col items-center gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-12 text-center">
                 <CheckCircle2 size={40} strokeWidth={1.5} className="text-green-500" />
                 <h3 className="text-[1.25rem] font-semibold text-[var(--foreground)]">Message envoyé !</h3>
                 <p className="text-[0.9375rem] text-[var(--muted)]">Je vous réponds dans les 24 h. À très bientôt.</p>
@@ -102,7 +105,7 @@ export function Contact() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} method="post" className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8">
+              <form onSubmit={handleSubmit} noValidate className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="flex flex-col gap-1.5">
                     <label htmlFor="contact-name" className="text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">Nom *</label>
@@ -162,10 +165,25 @@ export function Contact() {
                   />
                 </div>
 
+                {/* Consentement RGPD */}
+                <label htmlFor="contact-consent" className="mt-5 flex cursor-pointer items-start gap-2.5 text-[0.8125rem] leading-relaxed text-[var(--muted)]">
+                  <input
+                    id="contact-consent"
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--accent)]"
+                  />
+                  <span>
+                    J&apos;accepte que mes informations soient utilisées pour être recontacté(e). Voir la{" "}
+                    <a href="/confidentialite" className="text-[var(--accent-soft)] underline underline-offset-2 hover:text-[var(--foreground)]">politique de confidentialité</a>.
+                  </span>
+                </label>
+
                 {status === "error" && (
-                  <div className="mt-4 flex items-center gap-2 rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[0.875rem] text-red-300">
+                  <div role="alert" className="mt-4 flex items-center gap-2 rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-[0.875rem] text-red-300">
                     <AlertCircle size={15} strokeWidth={2} className="shrink-0" />
-                    Une erreur est survenue. Réessayez ou écrivez directement à contact@akwebsolutions.fr
+                    Vérifiez votre nom, un email valide, votre message et le consentement — ou écrivez à contact@akwebsolutions.fr
                   </div>
                 )}
 
@@ -179,10 +197,10 @@ export function Contact() {
                   <ShimmerButton
                     type="submit"
                     disabled={status === "loading"}
-                    background="var(--foreground)"
-                    shimmerColor="rgba(0,0,0,0.65)"
+                    background="var(--accent)"
+                    shimmerColor="rgba(255,255,255,0.85)"
                     borderRadius="9999px"
-                    className="gap-2.5 border-transparent px-8 py-3.5 text-[0.9375rem] font-medium !text-[var(--background)] disabled:opacity-50"
+                    className="gap-2.5 border-transparent px-8 py-3.5 text-[0.9375rem] font-medium !text-white shadow-[0_10px_40px_-10px_var(--accent)] disabled:opacity-50"
                   >
                     {status === "loading" ? (
                       <><Loader2 size={16} strokeWidth={2} className="animate-spin" /> Envoi…</>

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Image from "next/image";
 
 const LOGO_SRC = "/images/logo3.png";
@@ -15,9 +15,15 @@ export function PageLoader({ progress }: PageLoaderProps) {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[var(--background)]"
       aria-hidden
     >
+      {/* Halo violet ambiant */}
+      <div
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[320px] w-[520px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{ background: "radial-gradient(ellipse at center, rgba(109,94,255,0.18) 0%, rgba(109,94,255,0) 70%)", filter: "blur(40px)" }}
+      />
+
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -47,7 +53,7 @@ export function PageLoader({ progress }: PageLoaderProps) {
       {/* Barre de chargement — synchronisée avec le chargement réel */}
       <div className="absolute left-0 right-0 top-0 h-[3px] bg-white/10">
         <motion.div
-          className="h-full bg-[var(--foreground)]"
+          className="h-full bg-[var(--accent)] shadow-[0_0_12px_2px_var(--accent)]"
           initial={{ width: "0%" }}
           animate={{ width: `${Math.min(100, progress)}%` }}
           transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}

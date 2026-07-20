@@ -2,13 +2,16 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { usePageLoader } from "@/components/PageLoaderContext";
 import dynamic from "next/dynamic";
 
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
+import { AuroraText } from "@/components/ui/aurora-text";
+
+const AURORA = ["#6D5EFF", "#A78BFA", "#8B7EFF", "#C4B5FD"];
 
 const BlurText = dynamic(() => import("@/components/BlurText").then((m) => m.default), { ssr: false });
 const Beams = dynamic(() => import("@/components/Beams").then((m) => m.Beams), { ssr: false });
@@ -46,17 +49,17 @@ export function Hero() {
         beamNumber={10}
         beamWidth={2}
         beamHeight={18}
-        lightColor="#ffffff"
+        lightColor="#9C88FF"
         speed={1.2}
         noiseIntensity={1.5}
         scale={0.18}
         rotation={20}
       />
 
-      {/* Halo lumineux derrière le titre */}
+      {/* Halo violet derrière le titre */}
       <div
-        className="pointer-events-none absolute left-1/2 top-[42%] z-[1] h-[380px] w-[820px] max-w-[95vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{ background: "radial-gradient(ellipse at center, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0) 70%)", filter: "blur(40px)" }}
+        className="pointer-events-none absolute left-1/2 top-[42%] z-[1] h-[420px] w-[860px] max-w-[95vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{ background: "radial-gradient(ellipse at center, rgba(109,94,255,0.28) 0%, rgba(109,94,255,0) 70%)", filter: "blur(50px)" }}
         aria-hidden
       />
 
@@ -86,8 +89,8 @@ export function Hero() {
           className="mb-6 hidden items-center gap-2.5 rounded-full border border-white/20 bg-white/[0.07] px-4 py-1.5 backdrop-blur-md sm:mb-8 sm:inline-flex"
         >
           <span className="relative flex h-1.5 w-1.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/60" />
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-white" />
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)]/70" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
           </span>
           <span className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75 sm:text-[0.7rem] sm:tracking-[0.22em]">
             Agence Web · Sites sur mesure
@@ -106,13 +109,13 @@ export function Hero() {
             >
               Des sites web{" "}
               <span className="relative font-display font-semibold italic">
-                élégants
+                <AuroraText colors={AURORA} speed={1.2}>élégants</AuroraText>
                 <motion.span
                   initial={{ scaleX: 0 }}
                   animate={animate}
                   variants={{ hidden: { scaleX: 0 }, visible: { scaleX: 1 } }}
                   transition={{ duration: 0.45, delay: 0.75, ease: [0.25, 0.46, 0.45, 0.94] }}
-                  className="absolute -bottom-1 left-0 h-[2px] w-full origin-left bg-white/70"
+                  className="absolute -bottom-1 left-0 h-[2px] w-full origin-left bg-[var(--accent)]"
                 />
               </span>
             </motion.span>
@@ -153,10 +156,10 @@ export function Hero() {
         >
           <Link href="/offres" aria-label="Démarrer mon projet" className="w-full sm:w-auto">
             <ShimmerButton
-              background="#ffffff"
-              shimmerColor="rgba(0,0,0,0.55)"
+              background="var(--accent)"
+              shimmerColor="rgba(255,255,255,0.85)"
               borderRadius="9999px"
-              className="w-full gap-2 border-transparent px-6 py-3 text-[0.875rem] font-semibold !text-black sm:w-auto sm:px-10 sm:py-4 sm:text-[0.9375rem]"
+              className="w-full gap-2 border-transparent px-6 py-3 text-[0.875rem] font-semibold !text-white shadow-[0_10px_40px_-10px_var(--accent)] transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_50px_-10px_var(--accent)] sm:w-auto sm:px-10 sm:py-4 sm:text-[0.9375rem]"
             >
               Démarrer mon projet
               <ArrowRight size={16} strokeWidth={2.25} />
@@ -165,7 +168,7 @@ export function Hero() {
           <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
             <Link
               href="/#services"
-              className="inline-flex w-full items-center justify-center rounded-full border border-white/25 px-6 py-3 text-[0.875rem] font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/10 sm:w-auto sm:px-10 sm:py-4 sm:text-[0.9375rem]"
+              className="inline-flex w-full items-center justify-center rounded-full border border-white/25 px-6 py-3 text-[0.875rem] font-medium text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--accent)]/70 hover:bg-[var(--accent)]/10 hover:shadow-[0_8px_28px_-10px_var(--accent)] sm:w-auto sm:px-10 sm:py-4 sm:text-[0.9375rem]"
             >
               Voir nos services
             </Link>
@@ -187,38 +190,38 @@ export function Hero() {
             </span>
           ))}
         </motion.div>
-      </div>
 
-      {/* ── Bande de preuve (stats) ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={animate}
-        variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}
-        transition={{ duration: 0.6, delay: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="relative z-10 border-t border-white/10 bg-black/25 backdrop-blur-[2px]"
-      >
-        <div className="section-container flex items-stretch justify-center divide-x divide-white/10">
+        {/* ── Stats : 3 cartes verre violettes ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={animate}
+          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          transition={{ duration: 0.6, delay: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="mt-10 grid w-full max-w-xl grid-cols-3 gap-3 sm:mt-12 sm:gap-4"
+        >
           {stats.map((s) => (
             <div
               key={s.label}
-              className="flex flex-1 flex-col items-center gap-0.5 px-3 py-5 sm:flex-row sm:items-baseline sm:justify-center sm:gap-2 sm:px-6 sm:py-6"
+              className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] px-2 py-4 backdrop-blur-md transition-colors hover:border-[var(--accent)]/40 sm:px-4 sm:py-5"
             >
-              <span className="flex items-baseline whitespace-nowrap text-[1.375rem] font-semibold leading-none text-white sm:text-[1.75rem]">
+              {/* glow violet */}
+              <div className="pointer-events-none absolute -top-10 left-1/2 h-20 w-20 -translate-x-1/2 rounded-full bg-[var(--accent)]/30 blur-2xl" />
+              <p className="relative flex items-baseline justify-center whitespace-nowrap text-[1.5rem] font-semibold leading-none text-[var(--accent-soft)] sm:text-[2rem]">
                 <NumberTicker
                   key={`${s.label}-${statsKey}`}
                   value={s.to}
                   delay={0.4}
-                  className="text-white"
+                  className="text-[var(--accent-soft)]"
                 />
                 <span className="ml-0.5">{s.suffix}</span>
-              </span>
-              <span className="text-center text-[0.6rem] font-medium uppercase tracking-[0.12em] text-white/55 sm:text-left sm:text-[0.72rem]">
+              </p>
+              <p className="relative mt-1.5 text-center text-[0.58rem] font-medium uppercase leading-tight tracking-[0.1em] text-white/55 sm:text-[0.68rem]">
                 {s.label}
-              </span>
+              </p>
             </div>
           ))}
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </section>
   );
 }

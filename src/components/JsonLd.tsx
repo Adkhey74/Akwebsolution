@@ -11,7 +11,7 @@ export function JsonLd() {
     alternateName: "AK Web Solutions",
     url: "https://akwebsolutions.fr",
     logo: "https://akwebsolutions.fr/images/logo3.png",
-    image: "https://akwebsolutions.fr/images/og-image.png",
+    image: "https://akwebsolutions.fr/opengraph-image",
     description:
       "Agence web spécialisée en création de sites vitrines, e-commerce et sur mesure. Design élégant, responsive, SEO optimisé. Prix fixes, livraison rapide.",
     telephone: "+33782923806",
@@ -85,14 +85,6 @@ export function JsonLd() {
     description: "Création de sites web sur mesure — AKWebSolution",
     publisher: {
       "@id": "https://akwebsolutions.fr/#organization",
-    },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: "https://akwebsolutions.fr/?q={search_term_string}",
-      },
-      "query-input": "required name=search_term_string",
     },
     inLanguage: "fr-FR",
   };

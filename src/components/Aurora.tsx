@@ -45,9 +45,9 @@ export function Aurora() {
         const radius = blob.r * Math.max(w, h);
 
         const grad = ctx.createRadialGradient(px, py, 0, px, py, radius);
-        grad.addColorStop(0,   `rgba(255,255,255,${blob.opacity})`);
-        grad.addColorStop(0.5, `rgba(255,255,255,${blob.opacity * 0.3})`);
-        grad.addColorStop(1,   `rgba(255,255,255,0)`);
+        grad.addColorStop(0,   `rgba(124,107,255,${blob.opacity * 2.2})`);
+        grad.addColorStop(0.5, `rgba(124,107,255,${blob.opacity * 0.7})`);
+        grad.addColorStop(1,   `rgba(124,107,255,0)`);
 
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, w, h);

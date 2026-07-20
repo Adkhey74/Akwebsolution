@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Link from "next/link";
 import { Logo } from "./Logo";
 import { Mail, MessageCircle, MapPin } from "lucide-react";
@@ -189,7 +189,7 @@ export function Footer() {
             </p>
             <Link
               href="/offres"
-              className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 text-[0.8125rem] font-medium text-white transition-all hover:bg-white hover:text-black"
+              className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/10 px-5 py-2.5 text-[0.8125rem] font-medium text-[var(--accent-soft)] transition-all hover:bg-[var(--accent)] hover:text-white"
             >
               Voir les offres
             </Link>

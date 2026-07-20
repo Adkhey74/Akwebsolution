@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 
@@ -27,10 +27,10 @@ export function ProjetsCta() {
           <div className="mt-8 flex justify-center">
             <Link href="/#contact" aria-label="Démarrer mon projet">
               <ShimmerButton
-                background="var(--foreground)"
-                shimmerColor="rgba(0,0,0,0.65)"
+                background="var(--accent)"
+                shimmerColor="rgba(255,255,255,0.85)"
                 borderRadius="9999px"
-                className="gap-2.5 border-transparent px-8 py-4 text-[0.9375rem] font-medium !text-[var(--background)]"
+                className="gap-2.5 border-transparent px-8 py-4 text-[0.9375rem] font-medium !text-white shadow-[0_10px_40px_-10px_var(--accent)]"
               >
                 Démarrer mon projet
                 <ArrowRight size={16} strokeWidth={2} />

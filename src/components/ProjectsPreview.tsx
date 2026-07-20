@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { BlurFade } from "@/components/ui/blur-fade";
 
@@ -47,12 +47,7 @@ export function ProjectsPreview() {
           transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <div className="max-w-xl">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[var(--border-hover)] bg-[var(--surface)] px-4 py-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
-              <span className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
-                Réalisations
-              </span>
-            </div>
+            <span className="eyebrow mb-5">Réalisations</span>
             <h2 className="text-[1.875rem] font-light leading-[1.15] tracking-tight text-[var(--foreground)] sm:text-[2.25rem] md:text-[2.75rem]">
               Ce que nous avons{" "}
               <span className="relative inline-block font-semibold">
@@ -85,10 +80,18 @@ export function ProjectsPreview() {
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
               className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-sm transition-all hover:border-[var(--border-hover)] hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.5)]"
             >
-              {/* Halo au survol */}
-              <div className="pointer-events-none absolute -top-1/3 left-1/2 z-0 h-2/3 w-2/3 -translate-x-1/2 rounded-full bg-white/[0.06] opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
+              {/* Halo violet au survol */}
+              <div className="pointer-events-none absolute -top-1/3 left-1/2 z-0 h-2/3 w-2/3 -translate-x-1/2 rounded-full bg-[var(--accent)]/20 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
+
+              {/* Fenêtre navigateur */}
+              <div className="relative z-[1] flex items-center gap-1.5 border-b border-[var(--border)] bg-[var(--card)] px-4 py-2.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+                <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+                <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+                <span className="ml-3 hidden h-4 flex-1 rounded-full bg-white/[0.04] sm:block" />
+              </div>
               {/* Image */}
-              <div className="relative aspect-[16/10] w-full overflow-hidden bg-[var(--surface)]">
+              <div className="relative z-[1] aspect-[16/10] w-full overflow-hidden bg-[var(--surface)]">
                 <Image
                   src={project.image.src}
                   alt={project.image.alt}
@@ -136,7 +139,7 @@ export function ProjectsPreview() {
 
                 <Link
                   href={`/projets#${project.id}`}
-                  className="mt-auto inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-[var(--accent)] transition-opacity hover:opacity-70"
+                  className="mt-auto inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-[var(--accent-soft)] transition-opacity hover:opacity-70"
                 >
                   Voir le projet
                   <ArrowRight size={13} strokeWidth={2} />

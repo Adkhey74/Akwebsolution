@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { ChevronLeft, ChevronRight, ExternalLink, Calendar, Tag, X, ZoomIn } from "lucide-react";
 
 export type ProjectImage = { src: string; alt: string };

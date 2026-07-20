@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -90,7 +90,7 @@ export default function OffresPage() {
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
       <Header />
-      <main>
+      <main id="main">
         {/* Header section */}
         <section className="section-container pt-28 pb-12 sm:pt-36 sm:pb-16 md:pt-44 md:pb-20">
           <div className="mx-auto w-full max-w-[75rem] text-center">
@@ -123,13 +123,13 @@ export default function OffresPage() {
                     whileHover={{ y: -4, transition: { duration: 0.2 } }}
                     className={`relative flex h-full flex-col rounded-2xl border p-5 transition-all hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.5)] ${
                       isPopular
-                        ? "border-[var(--foreground)]/40 bg-[var(--surface)] glow-surface"
+                        ? "border-[var(--accent)]/50 bg-[var(--surface)] glow-surface"
                         : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-hover)]"
                     }`}
                   >
                     {/* Badge populaire */}
                     {offer.badge && (
-                      <span className="absolute -top-3.5 left-1/2 z-10 -translate-x-1/2 rounded-full bg-[var(--foreground)] px-4 py-1 text-[0.7rem] font-semibold uppercase tracking-widest text-[var(--background)] shadow-sm">
+                      <span className="absolute -top-3.5 left-1/2 z-10 -translate-x-1/2 rounded-full bg-[var(--accent)] px-4 py-1 text-[0.7rem] font-semibold uppercase tracking-widest text-white shadow-[0_8px_24px_-6px_var(--accent)]">
                         {offer.badge}
                       </span>
                     )}
@@ -190,7 +190,7 @@ export default function OffresPage() {
                       href="/#contact"
                       className={`mt-8 block rounded-full py-3 text-center text-[0.875rem] font-medium transition-all duration-200 ${
                         isPopular
-                          ? "bg-[var(--foreground)] text-[var(--background)] hover:opacity-85"
+                          ? "bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)]"
                           : "border border-[var(--border-hover)] text-[var(--foreground)] hover:bg-[var(--card)]"
                       }`}
                     >
@@ -202,8 +202,8 @@ export default function OffresPage() {
                         size={120}
                         duration={7}
                         borderWidth={1.5}
-                        colorFrom="rgba(255,255,255,0)"
-                        colorTo="rgba(255,255,255,0.7)"
+                        colorFrom="rgba(109,94,255,0)"
+                        colorTo="rgba(167,139,250,0.9)"
                       />
                     )}
                   </motion.div>

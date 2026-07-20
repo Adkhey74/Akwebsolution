@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "motion/react";
 import { PageLoader } from "@/components/PageLoader";
 
 type PageLoaderContextValue = {
@@ -12,10 +12,10 @@ type PageLoaderContextValue = {
 
 const PageLoaderContext = createContext<PageLoaderContextValue | null>(null);
 
-const MIN_LOAD_MS = 800;
-const MIN_LOAD_HOME_MS = 1100;
-const READY_DELAY_MS = 400;
-const MAX_WAIT_MS = 5000;
+const MIN_LOAD_MS = 250;
+const MIN_LOAD_HOME_MS = 400;
+const READY_DELAY_MS = 150;
+const MAX_WAIT_MS = 3000;
 
 export function usePageLoader() {
   const ctx = useContext(PageLoaderContext);

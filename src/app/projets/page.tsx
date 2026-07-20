@@ -77,7 +77,7 @@ export default function ProjetsPage() {
   return (
     <div className="min-h-screen min-w-0 overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]">
       <Header />
-      <main className="min-w-0">
+      <main id="main" className="min-w-0">
         <ProjetsHeader />
 
         <section className="section-container min-w-0 pb-20 md:pb-24 lg:pb-32">

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Aurora } from "@/components/Aurora";
 import { BorderBeam } from "@/components/ui/border-beam";
@@ -39,8 +39,8 @@ export function AProposContent() {
           size={160}
           duration={10}
           borderWidth={1.5}
-          colorFrom="rgba(255,255,255,0)"
-          colorTo="rgba(255,255,255,0.5)"
+          colorFrom="rgba(109,94,255,0)"
+          colorTo="rgba(167,139,250,0.85)"
         />
         {/* Colonne photo */}
         <motion.div
@@ -130,7 +130,7 @@ export function AProposContent() {
           >
             <Link
               href="/#contact"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--foreground)] px-6 py-3 text-[0.9rem] font-semibold text-[var(--background)] transition-all hover:bg-[var(--foreground)]/80"
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 text-[0.9rem] font-semibold text-white shadow-[0_10px_40px_-10px_var(--accent)] transition-all hover:bg-[var(--accent-hover)]"
             >
               Me contacter
               <ArrowRight size={15} strokeWidth={2} />

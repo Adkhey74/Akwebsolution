@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Layout, Smartphone, Zap, Palette, Search, Shield } from "lucide-react";
 import SpotlightCard from "@/components/SpotlightCard";
 import { BorderBeam } from "@/components/ui/border-beam";
@@ -96,7 +96,7 @@ export function Services() {
               >
                 <SpotlightCard
                   className="group !rounded-2xl !border-[var(--border)] !bg-[var(--surface)] !p-7 h-full transition-colors hover:!border-[var(--border-hover)] md:!p-8"
-                  spotlightColor="rgba(255, 255, 255, 0.12)"
+                  spotlightColor="rgba(124, 107, 255, 0.18)"
                 >
                   {/* Numéro */}
                   <span className="absolute right-6 top-6 text-[0.7rem] font-semibold tabular-nums text-[var(--border-hover)] select-none">
@@ -130,8 +130,8 @@ export function Services() {
                       size={110}
                       duration={7}
                       borderWidth={1.5}
-                      colorFrom="rgba(255,255,255,0)"
-                      colorTo="rgba(255,255,255,0.7)"
+                      colorFrom="rgba(109,94,255,0)"
+                      colorTo="rgba(167,139,250,0.9)"
                     />
                   )}
                 </SpotlightCard>

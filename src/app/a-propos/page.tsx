@@ -19,7 +19,7 @@ export default function AProposPage() {
   return (
     <div className="min-h-screen min-w-0 overflow-x-hidden bg-transparent">
       <Header />
-      <main className="min-w-0">
+      <main id="main" className="min-w-0">
         <AProposContent />
       </main>
       <Footer />

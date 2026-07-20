@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Star } from "lucide-react";
 
 const testimonials = [
@@ -47,12 +47,7 @@ export function Testimonials() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[var(--border-hover)] bg-[var(--surface)] px-4 py-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
-            <span className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
-              Avis clients
-            </span>
-          </div>
+          <span className="eyebrow mb-5">Avis clients</span>
           <h2 className="text-[1.875rem] font-light leading-[1.15] tracking-tight text-[var(--foreground)] sm:text-[2.25rem] md:text-[2.75rem]">
             Ils nous ont fait{" "}
             <span className="relative inline-block font-semibold">
@@ -102,7 +97,7 @@ export function Testimonials() {
 
               {/* Auteur */}
               <div className="flex items-center gap-3 border-t border-[var(--border)] pt-4">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--card)] text-[0.8125rem] font-semibold text-[var(--foreground)]">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/15 text-[0.8125rem] font-semibold text-[var(--accent-soft)]">
                   {t.name.charAt(0)}
                 </div>
                 <div>
