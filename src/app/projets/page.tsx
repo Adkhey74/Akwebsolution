@@ -24,6 +24,24 @@ export const metadata: Metadata = {
 
 const projects = [
   {
+    id: "orbitgroup",
+    title: "Orbit Group",
+    category: "Site vitrine premium",
+    year: "2026",
+    url: undefined,
+    tags: ["Sécurité", "Site vitrine", "Corporate", "Mobilité"],
+    description:
+      "Site vitrine premium et confidentiel pour un partenaire de sécurité et de mobilité de dirigeants : design sombre haut de gamme, couverture internationale et demande de contact confidentielle.",
+    images: [
+      { src: "/images/OrbitGroup/hero.png",                 alt: "Orbit Group - page d'accueil"        },
+      { src: "/images/OrbitGroup/services.png",             alt: "Orbit Group - services"              },
+      { src: "/images/OrbitGroup/what-sets-us.png",         alt: "Orbit Group - ce qui les distingue"  },
+      { src: "/images/OrbitGroup/demaindingenvironment.png", alt: "Orbit Group - environnements exigeants" },
+      { src: "/images/OrbitGroup/map.png",                  alt: "Orbit Group - couverture internationale" },
+      { src: "/images/OrbitGroup/contact.png",              alt: "Orbit Group - contact confidentiel"  },
+    ],
+  },
+  {
     id: "kabuki",
     title: "Kabuki",
     category: "Site vitrine",

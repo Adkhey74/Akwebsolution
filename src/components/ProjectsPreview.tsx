@@ -8,6 +8,14 @@ import { BlurFade } from "@/components/ui/blur-fade";
 
 const projects = [
   {
+    id: "orbitgroup",
+    title: "Orbit Group",
+    category: "Site vitrine premium",
+    tags: ["Sécurité", "Corporate"],
+    image: { src: "/images/OrbitGroup/hero.png", alt: "Orbit Group - Page d'accueil" },
+    url: undefined as string | undefined,
+  },
+  {
     id: "kabuki",
     title: "Kabuki",
     category: "Site vitrine",
@@ -22,14 +30,6 @@ const projects = [
     tags: ["Multi-pages", "SEO"],
     image: { src: "/images/herntaxi/acceuil-new.png", alt: "HernTaxi - Page d'accueil" },
     url: "https://herntaxi.fr",
-  },
-  {
-    id: "thermochrono",
-    title: "ThermoChrono",
-    category: "E-commerce",
-    tags: ["Boutique", "Paiement sécurisé"],
-    image: { src: "/images/thermochrono/acceuil.png", alt: "ThermoChrono - Page d'accueil" },
-    url: "https://thermochrono.fr",
   },
 ];
 

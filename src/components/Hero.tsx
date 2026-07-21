@@ -10,11 +10,13 @@ import dynamic from "next/dynamic";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { AuroraText } from "@/components/ui/aurora-text";
+import { HeroBackground } from "@/components/HeroBackground";
 
 const AURORA = ["#6D5EFF", "#A78BFA", "#8B7EFF", "#C4B5FD"];
 
 const BlurText = dynamic(() => import("@/components/BlurText").then((m) => m.default), { ssr: false });
-const Beams = dynamic(() => import("@/components/Beams").then((m) => m.Beams), { ssr: false });
+// Fond Beams (three.js) — conservé pour revenir en arrière si besoin :
+// const Beams = dynamic(() => import("@/components/Beams").then((m) => m.Beams), { ssr: false });
 
 const stats = [
   { to: 5, suffix: "+", label: "ans d'expérience" },
@@ -44,7 +46,10 @@ export function Hero() {
   return (
     <section className="relative flex h-[calc(100vh+5.25rem)] min-h-[calc(100dvh+5.25rem)] flex-col overflow-hidden pt-32 -mt-[5.25rem] md:h-[calc(100vh+6rem)] md:min-h-[calc(100dvh+6rem)] md:-mt-24 md:pt-40">
 
-      {/* Beams background */}
+      {/* Fond animé CSS (remplace les Beams three.js — perf) */}
+      <HeroBackground />
+
+      {/* — Ancien fond Beams (three.js), conservé pour revenir en arrière :
       <Beams
         beamNumber={10}
         beamWidth={2}
@@ -54,7 +59,7 @@ export function Hero() {
         noiseIntensity={1.5}
         scale={0.18}
         rotation={20}
-      />
+      /> */}
 
       {/* Halo violet derrière le titre */}
       <div

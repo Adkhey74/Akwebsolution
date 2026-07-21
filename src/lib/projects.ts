@@ -27,6 +27,47 @@ export type CaseStudy = {
 
 export const projects: CaseStudy[] = [
   {
+    slug: "orbitgroup",
+    title: "Orbit Group",
+    client: "Orbit Group — Sécurité & mobilité de dirigeants",
+    category: "Site vitrine premium",
+    sector: "Protection rapprochée & mobilité (executive protection)",
+    year: "2026",
+    location: "International",
+    url: undefined,
+    summary:
+      "Site vitrine premium et confidentiel pour un partenaire de sécurité et de mobilité au service des family offices, dirigeants et grands principaux. Design sombre, discret et haut de gamme, couverture internationale et prise de contact confidentielle.",
+    challenge:
+      "S'adresser à une clientèle très exigeante (family offices, dirigeants) exige d'inspirer une confiance absolue et de dégager du prestige, tout en restant d'une discrétion totale. Le site devait présenter les services (protection, mobilité), afficher une présence internationale crédible et offrir un canal de contact confidentiel — sans jamais exposer d'informations sensibles, et avec un rendu à la hauteur d'un positionnement d'élite.",
+    solution: [
+      "Direction artistique sombre, sobre et luxueuse, qui traduit discrétion et précision opérationnelle.",
+      "Structure claire : À propos, Services, Couverture, Réseau et Contact.",
+      "Parcours de « demande confidentielle » dédié, mis en avant dès l'en-tête.",
+      "Présence internationale matérialisée par une carte et des coordonnées (Paris, Genève, Nice, Monaco, Londres…).",
+      "Animations fluides et haut de gamme, site rapide et 100 % responsive.",
+    ],
+    results: [
+      "Une image en ligne à la hauteur d'un positionnement premium et confidentiel.",
+      "Un canal de demande confidentielle clair et rassurant.",
+      "Une couverture internationale mise en valeur.",
+    ],
+    tags: ["Sécurité", "Site vitrine premium", "Corporate", "Mobilité"],
+    techs: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
+    cover: { src: "/images/OrbitGroup/hero.png", alt: "Orbit Group — page d'accueil du site" },
+    images: [
+      { src: "/images/OrbitGroup/hero.png", alt: "Orbit Group — page d'accueil" },
+      { src: "/images/OrbitGroup/services.png", alt: "Orbit Group — services" },
+      { src: "/images/OrbitGroup/what-sets-us.png", alt: "Orbit Group — ce qui les distingue" },
+      { src: "/images/OrbitGroup/demaindingenvironment.png", alt: "Orbit Group — environnements exigeants" },
+      { src: "/images/OrbitGroup/map.png", alt: "Orbit Group — couverture internationale" },
+      { src: "/images/OrbitGroup/joinus.png", alt: "Orbit Group — recrutement" },
+      { src: "/images/OrbitGroup/contact.png", alt: "Orbit Group — contact confidentiel" },
+    ],
+    metaTitle: "Étude de cas : site vitrine premium — Orbit Group",
+    metaDescription:
+      "Création d'un site vitrine premium et confidentiel pour Orbit Group, partenaire de sécurité et de mobilité de dirigeants : design sombre haut de gamme, couverture internationale. Étude de cas AKWebSolution.",
+  },
+  {
     slug: "kabuki",
     title: "Kabuki",
     client: "Kabuki — Restaurant japonais",
