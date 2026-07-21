@@ -22,7 +22,7 @@ export function ProjetsCta() {
             <span className="font-semibold">similaire ?</span>
           </h2>
           <p className="mt-4 text-[1rem] leading-[1.7] text-[var(--muted)] md:text-[1.0625rem]">
-            Discutons-en. Tarifs fixes et transparents, réponse sous 24 h.
+            Discutons-en. Tarifs transparents, réponse sous 24 h.
           </p>
           <div className="mt-8 flex justify-center">
             <Link href="/#contact" aria-label="Démarrer mon projet">

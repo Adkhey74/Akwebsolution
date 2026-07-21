@@ -138,10 +138,10 @@ export function ProjectsPreview() {
                 </div>
 
                 <Link
-                  href={`/projets#${project.id}`}
+                  href={`/projets/${project.id}`}
                   className="mt-auto inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-[var(--accent-soft)] transition-opacity hover:opacity-70"
                 >
-                  Voir le projet
+                  Voir l'étude de cas
                   <ArrowRight size={13} strokeWidth={2} />
                 </Link>
               </div>

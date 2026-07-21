@@ -22,7 +22,7 @@ const stats = [
   { to: 24, suffix: "h", label: "Délai de réponse" },
 ];
 
-const trust = ["Prix fixe, sans surprise", "Sans engagement", "Livraison rapide"];
+const trust = ["Tarifs transparents", "Sans engagement", "Livraison rapide"];
 
 // Grain SVG (fractal noise) encodé en data-URI
 const GRAIN =
@@ -93,7 +93,7 @@ export function Hero() {
             <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
           </span>
           <span className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75 sm:text-[0.7rem] sm:tracking-[0.22em]">
-            Agence Web · Sites sur mesure
+            Agence Web à Annecy · Sites sur mesure
           </span>
         </motion.div>
 
@@ -137,7 +137,7 @@ export function Hero() {
         <div className="mt-6 max-w-[40rem]">
           {/* @ts-expect-error BlurText props optionnelles */}
           <BlurText
-            text="Sites rapides, clairs et adaptés à votre activité. Une présence en ligne professionnelle, à votre image."
+            text="Développeur web freelance à Annecy. Sites rapides, clairs et adaptés à votre activité — une présence en ligne professionnelle, à votre image, en Haute-Savoie et partout en France."
             animateBy="words"
             direction="top"
             delay={100}

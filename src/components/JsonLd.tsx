@@ -13,17 +13,21 @@ export function JsonLd() {
     logo: "https://akwebsolutions.fr/images/logo3.png",
     image: "https://akwebsolutions.fr/opengraph-image",
     description:
-      "Agence web spécialisée en création de sites vitrines, e-commerce et sur mesure. Design élégant, responsive, SEO optimisé. Prix fixes, livraison rapide.",
+      "Agence web spécialisée en création de sites vitrines, e-commerce et sur mesure. Design élégant, responsive, SEO optimisé. Tarifs transparents, livraison rapide.",
     telephone: "+33782923806",
     email: "contact@akwebsolutions.fr",
     address: {
       "@type": "PostalAddress",
+      addressLocality: "Annecy",
+      addressRegion: "Haute-Savoie",
+      postalCode: "74000",
       addressCountry: "FR",
     },
-    areaServed: {
-      "@type": "Country",
-      name: "France",
-    },
+    areaServed: [
+      { "@type": "City", name: "Annecy" },
+      { "@type": "AdministrativeArea", name: "Haute-Savoie" },
+      { "@type": "Country", name: "France" },
+    ],
     priceRange: "€€",
     currenciesAccepted: "EUR",
     paymentAccepted: "Virement bancaire, Carte bancaire",

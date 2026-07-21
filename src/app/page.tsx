@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 
 export const metadata: Metadata = {
-  title: "AKWebSolution | Création de sites web sur mesure",
+  title: "Création de sites web à Annecy | AKWebSolution",
   description:
-    "AKWebSolution — Agence web freelance spécialisée en création de sites vitrines, e-commerce et sur mesure. Design élégant, responsive, SEO optimisé. Prix fixes, livraison rapide.",
+    "Développeur web freelance à Annecy (Haute-Savoie). Création de sites vitrines, e-commerce et sur mesure : design élégant, responsive, optimisé SEO. Tarifs transparents, livraison rapide. Devis gratuit.",
   alternates: {
     canonical: "https://akwebsolutions.fr",
   },
   openGraph: {
     url: "https://akwebsolutions.fr",
-    title: "AKWebSolution | Création de sites web sur mesure",
+    title: "Création de sites web à Annecy | AKWebSolution",
     description:
-      "Agence web — Sites vitrines, e-commerce et sur mesure. Design moderne, prix fixes, livraison rapide.",
+      "Développeur web freelance à Annecy — sites vitrines, e-commerce et sur mesure. Design moderne, tarifs transparents, livraison rapide.",
   },
 };
 import { Hero } from "@/components/Hero";

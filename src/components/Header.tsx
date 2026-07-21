@@ -202,7 +202,7 @@ export function Header() {
                 Voir les offres
               </Link>
               <p className="mt-4 text-center text-[0.75rem] text-[var(--muted)]">
-                Prix fixes · Sans engagement
+                Tarifs transparents · Sans engagement
               </p>
             </motion.div>
           </motion.div>

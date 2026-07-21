@@ -85,7 +85,7 @@ export default function OgImage() {
             lineHeight: 1.5,
           }}
         >
-          Design élégant · Responsive · SEO optimisé · Prix fixes
+          Design élégant · Responsive · SEO optimisé · Tarifs transparents
         </div>
 
         {/* URL badge */}

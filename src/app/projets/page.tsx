@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ProjectShowcase } from "@/components/ProjectShowcase";
@@ -85,6 +87,15 @@ export default function ProjetsPage() {
             {projects.map((project, i) => (
               <div key={project.id} id={project.id} className="scroll-mt-28">
                 <ProjectShowcase {...project} index={i} />
+                <div className="mt-6 flex justify-center md:justify-start">
+                  <Link
+                    href={`/projets/${project.id}`}
+                    className="group inline-flex items-center gap-2 rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/10 px-5 py-2.5 text-[0.8125rem] font-medium text-[var(--accent-soft)] transition-all hover:-translate-y-0.5 hover:bg-[var(--accent)] hover:text-white"
+                  >
+                    Lire l&apos;étude de cas
+                    <ArrowRight size={14} strokeWidth={2} className="transition-transform group-hover:translate-x-0.5" />
+                  </Link>
+                </div>
               </div>
             ))}
           </div>

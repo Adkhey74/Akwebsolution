@@ -10,7 +10,7 @@ import { BorderBeam } from "@/components/ui/border-beam";
 const values = [
   "Design soigné, responsive, adapté à votre activité",
   "Code propre et performant (Next.js, React, Tailwind)",
-  "Tarifs fixes, délais annoncés, sans mauvaise surprise",
+  "Tarifs transparents, délais annoncés, sans mauvaise surprise",
   "Réponse sous 24 h et suivi personnalisé",
 ];
 

@@ -147,11 +147,9 @@ export default function OffresPage() {
                       {offer.result}
                     </p>
                     <div className="mt-4">
-                      {offer.priceFrom && (
-                        <span className="block text-[0.75rem] font-medium uppercase tracking-wider text-[var(--muted)]">
-                          À partir de
-                        </span>
-                      )}
+                      <span className="block text-[0.75rem] font-medium uppercase tracking-wider text-[var(--muted)]">
+                        À partir de
+                      </span>
                       <span className="text-4xl font-bold tracking-tight text-[var(--foreground)]">
                         {offer.price} €
                       </span>

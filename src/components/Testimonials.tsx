@@ -19,7 +19,7 @@ const testimonials = [
   {
     name: "Laura D.",
     role: "Créatrice — ThermoChrono",
-    text: "La boutique en ligne est exactement ce que j'imaginais. Le tunnel d'achat est fluide et le design donne vraiment confiance. Prix fixe, pas de mauvaise surprise.",
+    text: "La boutique en ligne est exactement ce que j'imaginais. Le tunnel d'achat est fluide et le design donne vraiment confiance. Tarifs transparents, pas de mauvaise surprise.",
     stars: 5,
   },
 ];

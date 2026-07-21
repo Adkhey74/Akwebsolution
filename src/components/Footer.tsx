@@ -16,7 +16,7 @@ const keywords = [
   "Performance",
   "Next.js",
   "Identité visuelle",
-  "Prix fixes",
+  "Tarifs transparents",
   "Livraison rapide",
 ];
 
@@ -108,9 +108,9 @@ export function Footer() {
                 <MessageCircle size={14} strokeWidth={1.75} className="shrink-0" />
                 07 82 92 38 06
               </a>
-              <span className="flex items-center gap-2.5 text-[0.8125rem] text-white/40">
+              <span className="flex items-center gap-2.5 text-[0.8125rem] text-white/60">
                 <MapPin size={14} strokeWidth={1.75} className="shrink-0" />
-                France
+                Annecy · Haute-Savoie · France
               </span>
             </div>
           </motion.div>
@@ -185,7 +185,7 @@ export function Footer() {
               Démarrer
             </p>
             <p className="text-[0.875rem] leading-relaxed text-white/55">
-              Un projet en tête ? Tarifs fixes, réponse sous 24 h.
+              Un projet en tête ? Tarifs transparents, réponse sous 24 h.
             </p>
             <Link
               href="/offres"

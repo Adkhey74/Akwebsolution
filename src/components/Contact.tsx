@@ -80,7 +80,7 @@ export function Contact() {
               </span>
             </h2>
             <p className="mt-4 text-[0.9375rem] leading-[1.7] text-[var(--muted)]">
-              Réponse sous 24 h · Tarifs fixes · Sans engagement
+              Réponse sous 24 h · Tarifs transparents · Sans engagement
             </p>
           </motion.div>
 

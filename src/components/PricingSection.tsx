@@ -129,11 +129,9 @@ export function PricingSection() {
                 </p>
 
                 <div className="mt-5 mb-8">
-                  {offer.priceFrom && (
-                    <span className="block text-[0.7rem] font-medium uppercase tracking-wider text-[var(--muted)]">
-                      À partir de
-                    </span>
-                  )}
+                  <span className="block text-[0.7rem] font-medium uppercase tracking-wider text-[var(--muted)]">
+                    À partir de
+                  </span>
                   <div className="flex items-baseline gap-1.5">
                     <span className="text-3xl font-bold tracking-tight text-[var(--foreground)]">
                       {offer.price} €
