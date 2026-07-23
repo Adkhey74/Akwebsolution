@@ -5,7 +5,6 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { usePageLoader } from "@/components/PageLoaderContext";
-import dynamic from "next/dynamic";
 
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
@@ -14,7 +13,6 @@ import { HeroBackground } from "@/components/HeroBackground";
 
 const AURORA = ["#6D5EFF", "#A78BFA", "#8B7EFF", "#C4B5FD"];
 
-const BlurText = dynamic(() => import("@/components/BlurText").then((m) => m.default), { ssr: false });
 // Fond Beams (three.js) — conservé pour revenir en arrière si besoin :
 // const Beams = dynamic(() => import("@/components/Beams").then((m) => m.Beams), { ssr: false });
 
@@ -139,17 +137,17 @@ export function Hero() {
         </h1>
 
         {/* Sous-titre */}
-        <div className="mt-6 max-w-[40rem]">
-          {/* @ts-expect-error BlurText props optionnelles */}
-          <BlurText
-            text="Développeur web freelance à Annecy. Sites rapides, clairs et adaptés à votre activité — une présence en ligne professionnelle, à votre image, en Haute-Savoie et partout en France."
-            animateBy="words"
-            direction="top"
-            delay={100}
-            stepDuration={0.38}
-            className="justify-center text-center text-[0.9375rem] leading-[1.6] text-white/75 md:text-[1.0625rem]"
-          />
-        </div>
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={animate}
+          variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0 } }}
+          transition={{ duration: 0.6, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="mt-6 max-w-[40rem] text-center text-[0.9375rem] leading-[1.6] text-white/75 md:text-[1.0625rem]"
+        >
+          Développeur web freelance à Annecy. Sites rapides, clairs et adaptés à
+          votre activité — une présence en ligne professionnelle, à votre image,
+          en Haute-Savoie et partout en France.
+        </motion.p>
 
         {/* CTAs */}
         <motion.div
