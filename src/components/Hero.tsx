@@ -59,9 +59,11 @@ export function Hero() {
         rotation={20}
       /> */}
 
-      {/* Halo violet derrière le titre */}
+      {/* Halo violet derrière le titre — masqué sur mobile (le blur(50px)
+          fait ramer Safari pendant l'animation d'entrée ; le dégradé du
+          fond statique prend le relais) */}
       <div
-        className="pointer-events-none absolute left-1/2 top-[42%] z-[1] h-[420px] w-[860px] max-w-[95vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        className="pointer-events-none absolute left-1/2 top-[42%] z-[1] hidden h-[420px] w-[860px] max-w-[95vw] -translate-x-1/2 -translate-y-1/2 rounded-full md:block"
         style={{ background: "radial-gradient(ellipse at center, rgba(109,94,255,0.28) 0%, rgba(109,94,255,0) 70%)", filter: "blur(50px)" }}
         aria-hidden
       />
@@ -73,9 +75,10 @@ export function Hero() {
         aria-hidden
       />
 
-      {/* Grain */}
+      {/* Grain — masqué sur mobile : un mix-blend-overlay plein écran force
+          Safari à re-blender tout le Hero à chaque frame d'animation */}
       <div
-        className="pointer-events-none absolute inset-0 z-[3] opacity-[0.14] mix-blend-overlay"
+        className="pointer-events-none absolute inset-0 z-[3] hidden opacity-[0.14] mix-blend-overlay md:block"
         style={{ backgroundImage: GRAIN }}
         aria-hidden
       />
@@ -171,7 +174,7 @@ export function Hero() {
           <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
             <Link
               href="/#services"
-              className="inline-flex w-full items-center justify-center rounded-full border border-white/25 px-6 py-3 text-[0.875rem] font-medium text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--accent)]/70 hover:bg-[var(--accent)]/10 hover:shadow-[0_8px_28px_-10px_var(--accent)] sm:w-auto sm:px-10 sm:py-4 sm:text-[0.9375rem]"
+              className="inline-flex w-full items-center justify-center rounded-full border border-white/25 px-6 py-3 text-[0.875rem] font-medium text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--accent)]/70 hover:bg-[var(--accent)]/10 hover:shadow-[0_8px_28px_-10px_var(--accent)] max-md:backdrop-blur-none sm:w-auto sm:px-10 sm:py-4 sm:text-[0.9375rem]"
             >
               Voir nos services
             </Link>
@@ -205,10 +208,10 @@ export function Hero() {
           {stats.map((s) => (
             <div
               key={s.label}
-              className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] px-2 py-4 backdrop-blur-md transition-colors hover:border-[var(--accent)]/40 sm:px-4 sm:py-5"
+              className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] px-2 py-4 backdrop-blur-md transition-colors hover:border-[var(--accent)]/40 max-md:bg-white/[0.06] max-md:backdrop-blur-none sm:px-4 sm:py-5"
             >
-              {/* glow violet */}
-              <div className="pointer-events-none absolute -top-10 left-1/2 h-20 w-20 -translate-x-1/2 rounded-full bg-[var(--accent)]/30 blur-2xl" />
+              {/* glow violet — masqué sur mobile (blur re-rasterisé pendant l'entrée) */}
+              <div className="pointer-events-none absolute -top-10 left-1/2 hidden h-20 w-20 -translate-x-1/2 rounded-full bg-[var(--accent)]/30 blur-2xl md:block" />
               <p className="relative flex items-baseline justify-center whitespace-nowrap text-[1.5rem] font-semibold leading-none text-[var(--accent-soft)] sm:text-[2rem]">
                 <NumberTicker
                   key={`${s.label}-${statsKey}`}

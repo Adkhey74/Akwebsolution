@@ -402,23 +402,26 @@ body {
    - blur(80px) + mix-blend-mode: screen animés = compositing lourd.
    Le rendu statique reste identique visuellement, sans le coût continu. */
 @media (pointer: coarse) {
-  .hero-bg__a1,
-  .hero-bg__a2,
-  .hero-bg__a3 {
-    animation: none;
-    filter: blur(60px);
-    will-change: auto;
+  /* iOS Safari : animer le contenu du Hero (transform/opacity) par-dessus
+     des calques `filter: blur` + `mix-blend-mode` force une re-composition
+     ET re-rasterisation de tout le fond à CHAQUE frame → freeze de
+     l'animation d'entrée. Sur tactile, on remplace le fond animé/flouté/
+     blendé par un dégradé statique (soft par nature, aucun filtre) : rendu
+     proche, mais composité une seule fois. */
+  .hero-bg {
+    background:
+      radial-gradient(60% 50% at 18% -5%, rgba(109, 94, 255, 0.30), transparent 70%),
+      radial-gradient(55% 45% at 88% 0%, rgba(139, 123, 255, 0.22), transparent 70%),
+      radial-gradient(80% 62% at 50% 108%, rgba(75, 63, 174, 0.24), transparent 78%),
+      var(--background);
   }
+  .hero-bg__aurora,
   .hero-bg__beams {
-    animation: none;
+    display: none;
   }
 
-  /* iOS Safari : les animations infinies sur du `background-clip: text`
-     (AuroraText) forcent une re-rasterisation des glyphes à chaque frame
-     et gèlent l'animation d'entrée du titre. Le shimmer du bouton
-     (gradient conique en rotation + blur) ajoute au coût. On fige ces
-     effets décoratifs sur tactile — le dégradé/bouton restent identiques,
-     simplement statiques. */
+  /* Figer les scintillements infinis sur du `background-clip: text`
+     (AuroraText) + le shimmer du bouton : autres sources de re-raster. */
   .animate-aurora,
   .animate-shimmer-slide,
   .animate-spin-around {
