@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { BlurFade } from "@/components/ui/blur-fade";
@@ -34,6 +35,7 @@ const projects = [
 ];
 
 export function ProjectsPreview() {
+  const router = useRouter();
   return (
     <section className="section-padding border-t border-[var(--border)] overflow-hidden">
       <div className="section-container min-w-0">
@@ -76,9 +78,9 @@ export function ProjectsPreview() {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, i) => (
             <BlurFade key={project.id} delay={0.05 + i * 0.1} inView className="min-w-0">
-            <motion.div
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-sm transition-all hover:border-[var(--border-hover)] hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.5)]"
+            <div
+              onClick={() => router.push(`/projets/${project.id}`)}
+              className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-sm transition-all hover:border-[var(--border-hover)] hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.5)]"
             >
               {/* Halo violet au survol */}
               <div className="pointer-events-none absolute -top-1/3 left-1/2 z-0 h-2/3 w-2/3 -translate-x-1/2 rounded-full bg-[var(--accent)]/20 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
@@ -119,7 +121,7 @@ export function ProjectsPreview() {
                       rel="noopener noreferrer"
                       aria-label={`Voir le site ${project.title}`}
                       onClick={(e) => e.stopPropagation()}
-                      className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[var(--border)] text-[var(--muted)] transition-all hover:border-[var(--foreground)] hover:text-[var(--foreground)]"
+                      className="relative z-10 mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[var(--border)] text-[var(--muted)] transition-all hover:border-[var(--foreground)] hover:text-[var(--foreground)]"
                     >
                       <ExternalLink size={13} strokeWidth={2} />
                     </a>
@@ -139,13 +141,15 @@ export function ProjectsPreview() {
 
                 <Link
                   href={`/projets/${project.id}`}
-                  className="mt-auto inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-[var(--accent-soft)] transition-opacity hover:opacity-70"
+                  aria-label={`Voir l'étude de cas ${project.title}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="relative z-10 mt-auto inline-flex w-fit items-center gap-1.5 text-[0.8125rem] font-medium text-[var(--accent-soft)] transition-opacity hover:opacity-70"
                 >
                   Voir l'étude de cas
                   <ArrowRight size={13} strokeWidth={2} />
                 </Link>
               </div>
-            </motion.div>
+            </div>
             </BlurFade>
           ))}
         </div>

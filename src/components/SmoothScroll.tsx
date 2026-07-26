@@ -13,6 +13,11 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Sur tactile/mobile, le scroll natif est composité hors du thread
+    // principal et reste plus fluide. Lenis y ajoute une boucle RAF qui
+    // entre en concurrence avec le rendu → on le désactive. Les ancres
+    // restent fluides via `scroll-behavior: smooth` (globals.css).
+    if (window.matchMedia("(pointer: coarse)").matches) return;
 
     const lenis = new Lenis({
       duration: 1.1,

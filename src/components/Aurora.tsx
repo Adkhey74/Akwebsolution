@@ -11,12 +11,13 @@ export function Aurora() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let animId: number;
+    const dpr = () => Math.min(window.devicePixelRatio || 1, 2);
 
     const resize = () => {
-      canvas.width = canvas.offsetWidth * Math.min(window.devicePixelRatio, 2);
-      canvas.height = canvas.offsetHeight * Math.min(window.devicePixelRatio, 2);
-      ctx.scale(Math.min(window.devicePixelRatio, 2), Math.min(window.devicePixelRatio, 2));
+      const ratio = dpr();
+      canvas.width = canvas.offsetWidth * ratio;
+      canvas.height = canvas.offsetHeight * ratio;
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
     };
     resize();
     window.addEventListener("resize", resize);
@@ -59,15 +60,55 @@ export function Aurora() {
       vig.addColorStop(1, "rgba(0,0,0,0.6)");
       ctx.fillStyle = vig;
       ctx.fillRect(0, 0, w, h);
-
-      t++;
-      animId = requestAnimationFrame(draw);
     };
 
-    draw();
+    // ── Gating perf ────────────────────────────────────────────────
+    // Mouvement quasi imperceptible : inutile de brûler du CPU/GPU en
+    // continu. Sur mobile (pointeur grossier) ou en reduced-motion, on
+    // rend UNE frame statique. Sinon, on n'anime que lorsque le canvas
+    // est visible et que l'onglet est actif.
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+
+    if (reducedMotion || coarsePointer) {
+      draw(); // rendu statique, aucune boucle
+      return () => window.removeEventListener("resize", resize);
+    }
+
+    let animId = 0;
+    let running = false;
+
+    const loop = () => {
+      draw();
+      t++;
+      animId = requestAnimationFrame(loop);
+    };
+
+    const start = () => {
+      if (running || document.hidden) return;
+      running = true;
+      animId = requestAnimationFrame(loop);
+    };
+    const stop = () => {
+      running = false;
+      cancelAnimationFrame(animId);
+    };
+
+    // N'anime que quand la section est à l'écran
+    const io = new IntersectionObserver(
+      ([entry]) => (entry.isIntersecting ? start() : stop()),
+      { threshold: 0 }
+    );
+    io.observe(canvas);
+
+    // Met en pause quand l'onglet est masqué
+    const onVisibility = () => (document.hidden ? stop() : start());
+    document.addEventListener("visibilitychange", onVisibility);
 
     return () => {
-      cancelAnimationFrame(animId);
+      stop();
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("resize", resize);
     };
   }, []);

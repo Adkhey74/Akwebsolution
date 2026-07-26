@@ -396,6 +396,24 @@ body {
   100% { background-position: 380px 0; }
 }
 
+/* ── Perf mobile : sur écrans tactiles (pointeur grossier), on fige le
+   fond du Hero. Les animations continues coûtent cher sur mobile :
+   - `background-position` (beams) force un repaint plein écran/frame,
+   - blur(80px) + mix-blend-mode: screen animés = compositing lourd.
+   Le rendu statique reste identique visuellement, sans le coût continu. */
+@media (pointer: coarse) {
+  .hero-bg__a1,
+  .hero-bg__a2,
+  .hero-bg__a3 {
+    animation: none;
+    filter: blur(60px);
+    will-change: auto;
+  }
+  .hero-bg__beams {
+    animation: none;
+  }
+}
+
 /* ── Accessibilité : respect de prefers-reduced-motion ── */
 @media (prefers-reduced-motion: reduce) {
   *,
