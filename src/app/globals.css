@@ -412,6 +412,18 @@ body {
   .hero-bg__beams {
     animation: none;
   }
+
+  /* iOS Safari : les animations infinies sur du `background-clip: text`
+     (AuroraText) forcent une re-rasterisation des glyphes à chaque frame
+     et gèlent l'animation d'entrée du titre. Le shimmer du bouton
+     (gradient conique en rotation + blur) ajoute au coût. On fige ces
+     effets décoratifs sur tactile — le dégradé/bouton restent identiques,
+     simplement statiques. */
+  .animate-aurora,
+  .animate-shimmer-slide,
+  .animate-spin-around {
+    animation: none !important;
+  }
 }
 
 /* ── Accessibilité : respect de prefers-reduced-motion ── */
