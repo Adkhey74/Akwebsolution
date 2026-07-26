@@ -318,6 +318,94 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* ── Typographie des articles de blog (/blog/[slug]) ── */
+.article-prose {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.article-prose > * + * {
+  margin-top: 1.35em;
+}
+.article-prose h2 {
+  margin-top: 2.4em;
+  margin-bottom: 0.1em;
+  font-size: clamp(1.5rem, 3.2vw, 1.875rem);
+  line-height: 1.25;
+  color: var(--foreground);
+  scroll-margin-top: 7rem;
+}
+.article-prose h3 {
+  margin-top: 1.8em;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  color: var(--foreground);
+  scroll-margin-top: 7rem;
+}
+.article-prose h2:first-child,
+.article-prose h3:first-child {
+  margin-top: 0;
+}
+.article-prose p {
+  color: var(--muted);
+}
+.article-prose strong {
+  font-weight: 600;
+  color: var(--foreground);
+}
+.article-prose a {
+  color: var(--accent-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+.article-prose a:hover {
+  color: var(--foreground);
+}
+.article-prose ul,
+.article-prose ol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-left: 1.35rem;
+}
+.article-prose ul {
+  list-style: disc;
+}
+.article-prose ol {
+  list-style: decimal;
+}
+.article-prose li {
+  padding-left: 0.25rem;
+  color: var(--muted);
+}
+.article-prose li::marker {
+  color: var(--accent);
+}
+.article-prose blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 1.25rem;
+  font-style: italic;
+  color: var(--foreground);
+}
+.article-prose code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.12em 0.4em;
+}
+.article-prose img {
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.article-prose hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin-block: 2.5em;
+}
+
 /* ── Fond animé du Hero (pur CSS, sans WebGL) ── */
 .hero-bg {
   position: absolute;

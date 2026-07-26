@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { projects } from "@/lib/projects";
+import { getPublishedArticles } from "@/lib/blog";
 
 const BASE_URL = "https://akwebsolutions.fr";
 
@@ -9,6 +10,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(),
     changeFrequency: "monthly",
     priority: 0.8,
+  }));
+
+  // Un article publié = une entrée dans le sitemap (mise à jour automatique)
+  const blogPosts: MetadataRoute.Sitemap = getPublishedArticles().map((a) => ({
+    url: `${BASE_URL}/blog/${a.slug}`,
+    lastModified: new Date(`${a.updatedAt ?? a.publishedAt}T00:00:00Z`),
+    changeFrequency: "monthly",
+    priority: 0.7,
   }));
 
   return [
@@ -31,6 +40,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    {
+      url: `${BASE_URL}/blog`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+    ...blogPosts,
     {
       url: `${BASE_URL}/offres`,
       lastModified: new Date(),
