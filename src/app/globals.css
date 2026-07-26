@@ -420,11 +420,12 @@ body {
     display: none;
   }
 
-  /* Figer les scintillements infinis sur du `background-clip: text`
-     (AuroraText) + le shimmer du bouton : autres sources de re-raster. */
-  .animate-aurora,
-  .animate-shimmer-slide,
-  .animate-spin-around {
+  /* Figer le scintillement infini sur du `background-clip: text`
+     (AuroraText « élégants ») : la re-rasterisation des glyphes à chaque
+     frame est la vraie cause du freeze sur iOS Safari. Le shimmer du
+     bouton CTA (animate-shimmer-slide / animate-spin-around) est conservé
+     sur mobile — effet localisé et léger. */
+  .animate-aurora {
     animation: none !important;
   }
 }

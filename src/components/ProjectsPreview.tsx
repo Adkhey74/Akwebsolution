@@ -13,7 +13,7 @@ const projects = [
     title: "Orbit Group",
     category: "Site vitrine premium",
     tags: ["Sécurité", "Corporate"],
-    image: { src: "/images/OrbitGroup/hero.png", alt: "Orbit Group - Page d'accueil" },
+    image: { src: "/images/OrbitGroup/hero.webp", alt: "Orbit Group - Page d'accueil" },
     url: undefined as string | undefined,
   },
   {
@@ -21,7 +21,7 @@ const projects = [
     title: "Kabuki",
     category: "Site vitrine",
     tags: ["Restaurant", "Réservation"],
-    image: { src: "/images/Kabuki/Acceuil.png", alt: "Kabuki - Page d'accueil" },
+    image: { src: "/images/Kabuki/Acceuil.webp", alt: "Kabuki - Page d'accueil" },
     url: undefined as string | undefined,
   },
   {
@@ -29,7 +29,7 @@ const projects = [
     title: "HernTaxi",
     category: "Site vitrine",
     tags: ["Multi-pages", "SEO"],
-    image: { src: "/images/herntaxi/acceuil-new.png", alt: "HernTaxi - Page d'accueil" },
+    image: { src: "/images/herntaxi/acceuil-new.webp", alt: "HernTaxi - Page d'accueil" },
     url: "https://herntaxi.fr",
   },
 ];

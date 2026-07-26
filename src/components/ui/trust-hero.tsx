@@ -116,7 +116,7 @@ export default function TrustHero() {
                 </div>
                 <div className="relative aspect-[16/10] w-full">
                   <Image
-                    src="/images/OrbitGroup/hero.png"
+                    src="/images/OrbitGroup/hero.webp"
                     alt="Site Orbit Group réalisé par AKWebSolution"
                     fill
                     priority

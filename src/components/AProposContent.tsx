@@ -50,7 +50,7 @@ export function AProposContent() {
           transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <Image
-            src="/images/adil.jpeg"
+            src="/images/adil.webp"
             alt="Adil — Créateur AKWebSolution"
             fill
             className="object-cover object-[50%_18%]"

@@ -33,10 +33,10 @@ const projects = [
     description:
       "Site vitrine premium et confidentiel pour un partenaire de sécurité et de mobilité de dirigeants : design sombre haut de gamme, couverture internationale et demande de contact confidentielle.",
     images: [
-      { src: "/images/OrbitGroup/hero.png",                 alt: "Orbit Group - page d'accueil"        },
+      { src: "/images/OrbitGroup/hero.webp",                 alt: "Orbit Group - page d'accueil"        },
       { src: "/images/OrbitGroup/services.png",             alt: "Orbit Group - services"              },
       { src: "/images/OrbitGroup/what-sets-us.png",         alt: "Orbit Group - ce qui les distingue"  },
-      { src: "/images/OrbitGroup/demaindingenvironment.png", alt: "Orbit Group - environnements exigeants" },
+      { src: "/images/OrbitGroup/demaindingenvironment.webp", alt: "Orbit Group - environnements exigeants" },
       { src: "/images/OrbitGroup/map.png",                  alt: "Orbit Group - couverture internationale" },
       { src: "/images/OrbitGroup/contact.png",              alt: "Orbit Group - contact confidentiel"  },
     ],
@@ -51,7 +51,7 @@ const projects = [
     description:
       "Site vitrine pour un restaurant japonais : page d'accueil, menu, incontournables et réservation en ligne.",
     images: [
-      { src: "/images/Kabuki/Acceuil.png",        alt: "Kabuki - Page d'accueil"     },
+      { src: "/images/Kabuki/Acceuil.webp",        alt: "Kabuki - Page d'accueil"     },
       { src: "/images/Kabuki/Menu.png",           alt: "Kabuki - Menu"                },
       { src: "/images/Kabuki/incontournable.png", alt: "Kabuki - Incontournables"     },
       { src: "/images/Kabuki/réservation.png",   alt: "Kabuki - Réservation"         },
@@ -67,12 +67,12 @@ const projects = [
     description:
       "Site vitrine pour une société de taxi en Savoie : présentation des services (réservation, transport ski, CPAM), design responsive et pages dédiées pour chaque offre.",
     images: [
-      { src: "/images/herntaxi/acceuil-new.png",  alt: "HernTaxi - Page d'accueil"       },
-      { src: "/images/herntaxi/acceuil2-new.png", alt: "HernTaxi - Accueil suite"         },
-      { src: "/images/herntaxi/vehicule.png",     alt: "HernTaxi - Nos véhicules"         },
+      { src: "/images/herntaxi/acceuil-new.webp",  alt: "HernTaxi - Page d'accueil"       },
+      { src: "/images/herntaxi/acceuil2-new.webp", alt: "HernTaxi - Accueil suite"         },
+      { src: "/images/herntaxi/vehicule.webp",     alt: "HernTaxi - Nos véhicules"         },
       { src: "/images/herntaxi/reservations.png", alt: "HernTaxi - Réservation"           },
-      { src: "/images/herntaxi/stationdeski.png", alt: "HernTaxi - Transfert stations ski"},
-      { src: "/images/herntaxi/cpamtaxi.png",     alt: "HernTaxi - Transport CPAM"        },
+      { src: "/images/herntaxi/stationdeski.webp", alt: "HernTaxi - Transfert stations ski"},
+      { src: "/images/herntaxi/cpamtaxi.webp",     alt: "HernTaxi - Transport CPAM"        },
     ],
   },
   {
@@ -85,7 +85,7 @@ const projects = [
     description:
       "Boutique e-commerce de gourdes connectées avec affichage de la température en temps réel. Catalogue produits, panier, paiement sécurisé (Visa, Mastercard, Apple Pay) et livraison rapide.",
     images: [
-      { src: "/images/thermochrono/acceuil.png",     alt: "ThermoChron - Page d'accueil" },
+      { src: "/images/thermochrono/acceuil.webp",     alt: "ThermoChron - Page d'accueil" },
       { src: "/images/thermochrono/nosproduits.png", alt: "ThermoChron - Nos produits"   },
       { src: "/images/thermochrono/produits.png",    alt: "ThermoChron - Fiche produit"  },
       { src: "/images/thermochrono/panier.png",      alt: "ThermoChron - Panier"         },

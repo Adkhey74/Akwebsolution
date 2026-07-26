@@ -35,7 +35,7 @@ export function AboutPreview() {
           {/* Photo */}
           <div className="relative w-full shrink-0 overflow-hidden rounded-2xl border border-[var(--border)] shadow-lg glow-surface md:w-[340px] lg:w-[380px]" style={{ aspectRatio: "4/5" }}>
             <Image
-              src="/images/adil.jpeg"
+              src="/images/adil.webp"
               alt="Adil — Créateur AKWebSolution"
               fill
               className="object-cover object-top"
