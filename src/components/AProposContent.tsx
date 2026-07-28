@@ -6,15 +6,13 @@ import { motion } from "motion/react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Aurora } from "@/components/Aurora";
 import { BorderBeam } from "@/components/ui/border-beam";
+import { useI18n } from "@/lib/i18n/context";
 
-const values = [
-  "Design soigné, responsive, adapté à votre activité",
-  "Code propre et performant (Next.js, React, Tailwind)",
-  "Tarifs transparents, délais annoncés, sans mauvaise surprise",
-  "Réponse sous 24 h et suivi personnalisé",
-];
 
 export function AProposContent() {
+  const { t, tList } = useI18n();
+  const values = tList("aboutPage.values");
+
   return (
     <div className="relative section-container w-full max-w-[72rem] pt-28 pb-20 md:pt-36 md:pb-28">
       {/* Halo Aurora ambiant */}
@@ -39,8 +37,8 @@ export function AProposContent() {
           size={160}
           duration={10}
           borderWidth={1.5}
-          colorFrom="rgba(109,94,255,0)"
-          colorTo="rgba(167,139,250,0.85)"
+          colorFrom="transparent"
+          colorTo="var(--beam-color)"
         />
         {/* Colonne photo */}
         <motion.div
@@ -51,7 +49,7 @@ export function AProposContent() {
         >
           <Image
             src="/images/adil.webp"
-            alt="Adil — Créateur AKWebSolution"
+            alt={t("about.photoAlt")}
             fill
             className="object-cover object-[50%_18%]"
             sizes="(max-width: 768px) 100vw, 460px"
@@ -64,11 +62,11 @@ export function AProposContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/60">Créateur</p>
+            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-white/60">{t("aboutPage.role")}</p>
             <p className="mt-1 text-xl font-light text-white md:text-2xl">
               Adil <span className="font-display italic font-semibold">Khadich</span>
             </p>
-            <p className="mt-0.5 text-[0.8rem] text-white/60">AKWebSolution · Développeur freelance</p>
+            <p className="mt-0.5 text-[0.8rem] text-white/60">{t("aboutPage.roleSub")}</p>
           </motion.div>
         </motion.div>
 
@@ -80,19 +78,19 @@ export function AProposContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">À propos</p>
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">{t("aboutPage.eyebrow")}</p>
             <h1 className="mt-3 text-3xl font-light leading-[1.2] tracking-tight text-[var(--foreground)] md:text-4xl">
-              Je crée des sites qui{" "}
-              <span className="font-display italic font-semibold">travaillent pour vous</span>
+              {t("aboutPage.title1")}{" "}
+              <span className="font-display italic font-semibold">{t("aboutPage.titleAccent")}</span>
             </h1>
             <p className="mt-5 text-[0.9375rem] leading-[1.8] text-[var(--muted)] break-words">
-              Je m'appelle <strong className="font-semibold text-[var(--foreground)]">Adil</strong>, développeur web freelance basé en France. Sous le nom <strong className="font-semibold text-[var(--foreground)]">AKWebSolution</strong>, j'accompagne les indépendants et les petites entreprises qui veulent une présence en ligne claire, professionnelle et efficace.
+              {t("aboutPage.p1Intro")} <strong className="font-semibold text-[var(--foreground)]">Adil</strong>, {t("aboutPage.p1")} <strong className="font-semibold text-[var(--foreground)]">AKWebSolution</strong>{t("aboutPage.p1End")}
             </p>
             <p className="mt-4 text-[0.9375rem] leading-[1.8] text-[var(--muted)]">
-              Chaque projet est une collaboration : je prends le temps de comprendre votre métier et vos besoins avant de concevoir une solution qui vous ressemble. Pas de template — du sur mesure, du début à la fin.
+              {t("aboutPage.p2")}
             </p>
             <p className="mt-4 text-[0.9375rem] leading-[1.8] text-[var(--muted)]">
-              J'utilise des technologies modernes (Next.js, React, Tailwind CSS) pour livrer des sites rapides, bien référencés et faciles à faire évoluer. Je travaille à distance avec des clients partout en France.
+              {t("aboutPage.p3")}
             </p>
           </motion.div>
 
@@ -103,7 +101,7 @@ export function AProposContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">Mon engagement</p>
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">{t("aboutPage.commitment")}</p>
             <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
               {values.map((v, i) => (
                 <motion.li
@@ -132,14 +130,14 @@ export function AProposContent() {
               href="/#contact"
               className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 text-[0.9rem] font-semibold text-white shadow-[0_10px_40px_-10px_var(--accent)] transition-all hover:bg-[var(--accent-hover)]"
             >
-              Me contacter
+              {t("aboutPage.ctaContact")}
               <ArrowRight size={15} strokeWidth={2} />
             </Link>
             <Link
               href="/projets"
               className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-6 py-3 text-[0.9rem] font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--card)]"
             >
-              Mes réalisations
+              {t("aboutPage.ctaWork")}
             </Link>
           </motion.div>
 

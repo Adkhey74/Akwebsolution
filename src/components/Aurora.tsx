@@ -22,8 +22,8 @@ export function Aurora() {
     resize();
     window.addEventListener("resize", resize);
 
-    // Blobs très lents, monochrome blanc/gris sur fond noir
-    // Fréquence angulaire basse = mouvement imperceptible, ambiant
+    // Nappes violettes très lentes.
+    // Fréquence angulaire basse = mouvement imperceptible, ambiant.
     const blobs = [
       { ox: 0.3,  oy: 0.4,  r: 0.6,  opacity: 0.055, freq: 0.00018, phase: 0.0  },
       { ox: 0.72, oy: 0.28, r: 0.55, opacity: 0.04,  freq: 0.00014, phase: 1.2  },
@@ -31,33 +31,58 @@ export function Aurora() {
       { ox: 0.18, oy: 0.68, r: 0.42, opacity: 0.03,  freq: 0.00016, phase: 0.8  },
     ];
 
+    /**
+     * Le canvas peint en JS : il ne bénéficie pas des variables CSS
+     * automatiquement, il faut les lire. Relu à chaque frame plutôt que mis en
+     * cache — c'est deux `getComputedStyle` par frame, négligeable devant le
+     * remplissage de 4 dégradés radiaux plein écran, et ça rend le changement
+     * de thème instantané sans logique d'invalidation.
+     */
+    const theme = () => {
+      const s = getComputedStyle(document.documentElement);
+      return {
+        blob: s.getPropertyValue("--canvas-blob-rgb").trim() || "96, 81, 242",
+        vignette: s.getPropertyValue("--canvas-vignette-rgb").trim() || "250, 250, 253",
+        // Sur fond clair, un violet translucide se lit moins qu'un violet
+        // additif sur du noir : les opacités sont relevées.
+        boost: parseFloat(s.getPropertyValue("--canvas-blob-boost")) || 1,
+      };
+    };
+
     let t = 0;
 
     const draw = () => {
       const w = canvas.offsetWidth;
       const h = canvas.offsetHeight;
 
-      ctx.fillStyle = "#0a0a0a";
-      ctx.fillRect(0, 0, w, h);
+      const { blob: rgb, vignette, boost } = theme();
+
+      // Fond transparent (le code d'origine peignait un #0a0a0a opaque) : la
+      // couleur de la section derrière le canvas fait office de fond, donc le
+      // même composant marche sur --background comme sur --section-alt, et dans
+      // les deux thèmes.
+      ctx.clearRect(0, 0, w, h);
 
       blobs.forEach((blob) => {
         const px = (blob.ox + Math.sin(t * blob.freq * 1000 + blob.phase) * 0.14) * w;
         const py = (blob.oy + Math.cos(t * blob.freq * 900  + blob.phase) * 0.09) * h;
         const radius = blob.r * Math.max(w, h);
+        const a = blob.opacity * boost;
 
         const grad = ctx.createRadialGradient(px, py, 0, px, py, radius);
-        grad.addColorStop(0,   `rgba(124,107,255,${blob.opacity * 2.2})`);
-        grad.addColorStop(0.5, `rgba(124,107,255,${blob.opacity * 0.7})`);
-        grad.addColorStop(1,   `rgba(124,107,255,0)`);
+        grad.addColorStop(0,   `rgba(${rgb},${a * 2.2})`);
+        grad.addColorStop(0.5, `rgba(${rgb},${a * 0.7})`);
+        grad.addColorStop(1,   `rgba(${rgb},0)`);
 
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, w, h);
       });
 
-      // Vignette bords
+      // Vignette bords — vers le noir en thème sombre, vers le fond de page en
+      // thème clair (sinon elle creuserait un halo gris au milieu du blanc)
       const vig = ctx.createRadialGradient(w / 2, h / 2, h * 0.15, w / 2, h / 2, h * 0.85);
-      vig.addColorStop(0, "rgba(0,0,0,0)");
-      vig.addColorStop(1, "rgba(0,0,0,0.6)");
+      vig.addColorStop(0, `rgba(${vignette},0)`);
+      vig.addColorStop(1, `rgba(${vignette},0.6)`);
       ctx.fillStyle = vig;
       ctx.fillRect(0, 0, w, h);
     };
@@ -72,7 +97,21 @@ export function Aurora() {
 
     if (reducedMotion || coarsePointer) {
       draw(); // rendu statique, aucune boucle
-      return () => window.removeEventListener("resize", resize);
+
+      // Sans boucle, rien ne repeindrait au changement de thème : le canvas
+      // garderait les couleurs de l'ancienne palette. On observe donc la classe
+      // de <html>, que la bascule de thème modifie.
+      // (Dans le cas animé, `draw` relit le thème à chaque frame — inutile.)
+      const themeObserver = new MutationObserver(draw);
+      themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["class"],
+      });
+
+      return () => {
+        themeObserver.disconnect();
+        window.removeEventListener("resize", resize);
+      };
     }
 
     let animId = 0;

@@ -5,48 +5,20 @@ import { Layout, Smartphone, Zap, Palette, Search, Shield } from "lucide-react";
 import SpotlightCard from "@/components/SpotlightCard";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { BlurFade } from "@/components/ui/blur-fade";
+import { useI18n } from "@/lib/i18n/context";
 
 const services = [
-  {
-    icon: Layout,
-    title: "Sites vitrines",
-    description:
-      "Présentez votre activité avec un site clair, moderne et responsive, conçu pour convertir vos visiteurs en clients.",
-    featured: true,
-  },
-  {
-    icon: Smartphone,
-    title: "Design responsive",
-    description:
-      "Une expérience optimale sur tous les écrans : mobile, tablette et desktop, sans compromis.",
-  },
-  {
-    icon: Zap,
-    title: "Performance",
-    description:
-      "Sites rapides et légers pour un meilleur référencement, une meilleure expérience et plus de conversions.",
-  },
-  {
-    icon: Palette,
-    title: "Identité visuelle",
-    description:
-      "Design sur mesure aligné avec votre charte et votre image de marque pour vous démarquer.",
-  },
-  {
-    icon: Search,
-    title: "SEO",
-    description:
-      "Bases SEO solides pour améliorer votre visibilité dans les moteurs de recherche dès le lancement.",
-  },
-  {
-    icon: Shield,
-    title: "Maintenance",
-    description:
-      "Mises à jour, sauvegardes et suivi pour un site toujours à jour, sécurisé et performant.",
-  },
+  { icon: Layout,     key: "showcase",    featured: true },
+  { icon: Smartphone, key: "responsive"   },
+  { icon: Zap,        key: "perf"         },
+  { icon: Palette,    key: "brand"        },
+  { icon: Search,     key: "seo"          },
+  { icon: Shield,     key: "maintenance"  },
 ];
 
 export function Services() {
+  const { t } = useI18n();
+
   return (
     <section id="services" className="section-padding border-t border-[var(--border)] bg-[var(--section-alt)] overflow-hidden">
       <div className="section-container min-w-0">
@@ -60,12 +32,12 @@ export function Services() {
           transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <div className="max-w-xl">
-            <span className="eyebrow mb-5">Prestations</span>
+            <span className="eyebrow mb-5">{t("services.eyebrow")}</span>
 
             <h2 className="text-[1.875rem] font-light leading-[1.15] tracking-tight text-[var(--foreground)] sm:text-[2.25rem] md:text-[2.75rem]">
-              Tout ce qu'il faut pour{" "}
+              {t("services.title1")}{" "}
               <span className="relative inline-block font-semibold">
-                réussir en ligne
+                {t("services.titleAccent")}
                 <motion.span
                   initial={{ scaleX: 0 }}
                   whileInView={{ scaleX: 1 }}
@@ -78,8 +50,7 @@ export function Services() {
           </div>
 
           <p className="max-w-sm text-[0.9375rem] leading-relaxed text-[var(--muted)] md:text-right">
-            Chaque prestation est pensée pour votre projet, de la conception
-            jusqu'à la mise en ligne.
+            {t("services.intro")}
           </p>
         </motion.div>
 
@@ -89,14 +60,14 @@ export function Services() {
             const wide = i === 0 || i === services.length - 1;
             return (
               <BlurFade
-                key={service.title}
+                key={service.key}
                 delay={0.06 + i * 0.07}
                 inView
                 className={wide ? "sm:col-span-2" : ""}
               >
                 <SpotlightCard
                   className="group !rounded-2xl !border-[var(--border)] !bg-[var(--surface)] !p-7 h-full transition-colors hover:!border-[var(--border-hover)] md:!p-8"
-                  spotlightColor="rgba(124, 107, 255, 0.18)"
+                  spotlightColor="rgba(96, 81, 242, 0.14)"
                 >
                   {/* Numéro */}
                   <span className="absolute right-6 top-6 text-[0.7rem] font-semibold tabular-nums text-[var(--border-hover)] select-none">
@@ -117,10 +88,10 @@ export function Services() {
                     {/* Texte */}
                     <div>
                       <h3 className="mb-2 text-[1.0625rem] font-semibold tracking-tight text-[var(--foreground)]">
-                        {service.title}
+                        {t(`services.${service.key}Title`)}
                       </h3>
                       <p className="text-[0.875rem] leading-relaxed text-[var(--muted)]">
-                        {service.description}
+                        {t(`services.${service.key}Desc`)}
                       </p>
                     </div>
                   </div>
@@ -130,8 +101,8 @@ export function Services() {
                       size={110}
                       duration={7}
                       borderWidth={1.5}
-                      colorFrom="rgba(109,94,255,0)"
-                      colorTo="rgba(167,139,250,0.9)"
+                      colorFrom="transparent"
+                      colorTo="var(--beam-color)"
                     />
                   )}
                 </SpotlightCard>

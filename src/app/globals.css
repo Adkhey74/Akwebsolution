@@ -5,22 +5,32 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* ── Palette AKWebSolution — Dark + Violet électrique ── */
-  --background: oklch(0.09 0.012 285);    /* ~#0B0B0F near-black froid */
-  --foreground: oklch(0.96 0.005 285);    /* ~#F2F2F5 */
-  --muted: oklch(0.70 0.015 285);         /* texte secondaire (contraste AA) */
-  --muted-foreground: oklch(0.74 0.012 285);
-  --accent: oklch(0.60 0.22 280);         /* ~#6D5EFF violet électrique — fills/CTA/glow */
-  --accent-hover: oklch(0.66 0.205 280);
-  --accent-soft: oklch(0.80 0.12 285);    /* ~#B7A6FF — texte/lien accent sur fond sombre (AA) */
+  /* ── Palette AKWebSolution — Clair + Violet électrique ──────────────
+     Version claire du thème. Même identité violette, luminances inversées.
+     Contrastes WCAG mesurés (sur --background / --surface / --section-alt) :
+       --foreground  17.4 / 18.2 / …  AAA
+       --muted        5.8 /  6.0 / 5.4 AA
+       --accent-soft  7.2 /  7.5 / 6.8 AAA  (liens)
+       blanc sur --accent          5.31 AA  (label des CTA)
+     Sur fond clair l'accent doit être PLUS FONCÉ que sur fond sombre, et
+     le hover s'assombrit au lieu de s'éclaircir. */
+  --background: oklch(0.985 0.004 285);   /* ~#FAFAFD blanc froid légèrement violacé */
+  --foreground: oklch(0.20 0.02 285);     /* ~#15151F near-black froid */
+  --muted: oklch(0.50 0.02 285);          /* ~#62626F texte secondaire (contraste AA) */
+  --muted-foreground: oklch(0.46 0.02 285);
+  --accent: oklch(0.55 0.23 280);         /* ~#6051F2 violet électrique — fills/CTA */
+  --accent-hover: oklch(0.49 0.23 280);   /* s'assombrit au survol (fond clair) */
+  --accent-soft: oklch(0.47 0.22 280);    /* ~#4D38D0 — texte/lien accent sur fond clair (AAA) */
   --accent-foreground: oklch(0.99 0 0);   /* blanc sur violet */
-  --border: oklch(0.80 0.05 285 / 0.12);
-  --border-hover: oklch(0.80 0.09 285 / 0.22);
-  --card: oklch(0.80 0.05 285 / 0.04);
-  --card-foreground: oklch(0.96 0.005 285);
-  --card-hover: oklch(0.80 0.05 285 / 0.08);
-  --surface: oklch(0.14 0.014 285);       /* panel/card bg */
-  --section-alt: oklch(0.115 0.013 285);  /* section « surélevée » (alternance tonale) */
+  --border: oklch(0.30 0.03 285 / 0.14);
+  --border-hover: oklch(0.30 0.04 285 / 0.28);
+  --border-input: oklch(0.30 0.03 285 / 0.55); /* champs de formulaire — 3.4:1, WCAG 1.4.11 */
+  --card: oklch(0.30 0.03 285 / 0.04);
+  --card-foreground: oklch(0.20 0.02 285);
+  --card-hover: oklch(0.30 0.03 285 / 0.07);
+  --surface: oklch(1 0 0);                /* panel/card bg — blanc pur, se détache du fond */
+  --section-alt: oklch(0.965 0.006 285);  /* section « en retrait » (alternance tonale) */
+  --footer: oklch(0.94 0.008 285);        /* bande footer — teinte plus marquée */
   --radius: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
@@ -28,9 +38,61 @@
   --space-block: clamp(1.5rem, 4vw, 2.5rem);
   --container: min(100% - 2rem, 75rem);
   --container-narrow: 45rem;
-  --glow: 0 0 0 1px oklch(0.6 0.22 280 / 0.18), 0 24px 70px -24px oklch(0.6 0.22 280 / 0.40);
-  --beam-from: oklch(0.60 0.22 280 / 0.9);
-  --beam-to: oklch(0.60 0.22 280 / 0);
+  --container-pad: max(1rem, min(5vw, 2.5rem)); /* = padding-inline de .section-container */
+  --bleed: calc(max(1rem, (100vw - 75rem) / 2) + var(--container-pad));
+  /* Sur fond clair un « glow » ne fonctionne pas : on passe à une ombre
+     portée teintée violet, qui produit la même lecture d'élévation. */
+  --glow: 0 0 0 1px oklch(0.55 0.23 280 / 0.20), 0 24px 60px -28px oklch(0.55 0.23 280 / 0.32);
+  --beam-from: oklch(0.55 0.23 280 / 0.9);
+  --beam-to: oklch(0.55 0.23 280 / 0);
+
+  /* ── Tokens dépendants du thème ────────────────────────────────────────
+     Tout ce qui ne peut pas être une simple couleur de texte/fond : modes de
+     fusion, ombres, teintes des nappes du Hero, couleurs lues en JS (canvas
+     Aurora, dégradé AuroraText). Sortis en variables pour que le passage
+     clair ↔ sombre n'ait à toucher aucun composant. */
+
+  /* Ombre portée des cartes au survol — 0.5 de noir (valeur du thème sombre)
+     ferait sale sur fond clair. */
+  --shadow-card: rgba(21, 21, 31, 0.10);
+  /* Élévation plus marquée, pour les grands médias (bandes Réalisations) */
+  --shadow-media: rgba(21, 21, 31, 0.28);
+
+  /* Fond animé du Hero. Sur fond clair `screen` délave tout vers le blanc :
+     il faut `multiply`, et la couleur du dégradé devient littéralement la
+     teinte obtenue — d'où des lavandes pastel. */
+  --hero-blend: multiply;
+  --hero-blob-1: #c9beff;
+  --hero-blob-2: #d8d0ff;
+  --hero-blob-3: #bfb3f5;
+  --hero-grid-line: rgba(21, 21, 31, 0.055);
+  --hero-beam-line: rgba(96, 81, 242, 0.055);
+  /* La vignette éclaircit vers le fond de page au lieu d'assombrir */
+  --hero-vignette: rgba(250, 250, 253, 0.82);
+  --hero-halo: rgba(96, 81, 242, 0.13);
+  --hero-static-1: rgba(160, 145, 255, 0.30);
+  --hero-static-2: rgba(186, 175, 255, 0.26);
+  --hero-static-3: rgba(150, 138, 232, 0.22);
+
+  /* Grain : `overlay` écrase les teintes sur fond clair, `multiply` donne une
+     texture papier discrète. */
+  --grain-blend: multiply;
+  --grain-opacity: 0.05;
+
+  /* Dégradé du mot mis en avant dans le H1 (AuroraText, lu en JS) */
+  --aurora-1: #5b49e8;
+  --aurora-2: #7c4dff;
+  --aurora-3: #4a35c9;
+  --aurora-4: #6e58ff;
+
+  /* Canvas Aurora (lu en JS via getComputedStyle) — composantes RGB brutes,
+     l'alpha est calculé côté script. */
+  --canvas-blob-rgb: 96, 81, 242;
+  --canvas-vignette-rgb: 250, 250, 253;
+  --canvas-blob-boost: 1.4;   /* un violet translucide se lit moins sur clair */
+
+  /* BorderBeam — un violet pâle disparaîtrait sur une carte blanche */
+  --beam-color: rgba(93, 73, 232, 0.95);
 
   /* ── Variables shadcn (non surchargées) ── */
   --popover: oklch(1 0 0);
@@ -93,6 +155,8 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-border-input: var(--border-input);
+  --color-footer: var(--footer);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -227,7 +291,7 @@ body {
 }
 
 ::selection {
-  background: oklch(0.60 0.22 280 / 0.35);
+  background: oklch(0.55 0.23 280 / 0.20);
   color: var(--foreground);
 }
 
@@ -240,11 +304,36 @@ body {
   width: 100%;
   max-width: var(--container);
   margin-inline: auto;
-  padding-inline: max(1rem, min(5vw, 2.5rem));
+  padding-inline: var(--container-pad);
 }
 
 .section-padding {
   padding-block: var(--space-section);
+}
+
+/* ── Débordement « plein cadre » ────────────────────────────────────────
+   Permet à un média placé DANS .section-container d'aller jusqu'au bord du
+   viewport, d'un côté ou des deux.
+
+   La gouttière à rattraper = distance entre le bord du viewport et le bord
+   du contenu du container, soit :
+     (100vw − largeur de la boîte) / 2   +   padding du container
+   La boîte vaut min(100% − 2rem, 75rem) → le max() couvre les deux cas
+   (écran large : (100vw − 75rem)/2 ; écran étroit : 1rem).
+
+   On n'utilise pas `calc(50% − 50vw)` : dans une cellule de grille, un
+   pourcentage de marge se résout sur la largeur de la CELLULE, pas du
+   container — la valeur serait fausse. */
+@utility bleed-x {
+  margin-inline: calc(-1 * var(--bleed));
+}
+@utility bleed-l {
+  margin-left: calc(-1 * var(--bleed));
+  margin-right: 0;
+}
+@utility bleed-r {
+  margin-right: calc(-1 * var(--bleed));
+  margin-left: 0;
 }
 
 /* ── Motifs factorisés de la refonte UI ── */
@@ -309,7 +398,7 @@ body {
 
 /* Halo lumineux violet réutilisable (fond de section / derrière un média) */
 .glow-accent {
-  background: radial-gradient(ellipse at center, oklch(0.60 0.22 280 / 0.22) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, oklch(0.55 0.23 280 / 0.14) 0%, transparent 70%);
   filter: blur(40px);
 }
 
@@ -418,28 +507,28 @@ body {
   position: absolute;
   border-radius: 9999px;
   filter: blur(80px);
-  mix-blend-mode: screen;
+  mix-blend-mode: var(--hero-blend);
   will-change: transform;
 }
 .hero-bg__a1 {
   width: 60vw; height: 60vw; max-width: 780px; max-height: 780px;
   top: -14%; left: -8%;
   opacity: 0.55;
-  background: radial-gradient(circle, #6d5eff 0%, transparent 68%);
+  background: radial-gradient(circle, var(--hero-blob-1) 0%, transparent 68%);
   animation: hero-drift-a 20s ease-in-out infinite;
 }
 .hero-bg__a2 {
   width: 52vw; height: 52vw; max-width: 680px; max-height: 680px;
   top: -8%; right: -10%;
   opacity: 0.5;
-  background: radial-gradient(circle, #8b7bff 0%, transparent 66%);
+  background: radial-gradient(circle, var(--hero-blob-2) 0%, transparent 66%);
   animation: hero-drift-b 24s ease-in-out infinite;
 }
 .hero-bg__a3 {
   width: 66vw; height: 66vw; max-width: 900px; max-height: 900px;
   bottom: -30%; left: 14%;
   opacity: 0.42;
-  background: radial-gradient(circle, #4b3fae 0%, transparent 70%);
+  background: radial-gradient(circle, var(--hero-blob-3) 0%, transparent 70%);
   animation: hero-drift-c 28s ease-in-out infinite;
 }
 /* Fines diagonales lumineuses (clin d'œil aux beams) */
@@ -450,8 +539,8 @@ body {
     115deg,
     transparent 0,
     transparent 88px,
-    rgba(167, 139, 250, 0.05) 88px,
-    rgba(167, 139, 250, 0.05) 91px
+    var(--hero-beam-line) 88px,
+    var(--hero-beam-line) 91px
   );
   animation: hero-beam-move 22s linear infinite;
 }
@@ -460,8 +549,8 @@ body {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, var(--hero-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--hero-grid-line) 1px, transparent 1px);
   background-size: 46px 46px;
   mask-image: radial-gradient(ellipse 72% 60% at 50% 40%, #000 5%, transparent 74%);
   -webkit-mask-image: radial-gradient(ellipse 72% 60% at 50% 40%, #000 5%, transparent 74%);
@@ -498,9 +587,9 @@ body {
      proche, mais composité une seule fois. */
   .hero-bg {
     background:
-      radial-gradient(60% 50% at 18% -5%, rgba(109, 94, 255, 0.30), transparent 70%),
-      radial-gradient(55% 45% at 88% 0%, rgba(139, 123, 255, 0.22), transparent 70%),
-      radial-gradient(80% 62% at 50% 108%, rgba(75, 63, 174, 0.24), transparent 78%),
+      radial-gradient(60% 50% at 18% -5%, var(--hero-static-1), transparent 70%),
+      radial-gradient(55% 45% at 88% 0%, var(--hero-static-2), transparent 70%),
+      radial-gradient(80% 62% at 50% 108%, var(--hero-static-3), transparent 78%),
       var(--background);
   }
   .hero-bg__aurora,
@@ -530,38 +619,74 @@ body {
   }
 }
 
+/* ── Thème sombre ───────────────────────────────────────────────────────
+   Appliqué par la classe `dark` sur <html> (posée avant le premier rendu par
+   le script inline de layout.tsx, donc sans flash).
+
+   Ce bloc contenait auparavant les valeurs grises par défaut de shadcn, et
+   n'était jamais activé — aucune classe `dark` n'était posée. Il porte
+   désormais la palette violette d'origine du site.
+
+   Contrastes WCAG mesurés sur --background :
+     --foreground 18.4 AAA · --muted 7.7 AAA · --accent-soft 10.7 AAA
+   `--accent` est à 0.58 et non 0.60 comme à l'origine : à 0.60, le blanc des
+   libellés de CTA tombait à 4.26:1, sous le seuil AA de 4.5. */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.87 0.00 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.371 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: oklch(0.09 0.012 285);    /* ~#0B0B0F near-black froid */
+  --foreground: oklch(0.96 0.005 285);    /* ~#F2F2F5 */
+  --muted: oklch(0.70 0.015 285);
+  --muted-foreground: oklch(0.74 0.012 285);
+  --accent: oklch(0.58 0.22 280);         /* blanc dessus = 4.64:1 (AA) */
+  /* S'assombrit au survol, comme en thème clair — donc une seule logique
+     d'interaction pour les deux thèmes. L'éclaircissement d'origine
+     (L=0.66) faisait tomber le blanc du libellé à 3.39:1, sous le seuil AA :
+     sur ce violet, aucune valeur PLUS CLAIRE que 0.585 ne tient le 4.5:1. */
+  --accent-hover: oklch(0.52 0.23 280);   /* blanc dessus = 6.06:1 */
+  --accent-soft: oklch(0.80 0.12 285);    /* ~#B7A6FF liens sur fond sombre */
+  --accent-foreground: oklch(0.99 0 0);
+  --border: oklch(0.80 0.05 285 / 0.12);
+  --border-hover: oklch(0.80 0.09 285 / 0.22);
+  --border-input: oklch(0.80 0.05 285 / 0.55); /* 3.78:1 sur --surface (à 0.45 : 2.88, insuffisant) */
+  --card: oklch(0.80 0.05 285 / 0.04);
+  --card-foreground: oklch(0.96 0.005 285);
+  --card-hover: oklch(0.80 0.05 285 / 0.08);
+  --surface: oklch(0.14 0.014 285);
+  --section-alt: oklch(0.115 0.013 285);
+  --footer: oklch(0 0 0);                 /* noir pur, comme à l'origine */
+
+  --glow: 0 0 0 1px oklch(0.58 0.22 280 / 0.18), 0 24px 70px -24px oklch(0.58 0.22 280 / 0.40);
+  --beam-from: oklch(0.58 0.22 280 / 0.9);
+  --beam-to: oklch(0.58 0.22 280 / 0);
+
+  /* Équivalents sombres des tokens dépendants du thème */
+  --shadow-card: rgba(0, 0, 0, 0.5);
+  --shadow-media: rgba(0, 0, 0, 0.65);
+
+  --hero-blend: screen;                   /* additif sur fond noir */
+  --hero-blob-1: #6d5eff;
+  --hero-blob-2: #8b7bff;
+  --hero-blob-3: #4b3fae;
+  --hero-grid-line: rgba(255, 255, 255, 0.04);
+  --hero-beam-line: rgba(167, 139, 250, 0.05);
+  --hero-vignette: rgba(0, 0, 0, 0.65);   /* assombrit les bords */
+  --hero-halo: rgba(109, 94, 255, 0.28);
+  --hero-static-1: rgba(109, 94, 255, 0.30);
+  --hero-static-2: rgba(139, 123, 255, 0.22);
+  --hero-static-3: rgba(75, 63, 174, 0.24);
+
+  --grain-blend: overlay;
+  --grain-opacity: 0.14;
+
+  --aurora-1: #6d5eff;
+  --aurora-2: #a78bfa;
+  --aurora-3: #8b7eff;
+  --aurora-4: #c4b5fd;
+
+  --canvas-blob-rgb: 124, 107, 255;
+  --canvas-vignette-rgb: 0, 0, 0;
+  --canvas-blob-boost: 1;
+
+  --beam-color: rgba(167, 139, 250, 0.9);
 }
 
 @layer base {

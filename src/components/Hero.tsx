@@ -5,30 +5,38 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { usePageLoader } from "@/components/PageLoaderContext";
+import { useI18n } from "@/lib/i18n/context";
 
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { AuroraText } from "@/components/ui/aurora-text";
 import { HeroBackground } from "@/components/HeroBackground";
 
-const AURORA = ["#6D5EFF", "#A78BFA", "#8B7EFF", "#C4B5FD"];
+// Référencées en variables CSS : le thème clair a besoin de violets foncés
+// (les lavandes pâles disparaissent sur blanc), le thème sombre de l'inverse.
+// Les valeurs vivent dans globals.css (:root et .dark).
+const AURORA = [
+  "var(--aurora-1)",
+  "var(--aurora-2)",
+  "var(--aurora-3)",
+  "var(--aurora-4)",
+];
 
 // Fond Beams (three.js) — conservé pour revenir en arrière si besoin :
 // const Beams = dynamic(() => import("@/components/Beams").then((m) => m.Beams), { ssr: false });
 
 const stats = [
-  { to: 5, suffix: "+", label: "ans d'expérience" },
-  { to: 100, suffix: "%", label: "Clients satisfaits" },
-  { to: 24, suffix: "h", label: "Délai de réponse" },
+  { to: 5,   suffix: "+", key: "hero.statExperience" },
+  { to: 100, suffix: "%", key: "hero.statClients"    },
+  { to: 24,  suffix: "h", key: "hero.statResponse"   },
 ];
-
-const trust = ["Tarifs transparents", "Sans engagement", "Livraison rapide"];
 
 // Grain SVG (fractal noise) encodé en data-URI
 const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
 export function Hero() {
+  const { t, tList } = useI18n();
   const loader = usePageLoader();
   const setVideoReady = loader?.setVideoReady;
   const isLoading = loader?.isLoading ?? true;
@@ -37,6 +45,8 @@ export function Hero() {
   useEffect(() => {
     if (setVideoReady) setVideoReady();
   }, [setVideoReady]);
+
+  const trust = tList("hero.trust");
 
   const animate = !isLoading ? "visible" : "hidden";
   const statsKey = !isLoading ? "ready" : "loading";
@@ -64,22 +74,29 @@ export function Hero() {
           fond statique prend le relais) */}
       <div
         className="pointer-events-none absolute left-1/2 top-[42%] z-[1] hidden h-[420px] w-[860px] max-w-[95vw] -translate-x-1/2 -translate-y-1/2 rounded-full md:block"
-        style={{ background: "radial-gradient(ellipse at center, rgba(109,94,255,0.28) 0%, rgba(109,94,255,0) 70%)", filter: "blur(50px)" }}
+        style={{ background: "radial-gradient(ellipse at center, var(--hero-halo) 0%, transparent 70%)", filter: "blur(50px)" }}
         aria-hidden
       />
 
-      {/* Vignette — assombrit les bords */}
+      {/* Vignette — assombrit les bords en thème sombre, les éclaircit vers le
+          fond de page en thème clair (cf. --hero-vignette) */}
       <div
         className="pointer-events-none absolute inset-0 z-[2]"
-        style={{ background: "radial-gradient(ellipse 85% 80% at 50% 45%, transparent 35%, rgba(0,0,0,0.65) 100%)" }}
+        style={{ background: "radial-gradient(ellipse 85% 80% at 50% 45%, transparent 35%, var(--hero-vignette) 100%)" }}
         aria-hidden
       />
 
-      {/* Grain — masqué sur mobile : un mix-blend-overlay plein écran force
-          Safari à re-blender tout le Hero à chaque frame d'animation */}
+      {/* Grain — masqué sur mobile : un mix-blend plein écran force Safari à
+          re-blender tout le Hero à chaque frame d'animation.
+          Le mode de fusion dépend du thème : `overlay` sur fond sombre,
+          `multiply` sur fond clair (overlay y écraserait les teintes). */}
       <div
-        className="pointer-events-none absolute inset-0 z-[3] hidden opacity-[0.14] mix-blend-overlay md:block"
-        style={{ backgroundImage: GRAIN }}
+        className="pointer-events-none absolute inset-0 z-[3] hidden md:block"
+        style={{
+          backgroundImage: GRAIN,
+          opacity: "var(--grain-opacity)",
+          mixBlendMode: "var(--grain-blend)" as React.CSSProperties["mixBlendMode"],
+        }}
         aria-hidden
       />
 
@@ -92,19 +109,19 @@ export function Hero() {
           animate={animate}
           variants={{ hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } }}
           transition={{ duration: 0.5, delay: 0.05, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="mb-6 hidden items-center gap-2.5 rounded-full border border-white/20 bg-white/[0.07] px-4 py-1.5 backdrop-blur-md sm:mb-8 sm:inline-flex"
+          className="mb-6 hidden items-center gap-2.5 rounded-full border border-[var(--border-hover)] bg-[var(--surface)]/70 px-4 py-1.5 backdrop-blur-md sm:mb-8 sm:inline-flex"
         >
           <span className="relative flex h-1.5 w-1.5">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)]/70" />
             <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
           </span>
-          <span className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/75 sm:text-[0.7rem] sm:tracking-[0.22em]">
-            Agence Web à Annecy · Sites sur mesure
+          <span className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--muted)] sm:text-[0.7rem] sm:tracking-[0.22em]">
+            {t("hero.badge")}
           </span>
         </motion.div>
 
         {/* H1 — Fraunces, XXL */}
-        <h1 className="max-w-5xl text-[2.25rem] font-normal leading-[1.02] tracking-[-0.02em] text-white sm:text-[3rem] md:text-[4rem] lg:text-[5rem]">
+        <h1 className="max-w-5xl text-[2.25rem] font-normal leading-[1.02] tracking-[-0.02em] text-[var(--foreground)] sm:text-[3rem] md:text-[4rem] lg:text-[5rem]">
           <span className="block overflow-hidden pb-[0.08em]">
             <motion.span
               className="block"
@@ -113,9 +130,9 @@ export function Hero() {
               variants={{ hidden: { y: "105%" }, visible: { y: "0%" } }}
               transition={{ duration: 0.7, delay: 0.1, ease: [0.76, 0, 0.24, 1] }}
             >
-              Des sites web{" "}
+              {t("hero.title1")}{" "}
               <span className="relative font-display font-semibold italic">
-                <AuroraText colors={AURORA} speed={1.2}>élégants</AuroraText>
+                <AuroraText colors={AURORA} speed={1.2}>{t("hero.titleAccent")}</AuroraText>
                 <motion.span
                   initial={{ scaleX: 0 }}
                   animate={animate}
@@ -134,7 +151,7 @@ export function Hero() {
               variants={{ hidden: { y: "105%" }, visible: { y: "0%" } }}
               transition={{ duration: 0.7, delay: 0.22, ease: [0.76, 0, 0.24, 1] }}
             >
-              qui vous ressemblent
+              {t("hero.title2")}
             </motion.span>
           </span>
         </h1>
@@ -145,11 +162,9 @@ export function Hero() {
           animate={animate}
           variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0 } }}
           transition={{ duration: 0.6, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="mt-6 max-w-[40rem] text-center text-[0.9375rem] leading-[1.6] text-white/75 md:text-[1.0625rem]"
+          className="mt-6 max-w-[40rem] text-center text-[0.9375rem] leading-[1.6] text-[var(--muted)] md:text-[1.0625rem]"
         >
-          Développeur web freelance à Annecy. Sites rapides, clairs et adaptés à
-          votre activité — une présence en ligne professionnelle, à votre image,
-          en Haute-Savoie et partout en France.
+          {t("hero.subtitle")}
         </motion.p>
 
         {/* CTAs */}
@@ -160,23 +175,23 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.72, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="mt-8 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4"
         >
-          <Link href="/offres" aria-label="Démarrer mon projet" className="w-full sm:w-auto">
+          <Link href="/offres" aria-label={t("hero.ctaPrimary")} className="w-full sm:w-auto">
             <ShimmerButton
               background="var(--accent)"
               shimmerColor="rgba(255,255,255,0.85)"
               borderRadius="9999px"
               className="w-full gap-2 border-transparent px-6 py-3 text-[0.875rem] font-semibold !text-white shadow-[0_10px_40px_-10px_var(--accent)] transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_50px_-10px_var(--accent)] sm:w-auto sm:px-10 sm:py-4 sm:text-[0.9375rem]"
             >
-              Démarrer mon projet
+              {t("hero.ctaPrimary")}
               <ArrowRight size={16} strokeWidth={2.25} />
             </ShimmerButton>
           </Link>
           <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
             <Link
               href="/#services"
-              className="inline-flex w-full items-center justify-center rounded-full border border-white/25 px-6 py-3 text-[0.875rem] font-medium text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--accent)]/70 hover:bg-[var(--accent)]/10 hover:shadow-[0_8px_28px_-10px_var(--accent)] max-md:backdrop-blur-none sm:w-auto sm:px-10 sm:py-4 sm:text-[0.9375rem]"
+              className="inline-flex w-full items-center justify-center rounded-full border border-[var(--border-hover)] px-6 py-3 text-[0.875rem] font-medium text-[var(--foreground)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--accent)]/70 hover:bg-[var(--accent)]/10 hover:shadow-[0_8px_28px_-14px_var(--accent)] max-md:backdrop-blur-none sm:w-auto sm:px-10 sm:py-4 sm:text-[0.9375rem]"
             >
-              Voir nos services
+              {t("hero.ctaSecondary")}
             </Link>
           </motion.div>
         </motion.div>
@@ -190,7 +205,7 @@ export function Hero() {
           className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2"
         >
           {trust.map((item) => (
-            <span key={item} className="flex items-center gap-1.5 text-[0.75rem] text-white/60 sm:text-[0.8rem]">
+            <span key={item} className="flex items-center gap-1.5 text-[0.75rem] text-[var(--muted)] sm:text-[0.8rem]">
               <CheckCircle2 size={13} strokeWidth={2} className="shrink-0" />
               {item}
             </span>
@@ -207,22 +222,22 @@ export function Hero() {
         >
           {stats.map((s) => (
             <div
-              key={s.label}
-              className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] px-2 py-4 backdrop-blur-md transition-colors hover:border-[var(--accent)]/40 max-md:bg-white/[0.06] max-md:backdrop-blur-none sm:px-4 sm:py-5"
+              key={s.key}
+              className="relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)]/80 px-2 py-4 backdrop-blur-md transition-colors hover:border-[var(--accent)]/40 max-md:bg-[var(--surface)] max-md:backdrop-blur-none sm:px-4 sm:py-5"
             >
-              {/* glow violet — masqué sur mobile (blur re-rasterisé pendant l'entrée) */}
-              <div className="pointer-events-none absolute -top-10 left-1/2 hidden h-20 w-20 -translate-x-1/2 rounded-full bg-[var(--accent)]/30 blur-2xl md:block" />
+              {/* voile violet — masqué sur mobile (blur re-rasterisé pendant l'entrée) */}
+              <div className="pointer-events-none absolute -top-10 left-1/2 hidden h-20 w-20 -translate-x-1/2 rounded-full bg-[var(--accent)]/20 blur-2xl md:block" />
               <p className="relative flex items-baseline justify-center whitespace-nowrap text-[1.5rem] font-semibold leading-none text-[var(--accent-soft)] sm:text-[2rem]">
                 <NumberTicker
-                  key={`${s.label}-${statsKey}`}
+                  key={`${s.key}-${statsKey}`}
                   value={s.to}
                   delay={0.4}
                   className="text-[var(--accent-soft)]"
                 />
                 <span className="ml-0.5">{s.suffix}</span>
               </p>
-              <p className="relative mt-1.5 text-center text-[0.58rem] font-medium uppercase leading-tight tracking-[0.1em] text-white/55 sm:text-[0.68rem]">
-                {s.label}
+              <p className="relative mt-1.5 text-center text-[0.58rem] font-medium uppercase leading-tight tracking-[0.1em] text-[var(--muted)] sm:text-[0.68rem]">
+                {t(s.key)}
               </p>
             </div>
           ))}

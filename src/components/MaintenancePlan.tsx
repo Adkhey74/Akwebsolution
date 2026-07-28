@@ -4,33 +4,17 @@ import { useId, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { Check, LifeBuoy } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
-const features = [
-  "2 heures de modifications par mois : textes, images, nouvelles sections",
-  "Hébergement, nom de domaine et certificat de sécurité inclus",
-  "Sauvegardes quotidiennes et restauration en cas de problème",
-  "Mises à jour de sécurité et de performance",
-  "Rapport mensuel : visiteurs, provenance, demandes de contact",
-  "Support prioritaire, réponse sous 24 h ouvrées",
-  "Correction des bugs et des pannes sans supplément",
-];
 
 const plans = [
-  {
-    id: "flex",
-    tab: "Sans engagement",
-    price: "80",
-    note: "Résiliable à tout moment, sans préavis.",
-  },
-  {
-    id: "annual",
-    tab: "Engagement 1 an",
-    price: "70",
-    note: "Soit 120 € économisés sur l'année.",
-  },
+  { id: "flex",   price: "80", tabKey: "maintenance.tabFlex",   noteKey: "maintenance.noteFlex"   },
+  { id: "annual", price: "70", tabKey: "maintenance.tabAnnual", noteKey: "maintenance.noteAnnual" },
 ] as const;
 
 export function MaintenancePlan() {
+  const { t, tList } = useI18n();
+  const features = tList("maintenance.features");
   const [active, setActive] = useState<string>(plans[1].id);
   const groupName = useId();
   const reduceMotion = useReducedMotion();
@@ -49,19 +33,19 @@ export function MaintenancePlan() {
             className="text-xl font-semibold text-[var(--foreground)]"
             style={{ fontFamily: "var(--font-display)" }}
           >
-            Maintenance
+            {t("maintenance.title")}
           </h2>
           <p className="mt-2 max-w-md text-[0.875rem] leading-relaxed text-[var(--muted)]">
-            Votre site suivi toute l’année.{" "}
+            {t("maintenance.introStart")}{" "}
             <span className="text-[var(--foreground)]">
-              Vos modifications faites pour vous, sans rien apprendre
+              {t("maintenance.introStrong")}
             </span>{" "}
-            — vous envoyez un email, c’est en ligne dans la journée.
+            {t("maintenance.introEnd")}
           </p>
         </div>
 
         <fieldset className="shrink-0">
-          <legend className="sr-only">Choisissez votre formule de maintenance</legend>
+          <legend className="sr-only">{t("maintenance.legend")}</legend>
           <div className="inline-flex rounded-full border border-[var(--border)] bg-[var(--card)] p-1">
             {plans.map((p) => {
               const isActive = p.id === active;
@@ -96,7 +80,7 @@ export function MaintenancePlan() {
                         : "text-[var(--muted)] hover:text-[var(--foreground)]"
                     }`}
                   >
-                    {p.tab}
+                    {t(p.tabKey)}
                   </span>
                 </label>
               );
@@ -126,21 +110,21 @@ export function MaintenancePlan() {
             <span className="text-4xl font-bold tracking-tight text-[var(--foreground)]">
               {plan.price} €
             </span>
-            <span className="text-[0.9375rem] text-[var(--muted)]">/ mois</span>
+            <span className="text-[0.9375rem] text-[var(--muted)]">{t("maintenance.perMonth")}</span>
           </div>
-          <p className="mt-1.5 text-[0.8125rem] text-[var(--muted)]">{plan.note}</p>
+          <p className="mt-1.5 text-[0.8125rem] text-[var(--muted)]">{t(plan.noteKey)}</p>
         </div>
 
         <Link
           href="/#contact"
           className="rounded-full border border-[var(--border-hover)] px-7 py-3 text-center text-[0.875rem] font-medium text-[var(--foreground)] transition-colors duration-200 hover:bg-[var(--card)]"
         >
-          Demander la maintenance
+          {t("maintenance.cta")}
         </Link>
       </div>
 
       <p className="mt-6 text-[0.8125rem] leading-relaxed text-[var(--muted)]">
-        1er mois offert avec les offres Site Vitrine Complet et Site Pro &amp; Sur Mesure.
+        {t("maintenance.offered")}
       </p>
     </div>
   );

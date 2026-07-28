@@ -1,8 +1,11 @@
 "use client";
 
 import { motion } from "motion/react";
+import { useI18n } from "@/lib/i18n/context";
 
 export function ProjetsHeader() {
+  const { t } = useI18n();
+
   return (
     <section className="section-container min-w-0 pb-12 pt-28 sm:pb-16 sm:pt-32 md:pb-20 md:pt-40">
       <motion.div
@@ -12,12 +15,14 @@ export function ProjetsHeader() {
         className="max-w-2xl min-w-0"
       >
         {/* Badge */}
-        <span className="eyebrow mb-6">Réalisations</span>
+        {/* « Portfolio » et non « Réalisations » : le H1 juste en dessous dit
+            déjà « Nos réalisations » — l'écho se voyait. */}
+        <span className="eyebrow mb-6">{t("workPage.eyebrow")}</span>
 
         <h1 className="text-[2.25rem] font-light leading-[1.15] tracking-tight text-[var(--foreground)] sm:text-[2.75rem] md:text-[3.25rem]">
-          Nos{" "}
+          {t("workPage.title1")}{" "}
           <span className="relative inline-block font-semibold">
-            projets
+            {t("workPage.titleAccent")}
             <motion.span
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
@@ -28,8 +33,7 @@ export function ProjetsHeader() {
         </h1>
 
         <p className="mt-5 max-w-lg text-[1rem] leading-[1.7] text-[var(--muted)] md:text-[1.0625rem]">
-          Sites vitrines, interfaces sur mesure et designs responsives — chaque
-          projet est pensé pour refléter l'identité de notre client.
+          {t("workPage.intro")}
         </p>
       </motion.div>
     </section>

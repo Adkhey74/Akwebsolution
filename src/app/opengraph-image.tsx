@@ -10,7 +10,7 @@ export default function OgImage() {
     (
       <div
         style={{
-          background: "#0a0a0a",
+          background: "#FAFAFD",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -34,14 +34,14 @@ export default function OgImage() {
             style={{
               width: "56px",
               height: "56px",
-              background: "#ffffff",
+              background: "#6051F2",
               borderRadius: "14px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               fontSize: "24px",
               fontWeight: "700",
-              color: "#0a0a0a",
+              color: "#ffffff",
               letterSpacing: "-1px",
             }}
           >
@@ -51,7 +51,7 @@ export default function OgImage() {
             style={{
               fontSize: "36px",
               fontWeight: "700",
-              color: "#ffffff",
+              color: "#15151F",
               letterSpacing: "-1px",
             }}
           >
@@ -64,7 +64,7 @@ export default function OgImage() {
           style={{
             fontSize: "56px",
             fontWeight: "700",
-            color: "#ffffff",
+            color: "#15151F",
             textAlign: "center",
             lineHeight: 1.15,
             letterSpacing: "-2px",
@@ -78,7 +78,7 @@ export default function OgImage() {
         <div
           style={{
             fontSize: "24px",
-            color: "rgba(255,255,255,0.5)",
+            color: "#62626F",
             marginTop: "24px",
             textAlign: "center",
             maxWidth: "700px",
@@ -92,12 +92,12 @@ export default function OgImage() {
         <div
           style={{
             marginTop: "48px",
-            background: "rgba(255,255,255,0.08)",
-            border: "1px solid rgba(255,255,255,0.12)",
+            background: "rgba(96,81,242,0.08)",
+            border: "1px solid rgba(96,81,242,0.28)",
             borderRadius: "999px",
             padding: "10px 28px",
             fontSize: "18px",
-            color: "rgba(255,255,255,0.6)",
+            color: "#4D38D0",
             letterSpacing: "0.5px",
           }}
         >

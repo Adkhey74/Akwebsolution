@@ -21,7 +21,7 @@ export function PageLoader({ progress }: PageLoaderProps) {
       {/* Halo violet ambiant */}
       <div
         className="pointer-events-none absolute left-1/2 top-1/2 h-[320px] w-[520px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{ background: "radial-gradient(ellipse at center, rgba(109,94,255,0.18) 0%, rgba(109,94,255,0) 70%)", filter: "blur(40px)" }}
+        style={{ background: "radial-gradient(ellipse at center, var(--hero-halo) 0%, transparent 70%)", filter: "blur(40px)" }}
       />
 
       <motion.div
@@ -44,14 +44,14 @@ export function PageLoader({ progress }: PageLoaderProps) {
             alt="AK Web Solutions"
             width={340}
             height={105}
-            className="h-auto w-full object-contain brightness-0 invert"
+            className="h-auto w-full object-contain brightness-0 dark:invert"
             priority
           />
         </motion.div>
       </motion.div>
 
       {/* Barre de chargement — synchronisée avec le chargement réel */}
-      <div className="absolute left-0 right-0 top-0 h-[3px] bg-white/10">
+      <div className="absolute left-0 right-0 top-0 h-[3px] bg-[var(--border-hover)]">
         <motion.div
           className="h-full bg-[var(--accent)] shadow-[0_0_12px_2px_var(--accent)]"
           initial={{ width: "0%" }}

@@ -2,177 +2,153 @@
 
 import { motion } from "motion/react";
 import Link from "next/link";
-import { Zap, Rocket, Star, Clock, ArrowRight } from "lucide-react";
-import { BlurFade } from "@/components/ui/blur-fade";
-import { BorderBeam } from "@/components/ui/border-beam";
+import { ArrowRight, MessagesSquare, PenTool, Rocket } from "lucide-react";
+import { entryPrice, formatEuros } from "@/lib/offers";
+import { useI18n } from "@/lib/i18n/context";
 
-const offers = [
-  {
-    id: "landing",
-    icon: Zap,
-    badge: null,
-    title: "Page Vitrine Rapide",
-    price: "700",
-    result: "Soyez visible en ligne en moins d'une semaine, sans budget excessif.",
-    target: "Idéal pour tester votre concept avant d'investir davantage",
-    delivery: "5 à 7 jours ouvrés",
-    features: [
-      "Une page complète et soignée",
-      "Visible sur téléphone, tablette et ordinateur",
-      "Formulaire de contact et bouton d'appel",
-      "Référencé sur Google dès le lancement",
-    ],
-  },
-  {
-    id: "starter",
-    icon: Rocket,
-    badge: "Populaire",
-    title: "Site Vitrine Complet",
-    price: "1 500",
-    result: "Soyez trouvé par les clients qui cherchent votre métier près de chez eux.",
-    target: "Idéal pour les activités établies qui veulent attirer de nouveaux clients",
-    delivery: "2 à 3 semaines",
-    features: [
-      "3 à 5 pages, une par service",
-      "Référencement local « votre métier + Annecy »",
-      "Fiche Google Business configurée",
-      "1er mois de maintenance offert",
-    ],
-  },
-  {
-    id: "pro",
-    icon: Star,
-    badge: null,
-    title: "Site Pro & Sur Mesure",
-    price: "2 500",
-    result: "Un site premium qui vous démarque et donne envie de vous contacter.",
-    target: "Idéal pour les projets ambitieux qui veulent marquer les esprits",
-    delivery: "Selon le projet",
-    features: [
-      "Jusqu'à 8 pages entièrement personnalisées",
-      "Version anglaise du site incluse",
-      "Section blog ou actualités",
-      "1 mois d'accompagnement inclus",
-    ],
-  },
+/**
+ * Méthode — remplace l'ancienne grille de 3 cartes tarifaires.
+ *
+ * Pourquoi ce changement :
+ *  - les 3 cartes reproduisaient celles de /offres (mêmes offres, mêmes tarifs
+ *    écrits en dur dans deux fichiers, et des champs `features` / `target`
+ *    recopiés puis jamais rendus) ;
+ *  - trois colonnes de prix alignées invitent à comparer sur le tarif et
+ *    ramènent le regard vers le moins cher — mauvais réflexe à provoquer pour
+ *    du sur-mesure ;
+ *  - le prix arrivait avant toute preuve (les avis clients sont désactivés), or
+ *    un prix sans preuve paraît toujours trop élevé.
+ *
+ * À la place : le déroulé du projet (ce qui rassure), UN seul tarif d'entrée
+ * dérivé de lib/offers.ts (ce qui filtre les budgets), et le comparatif détaillé
+ * renvoyé sur /offres — sa vraie place, pour qui compare déjà.
+ */
+
+const steps = [
+  { icon: MessagesSquare, key: "step1" },
+  { icon: PenTool,        key: "step2" },
+  { icon: Rocket,         key: "step3" },
 ];
 
-export function PricingSection() {
-  return (
-    <section className="border-t border-[var(--border)] py-24 md:py-32" id="offres">
-      <div className="section-container mx-auto w-full max-w-[72rem]">
+const EASE = [0.25, 0.46, 0.45, 0.94] as const;
 
-        {/* En-tête */}
+export function PricingSection() {
+  const { t } = useI18n();
+
+  return (
+    <section
+      id="offres"
+      className="section-padding border-t border-[var(--border)] bg-[var(--section-alt)]"
+    >
+      <div className="section-container min-w-0">
+
+        {/* ── En-tête ── */}
         <motion.div
-          className="mb-14 flex flex-col items-center text-center"
+          className="max-w-2xl"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{ duration: 0.55, ease: EASE }}
         >
-          <span className="eyebrow mb-5">Offres</span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl">
-            Des offres claires,<br className="hidden sm:block" /> à votre mesure
+          <span className="eyebrow mb-5">{t("method.eyebrow")}</span>
+          <h2 className="text-[1.875rem] font-light leading-[1.15] tracking-tight text-[var(--foreground)] sm:text-[2.25rem] md:text-[2.75rem]">
+            {t("method.title1")}{" "}
+            <span className="relative inline-block font-semibold">
+              {t("method.titleAccent")}
+              <motion.span
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: 0.3, ease: EASE }}
+                className="absolute -bottom-0.5 left-0 h-[2px] w-full origin-left bg-[var(--accent)]"
+              />
+            </span>
           </h2>
-          <p className="mx-auto mt-4 max-w-md text-[0.9375rem] leading-relaxed text-[var(--muted)]">
-            Pas besoin de connaître les sites web — on s'occupe de tout.
+          <p className="mt-4 text-[0.9375rem] leading-relaxed text-[var(--muted)] md:text-[1rem]">
+            {t("method.intro")}
           </p>
         </motion.div>
 
-        {/* Cartes */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {offers.map((offer, i) => {
-            const Icon = offer.icon;
-            const isPopular = offer.id === "starter";
-            return (
-              <BlurFade key={offer.id} delay={0.05 + i * 0.1} inView className="min-w-0">
-              <motion.div
-                whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                className={`relative flex h-full flex-col rounded-2xl border p-5 transition-all hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.5)] ${
-                  isPopular
-                    ? "border-[var(--accent)]/50 bg-[var(--surface)] glow-surface"
-                    : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-hover)]"
-                }`}
-              >
-                {offer.badge && (
-                  <span className="absolute -top-3.5 left-1/2 z-10 -translate-x-1/2 rounded-full bg-[var(--accent)] px-4 py-1 text-[0.7rem] font-semibold uppercase tracking-widest text-white shadow-[0_8px_24px_-6px_var(--accent)]">
-                    {offer.badge}
-                  </span>
-                )}
+        {/* ── Les 3 étapes ── */}
+        {/* gap-px + fond --border : les filets entre les cartes sont les
+            gouttières de la grille, donc pas de bordures qui se doublent */}
+        <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--border)] md:mt-16 lg:grid-cols-3">
+          {steps.map((step, i) => (
+            <motion.div
+              key={step.key}
+              className="flex flex-col bg-[var(--surface)] p-7 md:p-8"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.5, delay: 0.08 + i * 0.1, ease: EASE }}
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-[0.8125rem] font-semibold tabular-nums text-[var(--accent-soft)]">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="h-px flex-1 bg-[var(--border-hover)]" />
+                <step.icon size={17} strokeWidth={1.75} className="text-[var(--accent)]" />
+              </div>
 
-                <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--card)]">
-                  <Icon size={18} strokeWidth={1.75} className="text-[var(--foreground)]" />
-                </div>
-
-                <h3 className="text-xl font-semibold text-[var(--foreground)]">
-                  {offer.title}
-                </h3>
-                <p className="mt-2 text-[0.875rem] leading-relaxed text-[var(--muted)]">
-                  {offer.result}
-                </p>
-
-                <div className="mt-5 mb-8">
-                  <span className="block text-[0.7rem] font-medium uppercase tracking-wider text-[var(--muted)]">
-                    À partir de
-                  </span>
-                  <div className="flex items-baseline gap-1.5">
-                    <span className="text-3xl font-bold tracking-tight text-[var(--foreground)]">
-                      {offer.price} €
-                    </span>
-                  </div>
-                  <span className="mt-2 inline-flex items-center gap-1.5 text-[0.75rem] font-medium text-[var(--muted)]">
-                    <Clock size={12} strokeWidth={2} />
-                    {offer.delivery === "Selon le projet" ? `Délai : ${offer.delivery}` : `Livraison en ${offer.delivery}`}
-                  </span>
-                </div>
-
-                <Link
-                  href="/offres"
-                  className={`group/cta mt-auto flex items-center justify-center gap-1.5 rounded-full py-3 text-[0.875rem] font-medium transition-all duration-200 ${
-                    isPopular
-                      ? "bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)]"
-                      : "border border-[var(--border-hover)] text-[var(--foreground)] hover:bg-[var(--card)]"
-                  }`}
-                >
-                  Choisir cette offre
-                  <ArrowRight size={14} strokeWidth={2} className="transition-transform group-hover/cta:translate-x-0.5" />
-                </Link>
-
-                {isPopular && (
-                  <BorderBeam
-                    size={120}
-                    duration={7}
-                    borderWidth={1.5}
-                    colorFrom="rgba(109,94,255,0)"
-                    colorTo="rgba(167,139,250,0.9)"
-                  />
-                )}
-              </motion.div>
-              </BlurFade>
-            );
-          })}
+              <h3 className="mt-6 text-[1.25rem] font-semibold tracking-tight text-[var(--foreground)]">
+                {t(`method.${step.key}Title`)}
+              </h3>
+              <p className="mt-1 text-[0.875rem] font-medium text-[var(--accent-soft)]">
+                {t(`method.${step.key}Lead`)}
+              </p>
+              <p className="mt-3 text-[0.875rem] leading-[1.7] text-[var(--muted)]">
+                {t(`method.${step.key}Body`)}
+              </p>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Lien vers page complète */}
+        {/* ── Bandeau budget ── */}
         <motion.div
-          className="mt-10 text-center"
-          initial={{ opacity: 0, y: 12 }}
+          className="mt-4 flex flex-col gap-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-7 md:p-8 lg:flex-row lg:items-center lg:justify-between"
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.45, delay: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.5, delay: 0.3, ease: EASE }}
         >
-          <p className="text-[0.875rem] leading-relaxed text-[var(--muted)]">
-            Options à la carte (version anglaise, réservation en ligne, rédaction…) et
-            <span className="text-[var(--foreground)]"> maintenance à partir de 70 €/mois</span> —
-            hébergement, sauvegardes et vos modifications faites pour vous.
-          </p>
-          <Link
-            href="/offres"
-            className="mt-3 inline-block text-[0.875rem] text-[var(--muted)] underline underline-offset-4 hover:text-[var(--foreground)] transition-colors"
-          >
-            Voir le détail de toutes les offres
-          </Link>
+          <div className="min-w-0">
+            <span className="text-[0.75rem] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
+              {t("method.budgetLabel")}
+            </span>
+            <p className="mt-2 text-[2rem] font-bold leading-none tracking-tight text-[var(--foreground)] sm:text-[2.25rem]">
+              {t("method.budgetFrom")} {formatEuros(entryPrice)} €
+            </p>
+            <p className="mt-3 max-w-lg text-[0.875rem] leading-relaxed text-[var(--muted)]">
+              {t("method.budgetNote")}
+            </p>
+          </div>
+
+          <div className="flex shrink-0 flex-col items-stretch gap-3 sm:flex-row lg:flex-col xl:flex-row">
+            <Link
+              href="/#contact"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-7 py-3.5 text-[0.9375rem] font-medium text-white transition-colors hover:bg-[var(--accent-hover)]"
+            >
+              {t("method.ctaTalk")}
+              <ArrowRight size={16} strokeWidth={2} className="transition-transform group-hover:translate-x-0.5" />
+            </Link>
+            <Link
+              href="/offres"
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[var(--border-hover)] px-7 py-3.5 text-[0.9375rem] font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--card)]"
+            >
+              {t("method.ctaDetails")}
+            </Link>
+          </div>
         </motion.div>
+
+        <motion.p
+          className="mt-6 text-[0.8125rem] leading-relaxed text-[var(--muted)]"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.45, delay: 0.4 }}
+        >
+          {t("method.maintenanceNote")}
+        </motion.p>
 
       </div>
     </section>

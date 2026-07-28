@@ -81,7 +81,7 @@ export function Testimonials() {
             <motion.article
               key={t.name}
               variants={cardVariant}
-              className="flex flex-col gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-7 transition-shadow hover:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.5)] md:p-8"
+              className="flex flex-col gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-7 transition-shadow hover:shadow-[0_12px_32px_-8px_var(--shadow-card)] md:p-8"
             >
               {/* Étoiles */}
               <div className="flex gap-0.5">

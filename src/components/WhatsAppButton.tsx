@@ -1,14 +1,17 @@
 "use client";
 
 import { motion } from "motion/react";
+import { useI18n } from "@/lib/i18n/context";
 
 export function WhatsAppButton() {
+  const { t } = useI18n();
+
   return (
     <motion.a
       href="https://wa.me/33782923806"
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Nous contacter sur WhatsApp"
+      aria-label={t("common.whatsapp")}
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 1.2, duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}

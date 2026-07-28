@@ -1,0 +1,112 @@
+/**
+ * Source de vérité des offres et des options à la carte.
+ *
+ * Avant, le tableau des offres était écrit en dur DEUX fois : dans
+ * app/offres/page.tsx et dans components/PricingSection.tsx — avec en plus des
+ * listes de `features` divergentes, et des champs (`features`, `target`) jamais
+ * rendus côté page d'accueil. Changer un tarif obligeait à penser aux deux
+ * fichiers. Tout est désormais ici.
+ *
+ * `price` est un nombre : le tarif d'entrée affiché sur la page d'accueil est
+ * dérivé (`entryPrice`) au lieu d'être recopié.
+ */
+
+export type Offer = {
+  id: "landing" | "starter" | "pro";
+  badge: string | null;
+  title: string;
+  /** En euros, HT, point de départ de l'offre. */
+  price: number;
+  result: string;
+  target: string;
+  delivery: string;
+  /** Offre dont celle-ci reprend tout le contenu, s'il y en a une. */
+  inherits: string | null;
+  features: string[];
+};
+
+export const offers: Offer[] = [
+  {
+    id: "landing",
+    badge: null,
+    title: "Page Vitrine Rapide",
+    price: 700,
+    result: "Soyez visible en ligne en moins d'une semaine, sans budget excessif.",
+    target: "Idéal pour tester votre concept avant d'investir davantage",
+    delivery: "5 à 7 jours ouvrés",
+    inherits: null,
+    features: [
+      "Une page complète et soignée : présentation, services, contact",
+      "Mise en page à partir d'une structure éprouvée, à vos couleurs et vos photos",
+      "S'affiche parfaitement sur téléphone, tablette et ordinateur",
+      "Formulaire de contact et bouton d'appel direct",
+      "Référencé sur Google, mentions légales et RGPD conformes",
+      "Mise en ligne, nom de domaine et hébergement configurés pour vous",
+      "1 série de retouches, à demander dans les 14 jours",
+    ],
+  },
+  {
+    id: "starter",
+    badge: "Populaire",
+    title: "Site Vitrine Complet",
+    price: 1500,
+    result: "Soyez trouvé par les clients qui cherchent votre métier près de chez eux.",
+    target: "Idéal pour les activités établies qui veulent attirer de nouveaux clients",
+    delivery: "2 à 3 semaines",
+    inherits: "Page Vitrine Rapide",
+    features: [
+      "3 à 5 pages, dont une page dédiée par service",
+      "Rendez-vous de cadrage : vos pages et votre parcours client définis ensemble",
+      "Préversion en ligne : vous validez le site réel avant sa mise en ligne",
+      "Référencement local travaillé : « votre métier + Annecy », données structurées",
+      "Fiche Google Business créée et reliée à votre site",
+      "Sections avis clients, réalisations et à propos",
+      "Suivi des visites installé, sans cookie ni bandeau de consentement",
+      "1er mois de maintenance offert",
+      "2 séries de retouches",
+    ],
+  },
+  {
+    id: "pro",
+    badge: null,
+    title: "Site Pro & Sur Mesure",
+    price: 2500,
+    result: "Un site premium qui vous démarque et donne envie de vous contacter.",
+    target: "Idéal pour les projets ambitieux qui veulent marquer les esprits",
+    delivery: "Selon le projet",
+    inherits: "Site Vitrine Complet",
+    features: [
+      "Jusqu'à 8 pages entièrement personnalisées",
+      "Version anglaise du site incluse",
+      "Animations fluides pour une expérience haut de gamme",
+      "Section blog ou actualités — vos articles publiés pour vous",
+      "Optimisation SEO technique complète : structure, vitesse, données structurées",
+      "1 mois d'accompagnement après la mise en ligne",
+    ],
+  },
+];
+
+export const options = [
+  { label: "Page supplémentaire", price: "250 €" },
+  {
+    label: "Version anglaise du site",
+    price: "à partir de 490 €",
+    note: "Idéal pour l'hôtellerie, la restauration, les activités et les transferts autour du lac et vers Genève.",
+  },
+  { label: "Réservation ou prise de rendez-vous en ligne", price: "à partir de 390 €" },
+  { label: "Vos avis Google affichés automatiquement sur le site", price: "290 €" },
+  { label: "Rédaction de vos textes", price: "à partir de 300 €" },
+];
+
+/** Tarif d'entrée, dérivé des offres — jamais recopié à la main. */
+export const entryPrice = Math.min(...offers.map((o) => o.price));
+
+/**
+ * Format français avec espace fine insécable (U+202F) comme séparateur de
+ * milliers. Écrit à la main plutôt qu'avec `toLocaleString` : le résultat est
+ * identique côté serveur et côté client, donc aucun risque d'écart d'hydratation
+ * si l'ICU de Node diffère de celui du navigateur.
+ */
+export function formatEuros(n: number): string {
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}

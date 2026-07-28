@@ -6,10 +6,12 @@ import { motion } from "motion/react";
 import { ArrowRight, Check } from "lucide-react";
 import { Aurora } from "@/components/Aurora";
 import { BorderBeam } from "@/components/ui/border-beam";
-
-const credentials = ["Basé en France", "Next.js · React", "Réponse sous 24 h"];
+import { useI18n } from "@/lib/i18n/context";
 
 export function AboutPreview() {
+  const { t, tList } = useI18n();
+  const credentials = tList("about.credentials");
+
   return (
     <section className="relative section-padding border-t border-[var(--border)] bg-[var(--section-alt)] overflow-hidden">
       {/* Halo Aurora ambiant, fondu sur les bords */}
@@ -36,7 +38,7 @@ export function AboutPreview() {
           <div className="relative w-full shrink-0 overflow-hidden rounded-2xl border border-[var(--border)] shadow-lg glow-surface md:w-[340px] lg:w-[380px]" style={{ aspectRatio: "4/5" }}>
             <Image
               src="/images/adil.webp"
-              alt="Adil — Créateur AKWebSolution"
+              alt={t("about.photoAlt")}
               fill
               className="object-cover object-top"
               sizes="(max-width: 768px) 100vw, 380px"
@@ -45,19 +47,19 @@ export function AboutPreview() {
               size={110}
               duration={9}
               borderWidth={1.5}
-              colorFrom="rgba(109,94,255,0)"
-              colorTo="rgba(167,139,250,0.85)"
+              colorFrom="transparent"
+              colorTo="var(--beam-color)"
             />
           </div>
 
           {/* Contenu */}
           <div className="flex flex-col items-center gap-5 text-center md:items-start md:text-left">
             <div>
-              <span className="eyebrow mb-4">Qui suis-je</span>
+              <span className="eyebrow mb-4">{t("about.eyebrow")}</span>
               <h2 className="text-[1.75rem] font-light leading-[1.2] tracking-tight text-[var(--foreground)] sm:text-[2.25rem]">
-                Un développeur{" "}
+                {t("about.title1")}{" "}
                 <span className="relative inline-block font-semibold">
-                  à votre écoute
+                  {t("about.titleAccent")}
                   <motion.span
                     initial={{ scaleX: 0 }}
                     whileInView={{ scaleX: 1 }}
@@ -70,7 +72,7 @@ export function AboutPreview() {
             </div>
 
             <p className="max-w-lg text-[0.9375rem] leading-[1.75] text-[var(--muted)]">
-              Je m'appelle <strong className="font-semibold text-[var(--foreground)]">Adil</strong>, développeur web freelance basé en France. J'accompagne les indépendants et petites entreprises qui veulent une présence en ligne claire, professionnelle et efficace — du sur mesure, du début à la fin.
+              {t("about.bodyIntro")} <strong className="font-semibold text-[var(--foreground)]">Adil</strong>, {t("about.body")}
             </p>
 
             {/* Signature */}
@@ -92,7 +94,7 @@ export function AboutPreview() {
               href="/a-propos"
               className="group mt-1 inline-flex items-center gap-2 text-[0.9rem] font-medium text-[var(--foreground)] underline underline-offset-4 transition-opacity hover:opacity-60"
             >
-              En savoir plus sur moi
+              {t("about.more")}
               <ArrowRight size={15} strokeWidth={2} className="transition-transform group-hover:translate-x-0.5" />
             </Link>
           </div>

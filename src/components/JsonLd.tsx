@@ -1,3 +1,5 @@
+import { offers } from "@/lib/offers";
+
 /**
  * Injects JSON-LD structured data into the page <head>.
  * Added on the root layout so every page benefits from it.
@@ -40,33 +42,17 @@ export function JsonLd() {
       "@type": "OfferCatalog",
       name: "Offres de création de sites web",
       itemListElement: [
-        {
+        /* Dérivé de lib/offers.ts : ces tarifs partent chez Google (rich
+           snippets). Les recopier à la main, c'était risquer d'afficher un
+           prix périmé dans les résultats de recherche après une hausse. */
+        ...offers.map((offer) => ({
           "@type": "Offer",
-          name: "Page Vitrine Rapide",
-          description:
-            "Une page complète et responsive, formulaire de contact, référencement Google, mentions légales et RGPD conformes. Livraison en 5 à 7 jours ouvrés.",
-          price: "700",
+          name: offer.title,
+          description: `${offer.result} ${offer.features.slice(0, 3).join(". ")}.`,
+          price: String(offer.price),
           priceCurrency: "EUR",
           url: "https://akwebsolutions.fr/offres",
-        },
-        {
-          "@type": "Offer",
-          name: "Site Vitrine Complet",
-          description:
-            "3 à 5 pages dont une par service, référencement local, fiche Google Business, suivi des visites, 1er mois de maintenance offert. Livraison en 2 à 3 semaines.",
-          price: "1500",
-          priceCurrency: "EUR",
-          url: "https://akwebsolutions.fr/offres",
-        },
-        {
-          "@type": "Offer",
-          name: "Site Pro & Sur Mesure",
-          description:
-            "Jusqu'à 8 pages, version anglaise incluse, animations soignées, section blog, SEO technique complet, 1 mois d'accompagnement. Délai selon le projet.",
-          price: "2500",
-          priceCurrency: "EUR",
-          url: "https://akwebsolutions.fr/offres",
-        },
+        })),
         {
           "@type": "Offer",
           name: "Maintenance et hébergement",

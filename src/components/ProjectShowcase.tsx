@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronLeft, ChevronRight, ExternalLink, Calendar, Tag, X, ZoomIn } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 export type ProjectImage = { src: string; alt: string };
 
@@ -29,6 +30,8 @@ export function ProjectShowcase({
   index = 0,
 }: ProjectShowcaseProps) {
   const [current, setCurrent] = useState(0);
+  const { t } = useI18n();
+
   const [direction, setDirection] = useState<1 | -1>(1);
   const [lightbox, setLightbox] = useState(false);
   const total = images.length;
@@ -158,16 +161,16 @@ export function ProjectShowcase({
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goPrev(); }}
-                  className="absolute left-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white shadow-md backdrop-blur-sm transition-all hover:bg-white/20 sm:flex"
-                  aria-label="Image précédente"
+                  className="absolute left-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-[var(--surface)]/85 text-[var(--foreground)] shadow-md backdrop-blur-sm transition-all hover:bg-[var(--surface)] sm:flex"
+                  aria-label={t("workPage.prevImage")}
                 >
                   <ChevronLeft size={18} strokeWidth={2} />
                 </button>
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goNext(); }}
-                  className="absolute right-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white shadow-md backdrop-blur-sm transition-all hover:bg-white/20 sm:flex"
-                  aria-label="Image suivante"
+                  className="absolute right-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-[var(--surface)]/85 text-[var(--foreground)] shadow-md backdrop-blur-sm transition-all hover:bg-[var(--surface)] sm:flex"
+                  aria-label={t("workPage.nextImage")}
                 >
                   <ChevronRight size={18} strokeWidth={2} />
                 </button>
@@ -258,16 +261,16 @@ export function ProjectShowcase({
               className="inline-flex items-center gap-2.5 rounded-full border border-[var(--border)] px-6 py-3 text-[0.875rem] font-medium text-[var(--foreground)] transition-all hover:bg-[var(--card)]"
             >
               <ZoomIn size={15} strokeWidth={1.75} />
-              Voir les photos
+              {t("workPage.viewPhotos")}
             </button>
             {url && (
               <a
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 rounded-full bg-[var(--accent)] px-6 py-3 text-[0.875rem] font-medium text-[var(--background)] transition-all hover:opacity-90 hover:shadow-lg hover:shadow-black/15"
+                className="inline-flex items-center gap-2.5 rounded-full bg-[var(--accent)] px-6 py-3 text-[0.875rem] font-medium text-[var(--background)] transition-all hover:opacity-90 hover:shadow-lg hover:shadow-[var(--accent)]/25"
               >
-                Voir le site
+                {t("workPage.visitSite")}
                 <ExternalLink size={14} strokeWidth={2} />
               </a>
             )}
@@ -296,7 +299,7 @@ export function ProjectShowcase({
             className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-4 py-2 text-[0.8125rem] font-medium text-[var(--foreground)] transition-all hover:bg-[var(--card)]"
           >
             <ZoomIn size={14} strokeWidth={1.75} />
-            Voir les photos
+            {t("workPage.viewPhotos")}
           </button>
           {url && (
             <a
@@ -305,7 +308,7 @@ export function ProjectShowcase({
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-4 py-2 text-[0.8125rem] font-medium text-[var(--background)]"
             >
-              Voir le site
+              {t("workPage.visitSite")}
               <ExternalLink size={13} strokeWidth={2} />
             </a>
           )}
@@ -331,7 +334,7 @@ export function ProjectShowcase({
               type="button"
               onClick={() => setLightbox(false)}
               className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-colors hover:bg-white/20"
-              aria-label="Fermer"
+              aria-label={t("workPage.close")}
             >
               <X size={20} strokeWidth={2} />
             </button>
@@ -368,7 +371,7 @@ export function ProjectShowcase({
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goPrev(); }}
                   className="absolute left-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-colors hover:bg-white/20"
-                  aria-label="Image précédente"
+                  aria-label={t("workPage.prevImage")}
                 >
                   <ChevronLeft size={22} strokeWidth={2} />
                 </button>
@@ -376,7 +379,7 @@ export function ProjectShowcase({
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goNext(); }}
                   className="absolute right-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-colors hover:bg-white/20"
-                  aria-label="Image suivante"
+                  aria-label={t("workPage.nextImage")}
                 >
                   <ChevronRight size={22} strokeWidth={2} />
                 </button>

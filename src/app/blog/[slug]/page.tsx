@@ -210,7 +210,7 @@ export default async function ArticlePage({
                 </Link>
                 <Link
                   href="/#contact"
-                  className="inline-flex w-full items-center justify-center rounded-full border border-white/25 px-7 py-3.5 text-[0.9375rem] font-medium text-[var(--foreground)] transition-colors hover:border-[var(--accent)]/70 hover:bg-[var(--accent)]/10 sm:w-auto"
+                  className="inline-flex w-full items-center justify-center rounded-full border border-[var(--border-hover)] px-7 py-3.5 text-[0.9375rem] font-medium text-[var(--foreground)] transition-colors hover:border-[var(--accent)]/70 hover:bg-[var(--accent)]/10 sm:w-auto"
                 >
                   Me contacter
                 </Link>

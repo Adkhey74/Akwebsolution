@@ -5,6 +5,8 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { PageLoaderProvider } from "@/components/PageLoaderContext";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { JsonLd } from "@/components/JsonLd";
+import { I18nProvider } from "@/lib/i18n/context";
+import { SkipLink } from "@/components/SkipLink";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
@@ -87,9 +89,8 @@ export const metadata: Metadata = {
     icon: "/icon.png",
     apple: "/icon.png",
   },
-  other: {
-    "theme-color": "#000000",
-  },
+  /* theme-color est posé par le script inline puis mis à jour par le sélecteur
+     de thème : sa valeur dépend du choix de l'utilisateur, pas d'un statique. */
 };
 
 export default function RootLayout({
@@ -98,16 +99,34 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={cn("font-sans", geist.variable)}>
+    <html lang="fr" className={cn("font-sans", geist.variable)} suppressHydrationWarning>
+      <head>
+        {/*
+          Thème appliqué AVANT le premier rendu, sinon on voit le mauvais thème
+          pendant une fraction de seconde (le HTML est servi statiquement, donc
+          il ne peut pas connaître la préférence à l'avance).
+
+          Ordre de priorité : choix explicite mémorisé, sinon préférence du
+          système. Script volontairement minuscule et synchrone — il doit
+          s'exécuter avant que le navigateur peigne quoi que ce soit.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var c=localStorage.getItem("theme");var d=c?c==="dark":matchMedia("(prefers-color-scheme: dark)").matches;if(d)document.documentElement.classList.add("dark");var m=document.createElement("meta");m.name="theme-color";m.content=d?"#0B0B0F":"#FAFAFD";document.head.appendChild(m);}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body className={`${fraunces.variable} font-sans antialiased`}>
         <JsonLd />
-        <a href="#main" className="skip-link">Aller au contenu</a>
-        <PageLoaderProvider>
-          <SmoothScroll>
-            {children}
-            <WhatsAppButton />
-          </SmoothScroll>
-        </PageLoaderProvider>
+        <I18nProvider>
+          <SkipLink />
+          <PageLoaderProvider>
+            <SmoothScroll>
+              {children}
+              <WhatsAppButton />
+            </SmoothScroll>
+          </PageLoaderProvider>
+        </I18nProvider>
       </body>
     </html>
   );

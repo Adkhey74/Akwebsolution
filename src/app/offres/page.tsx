@@ -8,84 +8,28 @@ import { Check, Zap, Rocket, Star, Clock, Plus } from "lucide-react";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { MaintenancePlan } from "@/components/MaintenancePlan";
+import { offers, formatEuros, type Offer } from "@/lib/offers";
+import { useI18n } from "@/lib/i18n/context";
 
-const offers = [
-  {
-    id: "landing",
-    icon: Zap,
-    badge: null,
-    title: "Page Vitrine Rapide",
-    price: "700",
-    result: "Soyez visible en ligne en moins d'une semaine, sans budget excessif.",
-    target: "Idéal pour tester votre concept avant d'investir davantage",
-    delivery: "5 à 7 jours ouvrés",
-    inherits: null,
-    features: [
-      "Une page complète et soignée : présentation, services, contact",
-      "Mise en page à partir d'une structure éprouvée, à vos couleurs et vos photos",
-      "S'affiche parfaitement sur téléphone, tablette et ordinateur",
-      "Formulaire de contact et bouton d'appel direct",
-      "Référencé sur Google, mentions légales et RGPD conformes",
-      "Mise en ligne, nom de domaine et hébergement configurés pour vous",
-      "1 série de retouches, à demander dans les 14 jours",
-    ],
-  },
-  {
-    id: "starter",
-    icon: Rocket,
-    badge: "Populaire",
-    title: "Site Vitrine Complet",
-    price: "1 500",
-    result: "Soyez trouvé par les clients qui cherchent votre métier près de chez eux.",
-    target: "Idéal pour les activités établies qui veulent attirer de nouveaux clients",
-    delivery: "2 à 3 semaines",
-    inherits: "Page Vitrine Rapide",
-    features: [
-      "3 à 5 pages, dont une page dédiée par service",
-      "Rendez-vous de cadrage : vos pages et votre parcours client définis ensemble",
-      "Préversion en ligne : vous validez le site réel avant sa mise en ligne",
-      "Référencement local travaillé : « votre métier + Annecy », données structurées",
-      "Fiche Google Business créée et reliée à votre site",
-      "Sections avis clients, réalisations et à propos",
-      "Suivi des visites installé, sans cookie ni bandeau de consentement",
-      "1er mois de maintenance offert",
-      "2 séries de retouches",
-    ],
-  },
-  {
-    id: "pro",
-    icon: Star,
-    badge: null,
-    title: "Site Pro & Sur Mesure",
-    price: "2 500",
-    result: "Un site premium qui vous démarque et donne envie de vous contacter.",
-    target: "Idéal pour les projets ambitieux qui veulent marquer les esprits",
-    delivery: "Selon le projet",
-    inherits: "Site Vitrine Complet",
-    features: [
-      "Jusqu'à 8 pages entièrement personnalisées",
-      "Version anglaise du site incluse",
-      "Animations fluides pour une expérience haut de gamme",
-      "Section blog ou actualités — vos articles publiés pour vous",
-      "Optimisation SEO technique complète : structure, vitesse, données structurées",
-      "1 mois d'accompagnement après la mise en ligne",
-    ],
-  },
-];
+/** Icône par offre — gardée ici pour que lib/offers.ts reste de la donnée pure. */
+const icons: Record<Offer["id"], typeof Zap> = {
+  landing: Zap,
+  starter: Rocket,
+  pro: Star,
+};
 
-const options = [
-  { label: "Page supplémentaire", price: "250 €" },
-  {
-    label: "Version anglaise du site",
-    price: "à partir de 490 €",
-    note: "Idéal pour l'hôtellerie, la restauration, les activités et les transferts autour du lac et vers Genève.",
-  },
-  { label: "Réservation ou prise de rendez-vous en ligne", price: "à partir de 390 €" },
-  { label: "Vos avis Google affichés automatiquement sur le site", price: "290 €" },
-  { label: "Rédaction de vos textes", price: "à partir de 300 €" },
+/** Options à la carte : le libellé et la note sont traduits, le prix non. */
+const optionKeys = [
+  { key: "optionExtraPage",   price: "250 €"            },
+  { key: "optionEnglish",     price: "490 €", from: true, note: true },
+  { key: "optionBooking",     price: "390 €", from: true },
+  { key: "optionReviews",     price: "290 €"            },
+  { key: "optionCopywriting", price: "300 €", from: true },
 ];
 
 export default function OffresPage() {
+  const { t, tList } = useI18n();
+
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
       <Header />
@@ -100,10 +44,10 @@ export default function OffresPage() {
               className="min-w-0"
             >
               <h1 className="text-balance text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
-                Des offres claires, à votre mesure
+                {t("offers.title")}
               </h1>
               <p className="mx-auto mt-5 max-w-xl text-[1rem] leading-relaxed text-[var(--muted)]">
-                Pas besoin de connaître les sites web — on s'occupe de tout. Choisissez ce qui correspond à votre situation, on fait le reste.
+                {t("offers.intro")}
               </p>
             </motion.div>
           </div>
@@ -114,13 +58,13 @@ export default function OffresPage() {
           <div className="mx-auto w-full max-w-[72rem]">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {offers.map((offer, i) => {
-                const Icon = offer.icon;
+                const Icon = icons[offer.id];
                 const isPopular = offer.id === "starter";
                 return (
                   <BlurFade key={offer.id} delay={0.1 + i * 0.1} inView className="min-w-0">
                   <motion.div
                     whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                    className={`relative flex h-full flex-col rounded-2xl border p-5 transition-all hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.5)] ${
+                    className={`relative flex h-full flex-col rounded-2xl border p-5 transition-all hover:shadow-[0_16px_40px_-12px_var(--shadow-card)] ${
                       isPopular
                         ? "border-[var(--accent)]/50 bg-[var(--surface)] glow-surface"
                         : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-hover)]"
@@ -129,7 +73,7 @@ export default function OffresPage() {
                     {/* Badge populaire */}
                     {offer.badge && (
                       <span className="absolute -top-3.5 left-1/2 z-10 -translate-x-1/2 rounded-full bg-[var(--accent)] px-4 py-1 text-[0.7rem] font-semibold uppercase tracking-widest text-white shadow-[0_8px_24px_-6px_var(--accent)]">
-                        {offer.badge}
+                        {t("offers.popular")}
                       </span>
                     )}
 
@@ -140,29 +84,31 @@ export default function OffresPage() {
 
                     {/* Titre & prix */}
                     <h2 className="text-2xl font-semibold text-[var(--foreground)]" style={{ fontFamily: "var(--font-display)" }}>
-                      {offer.title}
+                      {t(`offers.${offer.id}Title`)}
                     </h2>
                     <p className="mt-2 text-[0.875rem] font-medium leading-snug text-[var(--foreground)]">
-                      {offer.result}
+                      {t(`offers.${offer.id}Result`)}
                     </p>
                     <div className="mt-4">
                       <span className="block text-[0.75rem] font-medium uppercase tracking-wider text-[var(--muted)]">
-                        À partir de
+                        {t("offers.from")}
                       </span>
                       <span className="text-4xl font-bold tracking-tight text-[var(--foreground)]">
-                        {offer.price} €
+                        {formatEuros(offer.price)} €
                       </span>
                     </div>
 
                     {/* Cible */}
                     <p className="mt-2 text-[0.75rem] leading-relaxed text-[var(--muted)]">
-                      {offer.target}
+                      {t(`offers.${offer.id}Target`)}
                     </p>
 
                     {/* Délai */}
                     <div className="mt-5 flex items-center gap-2 rounded-lg bg-[var(--card)] px-3 py-2 text-[0.8125rem] font-medium text-[var(--muted)]">
                       <Clock size={13} strokeWidth={2} />
-                      {offer.delivery === "Selon le projet" ? `Délai : ${offer.delivery}` : `Livraison en ${offer.delivery}`}
+                      {offer.id === "pro"
+                        ? `${t("offers.deliveryCustom")} ${t(`offers.${offer.id}Delivery`)}`
+                        : `${t("offers.deliveryIn")} ${t(`offers.${offer.id}Delivery`)}`}
                     </div>
 
                     {/* Séparateur */}
@@ -176,11 +122,11 @@ export default function OffresPage() {
                             <Plus size={10} strokeWidth={3} className="text-[var(--accent)]" />
                           </span>
                           <span className="text-[0.875rem] font-medium leading-snug text-[var(--foreground)]">
-                            Tout ce qui est inclus dans {offer.inherits}, plus :
+                            {t("offers.includesPrefix")} {t(`offers.${offer.inherits}Title`)}{t("offers.includesSuffix")}
                           </span>
                         </li>
                       )}
-                      {offer.features.map((feat) => (
+                      {tList(`offers.${offer.id}Features`).map((feat) => (
                         <li key={feat} className="flex items-start gap-2.5">
                           <span className="mt-0.5 flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-[var(--card)]">
                             <Check size={10} strokeWidth={2.5} className="text-[var(--foreground)]" />
@@ -201,7 +147,7 @@ export default function OffresPage() {
                           : "border border-[var(--border-hover)] text-[var(--foreground)] hover:bg-[var(--card)]"
                       }`}
                     >
-                      Choisir cette offre
+                      {t("offers.choose")}
                     </Link>
 
                     {isPopular && (
@@ -209,8 +155,8 @@ export default function OffresPage() {
                         size={120}
                         duration={7}
                         borderWidth={1.5}
-                        colorFrom="rgba(109,94,255,0)"
-                        colorTo="rgba(167,139,250,0.9)"
+                        colorFrom="transparent"
+                        colorTo="var(--beam-color)"
                       />
                     )}
                   </motion.div>
@@ -226,27 +172,27 @@ export default function OffresPage() {
                   className="text-xl font-semibold text-[var(--foreground)]"
                   style={{ fontFamily: "var(--font-display)" }}
                 >
-                  Options à la carte
+                  {t("offers.optionsTitle")}
                 </h2>
                 <p className="mt-2 text-[0.875rem] leading-relaxed text-[var(--muted)]">
-                  À ajouter à n’importe quelle offre, selon vos besoins.
+                  {t("offers.optionsIntro")}
                 </p>
                 <ul className="mt-6 flex flex-col divide-y divide-[var(--border)]">
-                  {options.map((opt) => (
+                  {optionKeys.map((opt) => (
                     <li
-                      key={opt.label}
+                      key={opt.key}
                       className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-3.5"
                     >
                       <div className="min-w-0">
-                        <span className="text-[0.9375rem] text-[var(--foreground)]">{opt.label}</span>
+                        <span className="text-[0.9375rem] text-[var(--foreground)]">{t(`offers.${opt.key}`)}</span>
                         {opt.note && (
                           <p className="mt-1 max-w-md text-[0.8125rem] leading-relaxed text-[var(--muted)]">
-                            {opt.note}
+                            {t("offers.optionEnglishNote")}
                           </p>
                         )}
                       </div>
                       <span className="shrink-0 text-[0.9375rem] font-semibold text-[var(--foreground)]">
-                        {opt.price}
+                        {opt.from ? `${t("offers.priceFrom")} ${opt.price}` : opt.price}
                       </span>
                     </li>
                   ))}
@@ -266,11 +212,11 @@ export default function OffresPage() {
               transition={{ duration: 0.5, delay: 0.5 }}
               className="mt-10 text-center text-[0.8125rem] text-[var(--muted)]"
             >
-              Vous ne savez pas quelle formule choisir ?{" "}
+              {t("offers.footnote")}{" "}
               <Link href="/#contact" className="underline underline-offset-2 hover:text-[var(--foreground)]">
-                Écrivez-nous
+                {t("offers.footnoteLink")}
               </Link>
-              , on vous guide gratuitement.
+              {t("offers.footnoteEnd")}
             </motion.p>
           </div>
         </section>
