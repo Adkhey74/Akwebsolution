@@ -13,7 +13,7 @@ export function JsonLd() {
     logo: "https://akwebsolutions.fr/images/logo3.png",
     image: "https://akwebsolutions.fr/opengraph-image",
     description:
-      "Agence web spécialisée en création de sites vitrines, e-commerce et sur mesure. Design élégant, responsive, SEO optimisé. Tarifs transparents, livraison rapide.",
+      "Agence web spécialisée en création de sites vitrines et sur mesure. Design élégant, responsive, SEO optimisé. Tarifs transparents, livraison rapide.",
     telephone: "+33782923806",
     email: "contact@akwebsolutions.fr",
     address: {
@@ -44,7 +44,7 @@ export function JsonLd() {
           "@type": "Offer",
           name: "Page Vitrine Rapide",
           description:
-            "Une page complète, responsive, formulaire de contact et hébergement inclus. Livraison en 5 à 7 jours ouvrés.",
+            "Une page complète et responsive, formulaire de contact, référencement Google, mentions légales et RGPD conformes. Livraison en 5 à 7 jours ouvrés.",
           price: "700",
           priceCurrency: "EUR",
           url: "https://akwebsolutions.fr/offres",
@@ -53,17 +53,8 @@ export function JsonLd() {
           "@type": "Offer",
           name: "Site Vitrine Complet",
           description:
-            "3 à 5 pages personnalisées, responsive, SEO de base, formulaire de contact. Livraison en 2 à 3 semaines.",
+            "3 à 5 pages dont une par service, référencement local, fiche Google Business, suivi des visites, 1er mois de maintenance offert. Livraison en 2 à 3 semaines.",
           price: "1500",
-          priceCurrency: "EUR",
-          url: "https://akwebsolutions.fr/offres",
-        },
-        {
-          "@type": "Offer",
-          name: "Site E-commerce",
-          description:
-            "Boutique en ligne, paiement sécurisé, gestion des stocks. Délai selon le projet.",
-          price: "2000",
           priceCurrency: "EUR",
           url: "https://akwebsolutions.fr/offres",
         },
@@ -71,8 +62,17 @@ export function JsonLd() {
           "@type": "Offer",
           name: "Site Pro & Sur Mesure",
           description:
-            "Jusqu'à 8 pages, CMS, animations soignées, SEO complet, 1 mois d'accompagnement. Délai selon le projet.",
-          price: "3000",
+            "Jusqu'à 8 pages, version anglaise incluse, animations soignées, section blog, SEO technique complet, 1 mois d'accompagnement. Délai selon le projet.",
+          price: "2500",
+          priceCurrency: "EUR",
+          url: "https://akwebsolutions.fr/offres",
+        },
+        {
+          "@type": "Offer",
+          name: "Maintenance et hébergement",
+          description:
+            "2 heures de modifications par mois, hébergement, nom de domaine, certificat SSL, sauvegardes quotidiennes, mises à jour de sécurité, rapport mensuel de fréquentation et support prioritaire. 80 €/mois sans engagement, 70 €/mois avec engagement 1 an.",
+          price: "70",
           priceCurrency: "EUR",
           url: "https://akwebsolutions.fr/offres",
         },

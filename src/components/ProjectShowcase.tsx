@@ -116,7 +116,7 @@ export function ProjectShowcase({
 
           {/* Image principale */}
           <div
-            className="group relative aspect-[16/10] w-full cursor-zoom-in overflow-hidden bg-[var(--background)] sm:aspect-video lg:aspect-[16/10] lg:min-h-0"
+            className="group relative aspect-21/10 w-full cursor-zoom-in overflow-hidden bg-[var(--background)] lg:min-h-0"
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
             onClick={() => setLightbox(true)}

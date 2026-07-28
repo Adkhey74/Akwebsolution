@@ -190,7 +190,7 @@ export async function POST(req: NextRequest) {
     // 1. Notification interne → Adil
     const res = await sendEmail(apiKey, {
       sender:  { name: "AKWebSolution - Contact", email: "contact@akwebsolutions.fr" },
-      to:      [{ email: "contact@akwebsolutions.fr", name: "Adil" }],
+      to:      [{ email: "adil.khadich@gmail.com", name: "Adil" }],
       replyTo: { email, name },
       subject: `Nouveau message de ${name}${projectType ? ` — ${projectType}` : ""}`,
       htmlContent: notifHtml(name, email, projectType, message),

@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import Link from "next/link";
-import { Zap, Rocket, ShoppingCart, Star, Clock, ArrowRight } from "lucide-react";
+import { Zap, Rocket, Star, Clock, ArrowRight } from "lucide-react";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { BorderBeam } from "@/components/ui/border-beam";
 
@@ -17,10 +17,10 @@ const offers = [
     target: "Idéal pour tester votre concept avant d'investir davantage",
     delivery: "5 à 7 jours ouvrés",
     features: [
-      "Une seule page complète et soignée",
+      "Une page complète et soignée",
       "Visible sur téléphone, tablette et ordinateur",
-      "Formulaire de contact intégré",
-      "Visible sur Google dès le lancement",
+      "Formulaire de contact et bouton d'appel",
+      "Référencé sur Google dès le lancement",
     ],
   },
   {
@@ -29,31 +29,14 @@ const offers = [
     badge: "Populaire",
     title: "Site Vitrine Complet",
     price: "1 500",
-    result: "Un site professionnel qui inspire confiance et génère des contacts.",
-    target: "Idéal pour les activités établies qui veulent un vrai site pro",
+    result: "Soyez trouvé par les clients qui cherchent votre métier près de chez eux.",
+    target: "Idéal pour les activités établies qui veulent attirer de nouveaux clients",
     delivery: "2 à 3 semaines",
     features: [
-      "3 à 5 pages personnalisées",
-      "Visible sur téléphone, tablette et ordinateur",
-      "Formulaire de contact intégré",
-      "Mieux référencé sur Google",
-    ],
-  },
-  {
-    id: "ecommerce",
-    icon: ShoppingCart,
-    badge: null,
-    title: "Site E-commerce",
-    price: "2 000",
-    priceFrom: true,
-    result: "Vendez vos produits 24h/24, sans intermédiaire, dès le lancement.",
-    target: "Idéal pour lancer ou migrer une boutique en ligne",
-    delivery: "Selon le projet",
-    features: [
-      "Boutique en ligne avec panier et tunnel de commande",
-      "Paiement en ligne sécurisé (CB, PayPal…)",
-      "Gestion des produits et des stocks",
-      "Visible sur téléphone, tablette et ordinateur",
+      "3 à 5 pages, une par service",
+      "Référencement local « votre métier + Annecy »",
+      "Fiche Google Business configurée",
+      "1er mois de maintenance offert",
     ],
   },
   {
@@ -61,14 +44,14 @@ const offers = [
     icon: Star,
     badge: null,
     title: "Site Pro & Sur Mesure",
-    price: "3 000",
+    price: "2 500",
     result: "Un site premium qui vous démarque et donne envie de vous contacter.",
     target: "Idéal pour les projets ambitieux qui veulent marquer les esprits",
     delivery: "Selon le projet",
     features: [
       "Jusqu'à 8 pages entièrement personnalisées",
-      "Modifiable vous-même facilement",
-      "Animations fluides haut de gamme",
+      "Version anglaise du site incluse",
+      "Section blog ou actualités",
       "1 mois d'accompagnement inclus",
     ],
   },
@@ -77,7 +60,7 @@ const offers = [
 export function PricingSection() {
   return (
     <section className="border-t border-[var(--border)] py-24 md:py-32" id="offres">
-      <div className="section-container mx-auto w-full max-w-[90rem]">
+      <div className="section-container mx-auto w-full max-w-[72rem]">
 
         {/* En-tête */}
         <motion.div
@@ -97,7 +80,7 @@ export function PricingSection() {
         </motion.div>
 
         {/* Cartes */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {offers.map((offer, i) => {
             const Icon = offer.icon;
             const isPopular = offer.id === "starter";
@@ -178,9 +161,14 @@ export function PricingSection() {
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.45, delay: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
+          <p className="text-[0.875rem] leading-relaxed text-[var(--muted)]">
+            Options à la carte (version anglaise, réservation en ligne, rédaction…) et
+            <span className="text-[var(--foreground)]"> maintenance à partir de 70 €/mois</span> —
+            hébergement, sauvegardes et vos modifications faites pour vous.
+          </p>
           <Link
             href="/offres"
-            className="text-[0.875rem] text-[var(--muted)] underline underline-offset-4 hover:text-[var(--foreground)] transition-colors"
+            className="mt-3 inline-block text-[0.875rem] text-[var(--muted)] underline underline-offset-4 hover:text-[var(--foreground)] transition-colors"
           >
             Voir le détail de toutes les offres
           </Link>

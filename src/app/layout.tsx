@@ -26,14 +26,13 @@ export const metadata: Metadata = {
     template: "%s | AKWebSolution",
   },
   description:
-    "Développeur web freelance à Annecy (Haute-Savoie). Création de sites vitrines, e-commerce et sur mesure : design élégant, responsive, optimisé SEO. Tarifs transparents, devis gratuit.",
+    "Développeur web freelance à Annecy (Haute-Savoie). Création de sites vitrines et sur mesure : design élégant, responsive, optimisé SEO. Tarifs transparents, devis gratuit.",
   keywords: [
     "création site web Annecy",
     "agence web Annecy",
     "développeur web freelance Annecy",
     "création site internet Haute-Savoie",
     "site vitrine Annecy",
-    "site e-commerce Annecy",
     "web design Annecy",
     "site sur mesure",
     "création site web",
@@ -66,7 +65,7 @@ export const metadata: Metadata = {
     siteName: "AKWebSolution",
     title: "Création de sites web à Annecy | AKWebSolution",
     description:
-      "Développeur web freelance à Annecy (Haute-Savoie) — sites vitrines, e-commerce et sur mesure. Design élégant, responsive, optimisé SEO.",
+      "Développeur web freelance à Annecy (Haute-Savoie) — sites vitrines et sur mesure. Design élégant, responsive, optimisé SEO.",
     images: [
       {
         url: "/opengraph-image",
@@ -80,7 +79,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "AKWebSolution | Création de sites web sur mesure",
     description:
-      "Agence web spécialisée en création de sites vitrines, e-commerce et sur mesure.",
+      "Agence web spécialisée en création de sites vitrines et sur mesure.",
     images: ["/opengraph-image"],
     creator: "@akwebsolution",
   },

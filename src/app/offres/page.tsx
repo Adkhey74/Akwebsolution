@@ -4,9 +4,10 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Check, Zap, Rocket, ShoppingCart, Star, Clock } from "lucide-react";
+import { Check, Zap, Rocket, Star, Clock, Plus } from "lucide-react";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { BorderBeam } from "@/components/ui/border-beam";
+import { MaintenancePlan } from "@/components/MaintenancePlan";
 
 const offers = [
   {
@@ -18,13 +19,15 @@ const offers = [
     result: "Soyez visible en ligne en moins d'une semaine, sans budget excessif.",
     target: "Idéal pour tester votre concept avant d'investir davantage",
     delivery: "5 à 7 jours ouvrés",
+    inherits: null,
     features: [
-      "Une seule page complète : présentation, services, contact…",
+      "Une page complète et soignée : présentation, services, contact",
+      "Mise en page à partir d'une structure éprouvée, à vos couleurs et vos photos",
       "S'affiche parfaitement sur téléphone, tablette et ordinateur",
-      "Un formulaire pour que vos clients vous contactent directement",
-      "Visible sur Google dès le lancement",
-      "Site en ligne 24h/24 — aucun hébergement à gérer de votre côté",
-      "Une série de retouches incluse après livraison",
+      "Formulaire de contact et bouton d'appel direct",
+      "Référencé sur Google, mentions légales et RGPD conformes",
+      "Mise en ligne, nom de domaine et hébergement configurés pour vous",
+      "1 série de retouches, à demander dans les 14 jours",
     ],
   },
   {
@@ -33,35 +36,20 @@ const offers = [
     badge: "Populaire",
     title: "Site Vitrine Complet",
     price: "1 500",
-    result: "Un site professionnel qui inspire confiance et génère des contacts.",
-    target: "Idéal pour les activités établies qui veulent un vrai site pro",
+    result: "Soyez trouvé par les clients qui cherchent votre métier près de chez eux.",
+    target: "Idéal pour les activités établies qui veulent attirer de nouveaux clients",
     delivery: "2 à 3 semaines",
+    inherits: "Page Vitrine Rapide",
     features: [
-      "3 à 5 pages (Accueil, Services, À propos, Contact…)",
-      "S'affiche parfaitement sur téléphone, tablette et ordinateur",
-      "Un formulaire pour que vos clients vous contactent directement",
-      "Mieux référencé sur Google pour attirer plus de visiteurs",
-      "Site en ligne 24h/24 — aucun hébergement à gérer de votre côté",
-      "Une série de retouches incluse après livraison",
-    ],
-  },
-  {
-    id: "ecommerce",
-    icon: ShoppingCart,
-    badge: null,
-    title: "Site E-commerce",
-    price: "2 000",
-    priceFrom: true,
-    result: "Vendez vos produits 24h/24, sans intermédiaire, dès le lancement.",
-    target: "Idéal pour lancer ou migrer une boutique en ligne",
-    delivery: "Selon le projet",
-    features: [
-      "Boutique en ligne avec panier et tunnel de commande",
-      "Paiement en ligne sécurisé (CB, PayPal, etc.)",
-      "Gestion des produits et des stocks",
-      "S'affiche parfaitement sur téléphone, tablette et ordinateur",
-      "Visible sur Google pour attirer des clients",
-      "Site en ligne 24h/24 — hébergement inclus",
+      "3 à 5 pages, dont une page dédiée par service",
+      "Rendez-vous de cadrage : vos pages et votre parcours client définis ensemble",
+      "Préversion en ligne : vous validez le site réel avant sa mise en ligne",
+      "Référencement local travaillé : « votre métier + Annecy », données structurées",
+      "Fiche Google Business créée et reliée à votre site",
+      "Sections avis clients, réalisations et à propos",
+      "Suivi des visites installé, sans cookie ni bandeau de consentement",
+      "1er mois de maintenance offert",
+      "2 séries de retouches",
     ],
   },
   {
@@ -69,21 +57,32 @@ const offers = [
     icon: Star,
     badge: null,
     title: "Site Pro & Sur Mesure",
-    price: "3 000",
+    price: "2 500",
     result: "Un site premium qui vous démarque et donne envie de vous contacter.",
     target: "Idéal pour les projets ambitieux qui veulent marquer les esprits",
     delivery: "Selon le projet",
+    inherits: "Site Vitrine Complet",
     features: [
       "Jusqu'à 8 pages entièrement personnalisées",
-      "Vous pouvez modifier vous-même les textes et images facilement",
+      "Version anglaise du site incluse",
       "Animations fluides pour une expérience haut de gamme",
-      "Section blog ou actualités pour partager votre expertise",
-      "Optimisé pour apparaître en tête des résultats Google",
-      "Statistiques de visites configurées (qui visite votre site, quand…)",
-      "Deux séries de retouches incluses après livraison",
+      "Section blog ou actualités — vos articles publiés pour vous",
+      "Optimisation SEO technique complète : structure, vitesse, données structurées",
       "1 mois d'accompagnement après la mise en ligne",
     ],
   },
+];
+
+const options = [
+  { label: "Page supplémentaire", price: "250 €" },
+  {
+    label: "Version anglaise du site",
+    price: "à partir de 490 €",
+    note: "Idéal pour l'hôtellerie, la restauration, les activités et les transferts autour du lac et vers Genève.",
+  },
+  { label: "Réservation ou prise de rendez-vous en ligne", price: "à partir de 390 €" },
+  { label: "Vos avis Google affichés automatiquement sur le site", price: "290 €" },
+  { label: "Rédaction de vos textes", price: "à partir de 300 €" },
 ];
 
 export default function OffresPage() {
@@ -92,7 +91,7 @@ export default function OffresPage() {
       <Header />
       <main id="main">
         {/* Header section */}
-        <section className="section-container pt-28 pb-12 sm:pt-36 sm:pb-16 md:pt-44 md:pb-20">
+        <section className="section-container pt-28 pb-10 sm:pt-36 md:pt-40">
           <div className="mx-auto w-full max-w-[75rem] text-center">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
@@ -100,8 +99,8 @@ export default function OffresPage() {
               transition={{ duration: 0.5 }}
               className="min-w-0"
             >
-              <h1 className="text-3xl leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
-                Des offres claires,<br /> à votre mesure
+              <h1 className="text-balance text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
+                Des offres claires, à votre mesure
               </h1>
               <p className="mx-auto mt-5 max-w-xl text-[1rem] leading-relaxed text-[var(--muted)]">
                 Pas besoin de connaître les sites web — on s'occupe de tout. Choisissez ce qui correspond à votre situation, on fait le reste.
@@ -112,8 +111,8 @@ export default function OffresPage() {
 
         {/* Cards */}
         <section className="section-container pb-20 md:pb-28 lg:pb-36">
-          <div className="mx-auto w-full max-w-[90rem]">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mx-auto w-full max-w-[72rem]">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {offers.map((offer, i) => {
                 const Icon = offer.icon;
                 const isPopular = offer.id === "starter";
@@ -171,6 +170,16 @@ export default function OffresPage() {
 
                     {/* Features */}
                     <ul className="flex flex-1 flex-col gap-3">
+                      {offer.inherits && (
+                        <li className="flex items-start gap-2.5">
+                          <span className="mt-0.5 flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-[var(--accent)]/15">
+                            <Plus size={10} strokeWidth={3} className="text-[var(--accent)]" />
+                          </span>
+                          <span className="text-[0.875rem] font-medium leading-snug text-[var(--foreground)]">
+                            Tout ce qui est inclus dans {offer.inherits}, plus :
+                          </span>
+                        </li>
+                      )}
                       {offer.features.map((feat) => (
                         <li key={feat} className="flex items-start gap-2.5">
                           <span className="mt-0.5 flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-[var(--card)]">
@@ -209,6 +218,46 @@ export default function OffresPage() {
                 );
               })}
             </div>
+
+            {/* Options à la carte */}
+            <BlurFade delay={0.2} inView>
+              <div className="mt-16 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8">
+                <h2
+                  className="text-xl font-semibold text-[var(--foreground)]"
+                  style={{ fontFamily: "var(--font-display)" }}
+                >
+                  Options à la carte
+                </h2>
+                <p className="mt-2 text-[0.875rem] leading-relaxed text-[var(--muted)]">
+                  À ajouter à n’importe quelle offre, selon vos besoins.
+                </p>
+                <ul className="mt-6 flex flex-col divide-y divide-[var(--border)]">
+                  {options.map((opt) => (
+                    <li
+                      key={opt.label}
+                      className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-3.5"
+                    >
+                      <div className="min-w-0">
+                        <span className="text-[0.9375rem] text-[var(--foreground)]">{opt.label}</span>
+                        {opt.note && (
+                          <p className="mt-1 max-w-md text-[0.8125rem] leading-relaxed text-[var(--muted)]">
+                            {opt.note}
+                          </p>
+                        )}
+                      </div>
+                      <span className="shrink-0 text-[0.9375rem] font-semibold text-[var(--foreground)]">
+                        {opt.price}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </BlurFade>
+
+            {/* Maintenance */}
+            <BlurFade delay={0.25} inView className="mt-4 block">
+              <MaintenancePlan />
+            </BlurFade>
 
             {/* Note bas de page */}
             <motion.p

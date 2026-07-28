@@ -8,7 +8,6 @@ import { ShimmerButton } from "@/components/ui/shimmer-button";
 const projectTypes = [
   "Page Vitrine Rapide",
   "Site Vitrine Complet",
-  "Site E-commerce",
   "Site Pro & Sur Mesure",
   "Autre / Je ne sais pas encore",
 ];

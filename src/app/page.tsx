@@ -4,7 +4,7 @@ import { Header } from "@/components/Header";
 export const metadata: Metadata = {
   title: "Création de sites web à Annecy | AKWebSolution",
   description:
-    "Développeur web freelance à Annecy (Haute-Savoie). Création de sites vitrines, e-commerce et sur mesure : design élégant, responsive, optimisé SEO. Tarifs transparents, livraison rapide. Devis gratuit.",
+    "Développeur web freelance à Annecy (Haute-Savoie). Création de sites vitrines et sur mesure : design élégant, responsive, optimisé SEO. Tarifs transparents, livraison rapide. Devis gratuit.",
   alternates: {
     canonical: "https://akwebsolutions.fr",
   },
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     url: "https://akwebsolutions.fr",
     title: "Création de sites web à Annecy | AKWebSolution",
     description:
-      "Développeur web freelance à Annecy — sites vitrines, e-commerce et sur mesure. Design moderne, tarifs transparents, livraison rapide.",
+      "Développeur web freelance à Annecy — sites vitrines et sur mesure. Design moderne, tarifs transparents, livraison rapide.",
   },
 };
 import { Hero } from "@/components/Hero";

@@ -9,7 +9,6 @@ import { Marquee } from "@/components/ui/marquee";
 
 const keywords = [
   "Sites vitrines",
-  "E-commerce",
   "Sur mesure",
   "Design responsive",
   "SEO",
