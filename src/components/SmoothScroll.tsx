@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { MotionConfig } from "motion/react";
 import Lenis from "lenis";
+import { usePageLoader } from "@/components/PageLoaderContext";
 
 /**
  * Smooth-scroll global (Lenis) + configuration motion respectant
@@ -13,6 +14,8 @@ import Lenis from "lenis";
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
   const pathname = usePathname();
+  const pageLoader = usePageLoader();
+  const isLoading = pageLoader?.isLoading ?? false;
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -46,18 +49,23 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
 
   /*
    * Rejoindre une ancre depuis une AUTRE page (ex. les boutons « Choisir » de
-   * /offres vers `/?offer=...#contact`) est une vraie navigation Next, pas un
-   * clic sur un lien déjà présent dans la page — l'option `anchors` de Lenis
-   * ne s'en charge pas. Le layout racine ne démonte jamais, donc Lenis garde
-   * aussi sa position de scroll d'une page à l'autre : sans ce recalage, son
-   * prochain tick de RAF ramenait la page à l'ancienne position au lieu de la
-   * section ciblée, ce qui donnait l'impression que le bouton ne redirigeait
-   * pas correctement. `requestAnimationFrame` laisse la nouvelle page se poser
-   * avant de calculer la position de la cible.
+   * /offres vers `/?offer=...#contact`, ou « Demander la maintenance ») est
+   * une vraie navigation Next, pas un clic sur un lien déjà présent dans la
+   * page — l'option `anchors` de Lenis ne s'en charge pas. Le layout racine
+   * ne démonte jamais, donc Lenis garde aussi sa position de scroll d'une
+   * page à l'autre : sans ce recalage, son prochain tick de RAF ramenait la
+   * page à l'ancienne position au lieu de la section ciblée.
+   *
+   * On attend en plus la fin du PageLoader (`isLoading`) avant de calculer la
+   * position de la cible : sur l'accueil, il ne se termine qu'une fois la
+   * vidéo du hero prête, et tant que ce contenu asynchrone n'a pas fini de se
+   * poser, la section #contact peut encore bouger sous l'effet des décalages
+   * de mise en page — scroller trop tôt visait une position qui devenait
+   * fausse une fois la page stabilisée.
    */
   useEffect(() => {
     const hash = window.location.hash;
-    if (!hash) return;
+    if (!hash || isLoading) return;
 
     const id = requestAnimationFrame(() => {
       const target = document.querySelector(hash);
@@ -70,7 +78,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       }
     });
     return () => cancelAnimationFrame(id);
-  }, [pathname]);
+  }, [pathname, isLoading]);
 
   return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
 }
