@@ -46,8 +46,15 @@ export type Offer = {
   result: string;
   target: string;
   delivery: string;
-  /** Offre dont celle-ci reprend tout le contenu, s'il y en a une. */
-  inherits: string | null;
+  /**
+   * Offre dont celle-ci reprend tout le contenu, s'il y en a une.
+   *
+   * C'est un **id**, pas un titre : la carte en dérive la clé de traduction
+   * `offers.<id>Title`, donc le titre affiché suit la langue. Y écrire le titre
+   * français fabriquait une clé inexistante, affichée telle quelle à l'écran
+   * (« Tout ce qui est inclus dans offers.Page Vitrine RapideTitle »).
+   */
+  inherits: Offer["id"] | null;
   features: string[];
   /**
    * Formule location, ou `null` quand l'offre ne se vend qu'à l'achat.
@@ -86,7 +93,7 @@ export const offers: Offer[] = [
     result: "Soyez trouvé par les clients qui cherchent votre métier près de chez eux.",
     target: "Idéal pour les activités établies qui veulent attirer de nouveaux clients",
     delivery: "2 à 3 semaines",
-    inherits: "Page Vitrine Rapide",
+    inherits: "landing",
     features: [
       "3 à 5 pages, dont une page dédiée par service",
       "Rendez-vous de cadrage : vos pages et votre parcours client définis ensemble",
@@ -110,7 +117,7 @@ export const offers: Offer[] = [
     result: "Un site premium qui vous démarque et donne envie de vous contacter.",
     target: "Idéal pour les projets ambitieux qui veulent marquer les esprits",
     delivery: "Selon le projet",
-    inherits: "Site Vitrine Complet",
+    inherits: "starter",
     features: [
       "Jusqu'à 8 pages entièrement personnalisées",
       "Version anglaise du site incluse",
