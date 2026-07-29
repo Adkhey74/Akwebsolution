@@ -1,23 +1,84 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import { motion } from "motion/react";
 import { Send, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { useI18n } from "@/lib/i18n/context";
+import { formatEuros, offers, type Offer } from "@/lib/offers";
 
 type Status = "idle" | "loading" | "success" | "error";
+type Mode = "purchase" | "rental";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/**
+ * Ordre des offres dans `contact.projectTypes` : celui de lib/offers.ts, suivi
+ * de « Autre » en dernière position.
+ *
+ * On repère l'offre par son index et non par son libellé : en anglais, les
+ * intitulés du menu déroulant ne sont pas les mêmes chaînes que les titres
+ * d'offres, une comparaison de texte ne trouverait rien.
+ */
+const OFFER_ORDER: Offer["id"][] = ["landing", "starter", "pro"];
+
+/*
+ * Les paramètres d'URL sont lus comme une source extérieure à React.
+ *
+ * L'accueil est servi en HTML statique : il ne peut pas connaître la query
+ * string au rendu serveur. `useSyncExternalStore` gère exactement ce cas — il
+ * rend l'instantané serveur puis bascule sur celui du client après hydratation,
+ * sans écart d'hydratation ni effet qui déclenche un second rendu.
+ * (`useSearchParams` obligerait en plus à envelopper la section dans <Suspense>.)
+ *
+ * Fonctions au niveau module : leur identité doit être stable d'un rendu à
+ * l'autre, sinon React se réabonne en boucle.
+ */
+const subscribeToNothing = () => () => {};
+const getSearch = () => window.location.search;
+const getServerSearch = () => "";
 
 export function Contact() {
   const { t, tList } = useI18n();
   const projectTypes = tList("contact.projectTypes");
-  const [form, setForm] = useState({ name: "", email: "", projectType: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
 
-  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+  /** Formule choisie sur /offres (`/?offer=starter&mode=rental#contact`). */
+  const search = useSyncExternalStore(subscribeToNothing, getSearch, getServerSearch);
+  const preset = useMemo(() => {
+    const params = new URLSearchParams(search);
+    const index = OFFER_ORDER.indexOf(params.get("offer") as Offer["id"]);
+    const raw = params.get("mode");
+    return {
+      index: index === -1 ? ("" as const) : index,
+      mode: (raw === "purchase" || raw === "rental" ? raw : "") as Mode | "",
+    };
+  }, [search]);
+
+  /* `null` tant que le visiteur n'a pas touché au menu : on affiche alors la
+     formule sur laquelle il a cliqué. Un index et non un libellé, pour que la
+     sélection survive à un changement de langue en cours de saisie — le texte
+     français ne correspondrait à aucune option d'un menu devenu anglais. */
+  const [projectOverride, setProjectOverride] = useState<number | "" | null>(null);
+  const [presetDismissed, setPresetDismissed] = useState(false);
+
+  const projectIndex = projectOverride ?? preset.index;
+
+  const selectedOffer = preset.index === "" ? null : offers[preset.index];
+  /* Une URL saisie à la main peut réclamer la location d'une offre qui ne se
+     vend qu'à l'achat (`?offer=pro&mode=rental`) : on retombe sur l'achat
+     plutôt que d'annoncer une mensualité qui n'existe pas. */
+  const mode: Mode | "" =
+    presetDismissed || !selectedOffer
+      ? ""
+      : preset.mode === "rental" && !selectedOffer.rental
+        ? "purchase"
+        : preset.mode;
+  const presetOffer = mode === "" ? null : selectedOffer;
+
+  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((prev) => ({ ...prev, [field]: e.target.value }));
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -25,7 +86,9 @@ export function Contact() {
     const payload = {
       name: form.name.trim(),
       email: form.email.trim().toLowerCase(),
-      projectType: form.projectType.trim(),
+      projectType: projectIndex === "" ? "" : (projectTypes[projectIndex] ?? ""),
+      // Vide si le visiteur n'est pas passé par une carte d'offre.
+      mode,
       message: form.message.trim(),
     };
     if (!payload.name || !EMAIL_RE.test(payload.email) || !payload.message || !consent) {
@@ -95,7 +158,13 @@ export function Contact() {
                 <p className="text-[0.9375rem] text-[var(--muted)]">{t("contact.successBody")}</p>
                 <button
                   type="button"
-                  onClick={() => { setStatus("idle"); setForm({ name: "", email: "", projectType: "", message: "" }); }}
+                  onClick={() => {
+                    setStatus("idle");
+                    setForm({ name: "", email: "", message: "" });
+                    // La formule pré-remplie concernait la demande précédente.
+                    setProjectOverride("");
+                    setPresetDismissed(true);
+                  }}
                   className="mt-2 text-[0.8125rem] text-[var(--muted)] underline underline-offset-2 hover:text-[var(--foreground)] transition-colors"
                 >
                   {t("contact.successAgain")}
@@ -103,6 +172,39 @@ export function Contact() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} noValidate className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8">
+                {/* Rappel de la formule cliquée sur /offres : le visiteur voit
+                    que le choix a bien suivi, et la demande arrive qualifiée. */}
+                {presetOffer && mode && (
+                  <div className="mb-6 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/[0.06] px-4 py-3">
+                    <p className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-[var(--accent-soft)]">
+                      {t("contact.presetLabel")}
+                    </p>
+                    <p className="mt-1.5 text-[0.9375rem] font-medium text-[var(--foreground)]">
+                      {t(`offers.${presetOffer.id}Title`)} —{" "}
+                      {t(mode === "rental" ? "offers.modeRental" : "offers.modePurchase")}
+                    </p>
+                    <p className="mt-1 text-[0.8125rem] leading-relaxed text-[var(--muted)]">
+                      {mode === "rental" && presetOffer.rental ? (
+                        <>
+                          {formatEuros(presetOffer.rental.monthly)} € {t("maintenance.perMonth")}
+                          {" · "}
+                          {t("offers.rentalSetupPrefix")} {formatEuros(presetOffer.rental.setup)} €{" "}
+                          {t("offers.rentalSetupSuffix")}
+                          {" · "}
+                          {t("offers.rentalCommitment").replace(
+                            "{n}",
+                            String(presetOffer.rental.months)
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          {t("offers.from")} {formatEuros(presetOffer.price)} €
+                        </>
+                      )}
+                    </p>
+                  </div>
+                )}
+
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="flex flex-col gap-1.5">
                     <label htmlFor="contact-name" className="text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">{t("contact.name")} *</label>
@@ -138,13 +240,15 @@ export function Contact() {
                   <label htmlFor="contact-project" className="text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">{t("contact.projectType")}</label>
                   <select
                     id="contact-project"
-                    value={form.projectType}
-                    onChange={set("projectType")}
+                    value={projectIndex}
+                    onChange={(e) =>
+                      setProjectOverride(e.target.value === "" ? "" : Number(e.target.value))
+                    }
                     className={`${inputClass} cursor-pointer`}
                   >
                     <option value="">{t("contact.projectTypePlaceholder")}</option>
-                    {projectTypes.map((t) => (
-                      <option key={t} value={t}>{t}</option>
+                    {projectTypes.map((label, i) => (
+                      <option key={label} value={i}>{label}</option>
                     ))}
                   </select>
                 </div>

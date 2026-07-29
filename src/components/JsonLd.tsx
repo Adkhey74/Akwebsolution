@@ -1,4 +1,4 @@
-import { offers } from "@/lib/offers";
+import { maintenance, monthlyChangeHours, offers, rentalOffers } from "@/lib/offers";
 
 /**
  * Injects JSON-LD structured data into the page <head>.
@@ -53,12 +53,28 @@ export function JsonLd() {
           priceCurrency: "EUR",
           url: "https://akwebsolutions.fr/offres",
         })),
+        /* Formules location. `UnitPriceSpecification` avec `billingDuration` est
+           la façon dont schema.org décrit un abonnement : annoncer la mensualité
+           dans un simple `price` la ferait passer pour le prix total du site. */
+        ...rentalOffers.map((offer) => ({
+          "@type": "Offer",
+          name: `${offer.title} — Location`,
+          description: `${offer.result} Formule location : ${offer.rental.setup} € de mise en route puis ${offer.rental.monthly} €/mois tout compris (hébergement, maintenance et ${monthlyChangeHours} h de modifications par mois), engagement ${offer.rental.months} mois. Rachat possible au terme pour ${offer.rental.buyout} €.`,
+          priceCurrency: "EUR",
+          priceSpecification: {
+            "@type": "UnitPriceSpecification",
+            price: String(offer.rental.monthly),
+            priceCurrency: "EUR",
+            unitCode: "MON",
+            billingDuration: offer.rental.months,
+          },
+          url: "https://akwebsolutions.fr/offres",
+        })),
         {
           "@type": "Offer",
           name: "Maintenance et hébergement",
-          description:
-            "2 heures de modifications par mois, hébergement, nom de domaine, certificat SSL, sauvegardes quotidiennes, mises à jour de sécurité, rapport mensuel de fréquentation et support prioritaire. 80 €/mois sans engagement, 70 €/mois avec engagement 1 an.",
-          price: "70",
+          description: `${monthlyChangeHours} heures de modifications par mois, hébergement, nom de domaine, certificat SSL, sauvegardes quotidiennes, mises à jour de sécurité, rapport mensuel de fréquentation et support prioritaire. ${maintenance.flex} €/mois sans engagement, ${maintenance.annual} €/mois avec engagement 1 an.`,
+          price: String(maintenance.annual),
           priceCurrency: "EUR",
           url: "https://akwebsolutions.fr/offres",
         },

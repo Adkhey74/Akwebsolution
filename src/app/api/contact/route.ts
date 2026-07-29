@@ -68,7 +68,24 @@ function emailWrapper(content: string) {
 </html>`;
 }
 
-function notifHtml(name: string, email: string, projectType: string, message: string) {
+/**
+ * Achat ou location : l'info vient du sélecteur de la page /offres, transportée
+ * par l'URL du CTA. Sans elle, les deux demandes arrivent sous la même forme et
+ * il faut relancer le prospect pour savoir quoi lui proposer.
+ */
+const MODE_LABELS: Record<string, string> = {
+  purchase: "Achat",
+  rental: "Location",
+};
+
+function notifHtml(
+  name: string,
+  email: string,
+  projectType: string,
+  mode: string,
+  message: string
+) {
+  const modeLabel = MODE_LABELS[mode] ?? "";
   return emailWrapper(`
     <!-- Badge -->
     <p style="margin:0 0 20px;font-size:10px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:${EMAIL.muted};">
@@ -100,6 +117,13 @@ function notifHtml(name: string, email: string, projectType: string, message: st
         <td style="padding:12px 0;border-top:1px solid ${EMAIL.border};font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:${EMAIL.mutedDim};vertical-align:top;">Projet</td>
         <td style="padding:12px 0;border-top:1px solid ${EMAIL.border};font-size:14px;color:${EMAIL.foreground};">${projectType}</td>
       </tr>` : ""}
+      ${modeLabel ? `
+      <tr>
+        <td style="padding:12px 0;border-top:1px solid ${EMAIL.border};font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:${EMAIL.mutedDim};vertical-align:top;">Formule</td>
+        <td style="padding:12px 0;border-top:1px solid ${EMAIL.border};font-size:14px;color:${EMAIL.foreground};">
+          <strong style="color:${EMAIL.foreground};">${modeLabel}</strong>
+        </td>
+      </tr>` : ""}
     </table>
 
     <!-- Message -->
@@ -117,7 +141,8 @@ function notifHtml(name: string, email: string, projectType: string, message: st
   `);
 }
 
-function confirmHtml(name: string, projectType: string, message: string) {
+function confirmHtml(name: string, projectType: string, mode: string, message: string) {
+  const modeLabel = MODE_LABELS[mode] ?? "";
   return emailWrapper(`
     <!-- Badge -->
     <p style="margin:0 0 20px;font-size:10px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:${EMAIL.muted};">
@@ -139,7 +164,7 @@ function confirmHtml(name: string, projectType: string, message: string) {
     ${projectType ? `
     <!-- Projet -->
     <p style="margin:0 0 6px;font-size:10px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:${EMAIL.mutedDim};">Votre projet</p>
-    <p style="margin:0 0 24px;font-size:14px;color:${EMAIL.foreground};">${projectType}</p>
+    <p style="margin:0 0 24px;font-size:14px;color:${EMAIL.foreground};">${projectType}${modeLabel ? ` — ${modeLabel}` : ""}</p>
     ` : ""}
 
     <!-- Récap message -->
@@ -180,6 +205,10 @@ export async function POST(req: NextRequest) {
     const email       = typeof body.email       === "string" ? body.email.trim().toLowerCase()     : "";
     const projectType = typeof body.projectType === "string" ? body.projectType.trim()             : "";
     const message     = typeof body.message     === "string" ? body.message.trim()                 : "";
+    // Filtré sur les valeurs connues : elle vient d'un paramètre d'URL, donc de
+    // n'importe quoi, et elle est réinjectée dans le HTML de l'email.
+    const rawMode     = typeof body.mode        === "string" ? body.mode.trim()                    : "";
+    const mode        = rawMode in MODE_LABELS ? rawMode : "";
 
     if (!name || !email || !message) {
       return NextResponse.json({ error: "Champs manquants." }, { status: 400 });
@@ -192,8 +221,10 @@ export async function POST(req: NextRequest) {
       sender:  { name: "AKWebSolution - Contact", email: "contact@akwebsolutions.fr" },
       to:      [{ email: "adil.khadich@gmail.com", name: "Adil" }],
       replyTo: { email, name },
-      subject: `Nouveau message de ${name}${projectType ? ` — ${projectType}` : ""}`,
-      htmlContent: notifHtml(name, email, projectType, message),
+      subject: `Nouveau message de ${name}${projectType ? ` — ${projectType}` : ""}${
+        mode ? ` (${MODE_LABELS[mode]})` : ""
+      }`,
+      htmlContent: notifHtml(name, email, projectType, mode, message),
     });
 
     if (!res.ok) {
@@ -206,7 +237,7 @@ export async function POST(req: NextRequest) {
       sender:  { name: "AKWebSolution", email: "contact@akwebsolutions.fr" },
       to:      [{ email, name }],
       subject: "Votre message a bien été reçu — AKWebSolution",
-      htmlContent: confirmHtml(name, projectType, message),
+      htmlContent: confirmHtml(name, projectType, mode, message),
     });
 
     return NextResponse.json({ success: true });

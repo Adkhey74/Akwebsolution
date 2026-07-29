@@ -11,6 +11,32 @@
  * dérivé (`entryPrice`) au lieu d'être recopié.
  */
 
+/**
+ * Formule location : au lieu de payer le site en une fois, le client règle des
+ * frais de mise en route réduits puis une mensualité tout compris (hébergement,
+ * maintenance et petites retouches), sur une durée d'engagement.
+ *
+ * Aucune facturation automatique n'est branchée : ces montants ne servent qu'à
+ * l'affichage, les prélèvements sont gérés à la main hors du site.
+ */
+export type Rental = {
+  /** Frais de mise en route, en euros HT, payés une seule fois. */
+  setup: number;
+  /** Mensualité tout compris, en euros HT. */
+  monthly: number;
+  /** Durée d'engagement, en mois. */
+  months: number;
+  /**
+   * Rachat, en euros HT, **au terme de la durée d'engagement**.
+   *
+   * En location, le site n'appartient jamais au client : il reste la propriété
+   * d'AKWebSolution. Le racheter à la fin des `months` mois est la seule façon
+   * dont la propriété change de mains — il n'y a pas de transfert automatique,
+   * et pas de rachat anticipé.
+   */
+  buyout: number;
+};
+
 export type Offer = {
   id: "landing" | "starter" | "pro";
   badge: string | null;
@@ -23,6 +49,12 @@ export type Offer = {
   /** Offre dont celle-ci reprend tout le contenu, s'il y en a une. */
   inherits: string | null;
   features: string[];
+  /**
+   * Formule location, ou `null` quand l'offre ne se vend qu'à l'achat.
+   * Le sur-mesure est trop variable d'un projet à l'autre pour tenir dans un
+   * forfait mensuel fixe : `pro` reste volontairement à l'achat seul.
+   */
+  rental: Rental | null;
 };
 
 export const offers: Offer[] = [
@@ -44,6 +76,7 @@ export const offers: Offer[] = [
       "Mise en ligne, nom de domaine et hébergement configurés pour vous",
       "1 série de retouches, à demander dans les 14 jours",
     ],
+    rental: { setup: 200, monthly: 79, months: 24, buyout: 500 },
   },
   {
     id: "starter",
@@ -65,6 +98,9 @@ export const offers: Offer[] = [
       "1er mois de maintenance offert",
       "2 séries de retouches",
     ],
+    /* Rachat aligné sur le rapport entre les deux offres : le double de la mise
+       en route, comme les 500 € du Page Vitrine Rapide le sont pour la sienne. */
+    rental: { setup: 400, monthly: 139, months: 24, buyout: 1000 },
   },
   {
     id: "pro",
@@ -83,8 +119,51 @@ export const offers: Offer[] = [
       "Optimisation SEO technique complète : structure, vitesse, données structurées",
       "1 mois d'accompagnement après la mise en ligne",
     ],
+    rental: null,
   },
 ];
+
+/**
+ * Maintenance mensuelle vendue à part, en complément d'un achat.
+ *
+ * Centralisée ici pour la même raison que les offres : le tarif est affiché à
+ * trois endroits (le bloc Maintenance, les cartes d'offres en mode Achat, et le
+ * JSON-LD envoyé à Google). Le recopier, c'était repartir vers l'incohérence que
+ * ce fichier a justement supprimée.
+ */
+export const maintenance = {
+  /** Sans engagement, résiliable à tout moment. */
+  flex: 80,
+  /** Avec engagement 1 an. */
+  annual: 70,
+} as const;
+
+/** Tarif de maintenance le plus bas — celui annoncé comme point d'entrée. */
+export const maintenanceEntryPrice = Math.min(maintenance.flex, maintenance.annual);
+
+/**
+ * Heures de modifications comprises chaque mois — en maintenance comme en
+ * location.
+ *
+ * Ce plafond est volontaire. La location annonçait des retouches « sans
+ * supplément », donc sans limite : à 2 h par mois et par client, vingt clients
+ * suffisaient à absorber une semaine de travail non facturée. La maintenance,
+ * elle, était plafonnée depuis le départ ; les deux offres s'alignent désormais.
+ */
+export const monthlyChangeHours = 2;
+
+/**
+ * Ce que l'engagement 1 an fait économiser sur douze mois.
+ * Dérivé plutôt qu'écrit dans les traductions : le montant y était en dur, en
+ * français comme en anglais, et une hausse de tarif l'aurait rendu faux dans les
+ * deux langues sans que rien ne le signale.
+ */
+export const maintenanceAnnualSaving = (maintenance.flex - maintenance.annual) * 12;
+
+/** Offres proposées en location, dans l'ordre d'affichage. */
+export const rentalOffers = offers.filter(
+  (o): o is Offer & { rental: Rental } => o.rental !== null
+);
 
 export const options = [
   { label: "Page supplémentaire", price: "250 €" },

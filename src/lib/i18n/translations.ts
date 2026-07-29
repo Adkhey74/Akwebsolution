@@ -229,6 +229,8 @@ export const translations = {
       emailPlaceholder: "votre@email.fr",
       projectType: "Type de projet",
       projectTypePlaceholder: "Sélectionner (optionnel)",
+      /** Rappel de la formule choisie sur /offres, si le visiteur vient de là. */
+      presetLabel: "Formule sélectionnée",
       projectTypes: [
         "Page Vitrine Rapide",
         "Site Vitrine Complet",
@@ -297,7 +299,9 @@ export const translations = {
       includesSuffix: ", plus :",
       choose: "Choisir cette offre",
       popular: "Populaire",
-      optionsTitle: "Options à la carte",
+      optionsEyebrow: "À la carte",
+      optionsTitle1: "Complétez votre",
+      optionsTitleAccent: "offre",
       optionsIntro: "À ajouter à n'importe quelle offre, selon vos besoins.",
       footnote: "Vous ne savez pas quelle formule choisir ?",
       footnoteLink: "Écrivez-nous",
@@ -358,10 +362,37 @@ export const translations = {
       optionReviews: "Vos avis Google affichés automatiquement sur le site",
       optionCopywriting: "Rédaction de vos textes",
       priceFrom: "à partir de",
+
+      // ── Achat / Location ────────────────────────────────────────────────
+      // `{n}` est remplacé par la durée d'engagement lue dans lib/offers.ts.
+      modeLegend: "Choisir entre l'achat et la location",
+      modePurchase: "Achat",
+      modeRental: "Location",
+      purchaseOnly: "Achat unique",
+      purchaseMaintenanceNote: "+ maintenance en option à partir de",
+      rentalSetupPrefix: "+",
+      rentalSetupSuffix: "de mise en route",
+      rentalCommitment: "engagement {n} mois",
+      rentalIncludesTitle: "Compris dans la mensualité",
+      rentalIncludes: [
+        "Hébergement, nom de domaine et certificat de sécurité",
+        "Maintenance, sauvegardes et mises à jour de sécurité",
+        // `{n}` : plafond partagé avec la maintenance, cf. lib/offers.ts.
+        "{n} heures de modifications par mois, faites pour vous",
+        "Support prioritaire, réponse sous 24 h ouvrées",
+      ],
+      rentalNote:
+        "Rien de lourd à sortir au démarrage : votre site est mis en ligne, hébergé et suivi pendant toute la durée de l'engagement.",
+      rentalOwnershipTitle: "Propriété du site",
+      rentalOwnership:
+        "En location, le site reste la propriété d'AKWebSolution : la mensualité couvre son usage, son hébergement et son suivi.",
+      rentalBuyoutPrefix: "Au terme des {n} mois de location, vous pouvez en devenir propriétaire pour",
+      chooseRental: "Choisir la location",
     },
 
     // ── Maintenance ─────────────────────────────────────────────────────
     maintenance: {
+      eyebrow: "Après la mise en ligne",
       title: "Maintenance",
       introStart: "Votre site suivi toute l'année.",
       introStrong: "Vos modifications faites pour vous, sans rien apprendre",
@@ -370,13 +401,16 @@ export const translations = {
       tabFlex: "Sans engagement",
       tabAnnual: "Engagement 1 an",
       noteFlex: "Résiliable à tout moment, sans préavis.",
-      noteAnnual: "Soit 120 € économisés sur l'année.",
+      // `{n}` est remplacé par l'économie dérivée des deux tarifs.
+      noteAnnual: "Soit {n} € économisés sur l'année.",
+      saveBadge: "-{n} €",
+      featuresTitle: "Ce qui est inclus",
       perMonth: "/ mois",
       cta: "Demander la maintenance",
       offered:
         "1er mois offert avec les offres Site Vitrine Complet et Site Pro & Sur Mesure.",
       features: [
-        "2 heures de modifications par mois : textes, images, nouvelles sections",
+        "{n} heures de modifications par mois : textes, images, nouvelles sections",
         "Hébergement, nom de domaine et certificat de sécurité inclus",
         "Sauvegardes quotidiennes et restauration en cas de problème",
         "Mises à jour de sécurité et de performance",
@@ -680,6 +714,7 @@ export const translations = {
       emailPlaceholder: "your@email.com",
       projectType: "Project type",
       projectTypePlaceholder: "Select (optional)",
+      presetLabel: "Selected package",
       projectTypes: [
         "Single-page site",
         "Full business website",
@@ -746,7 +781,9 @@ export const translations = {
       includesSuffix: ", plus:",
       choose: "Choose this package",
       popular: "Popular",
-      optionsTitle: "Add-ons",
+      optionsEyebrow: "Add-ons",
+      optionsTitle1: "Round out your",
+      optionsTitleAccent: "package",
       optionsIntro: "Add any of these to any package, depending on your needs.",
       footnote: "Not sure which package to pick?",
       footnoteLink: "Write to us",
@@ -805,9 +842,34 @@ export const translations = {
       optionReviews: "Your Google reviews displayed automatically on the site",
       optionCopywriting: "Copywriting for your content",
       priceFrom: "from",
+
+      // ── Buy / Rent ──────────────────────────────────────────────────────
+      modeLegend: "Choose between buying and renting",
+      modePurchase: "Buy",
+      modeRental: "Rent",
+      purchaseOnly: "One-off purchase",
+      purchaseMaintenanceNote: "+ optional maintenance from",
+      rentalSetupPrefix: "+",
+      rentalSetupSuffix: "set-up fee",
+      rentalCommitment: "{n}-month commitment",
+      rentalIncludesTitle: "Included in the monthly fee",
+      rentalIncludes: [
+        "Hosting, domain name and security certificate",
+        "Maintenance, backups and security updates",
+        "{n} hours of changes per month, made for you",
+        "Priority support, reply within 24 working hours",
+      ],
+      rentalNote:
+        "Nothing heavy to pay upfront: your site goes live, stays hosted and is looked after for the whole commitment period.",
+      rentalOwnershipTitle: "Site ownership",
+      rentalOwnership:
+        "While renting, the site remains the property of AKWebSolution: the monthly fee covers its use, hosting and upkeep.",
+      rentalBuyoutPrefix: "At the end of the {n}-month rental, you can become its owner for",
+      chooseRental: "Choose renting",
     },
 
     maintenance: {
+      eyebrow: "After launch",
       title: "Maintenance",
       introStart: "Your site looked after all year round.",
       introStrong: "Your changes made for you, with nothing to learn",
@@ -816,13 +878,15 @@ export const translations = {
       tabFlex: "No commitment",
       tabAnnual: "1-year plan",
       noteFlex: "Cancel any time, no notice period.",
-      noteAnnual: "That's €120 saved over the year.",
+      noteAnnual: "That's €{n} saved over the year.",
+      saveBadge: "-€{n}",
+      featuresTitle: "What's included",
       perMonth: "/ month",
       cta: "Request maintenance",
       offered:
         "First month free with the Full Business Website and Bespoke Pro Website packages.",
       features: [
-        "2 hours of changes per month: copy, images, new sections",
+        "{n} hours of changes per month: copy, images, new sections",
         "Hosting, domain name and security certificate included",
         "Daily backups and restore if anything goes wrong",
         "Security and performance updates",
