@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { MotionConfig } from "motion/react";
 import Lenis from "lenis";
 
@@ -10,6 +11,9 @@ import Lenis from "lenis";
  * demande moins d'animations.
  */
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
+  const lenisRef = useRef<Lenis | null>(null);
+  const pathname = usePathname();
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -24,6 +28,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       anchors: true,
     });
+    lenisRef.current = lenis;
 
     let rafId = 0;
     const raf = (time: number) => {
@@ -35,8 +40,37 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     return () => {
       cancelAnimationFrame(rafId);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
+
+  /*
+   * Rejoindre une ancre depuis une AUTRE page (ex. les boutons « Choisir » de
+   * /offres vers `/?offer=...#contact`) est une vraie navigation Next, pas un
+   * clic sur un lien déjà présent dans la page — l'option `anchors` de Lenis
+   * ne s'en charge pas. Le layout racine ne démonte jamais, donc Lenis garde
+   * aussi sa position de scroll d'une page à l'autre : sans ce recalage, son
+   * prochain tick de RAF ramenait la page à l'ancienne position au lieu de la
+   * section ciblée, ce qui donnait l'impression que le bouton ne redirigeait
+   * pas correctement. `requestAnimationFrame` laisse la nouvelle page se poser
+   * avant de calculer la position de la cible.
+   */
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+
+    const id = requestAnimationFrame(() => {
+      const target = document.querySelector(hash);
+      if (!target) return;
+      const lenis = lenisRef.current;
+      if (lenis) {
+        lenis.scrollTo(target as HTMLElement, { duration: 1.1 });
+      } else {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+    return () => cancelAnimationFrame(id);
+  }, [pathname]);
 
   return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
 }
