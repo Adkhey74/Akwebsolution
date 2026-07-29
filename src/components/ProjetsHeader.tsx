@@ -7,19 +7,22 @@ export function ProjetsHeader() {
   const { t } = useI18n();
 
   return (
-    <section className="section-container min-w-0 pb-12 pt-28 sm:pb-16 sm:pt-32 md:pb-20 md:pt-40">
+    <section className="section-container min-w-0 pb-10 pt-28 text-center sm:pb-14 sm:pt-32 md:pb-16 md:pt-40">
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="max-w-2xl min-w-0"
+        className="mx-auto w-full max-w-[75rem] min-w-0"
       >
         {/* Badge */}
         {/* « Portfolio » et non « Réalisations » : le H1 juste en dessous dit
             déjà « Nos réalisations » — l'écho se voyait. */}
         <span className="eyebrow mb-6">{t("workPage.eyebrow")}</span>
 
-        <h1 className="text-[2.25rem] font-light leading-[1.15] tracking-tight text-[var(--foreground)] sm:text-[2.75rem] md:text-[3.25rem]">
+        {/* Centré plutôt qu'aligné à gauche : dans une colonne étroite, le
+            titre et son intro faisaient un bloc tout en hauteur, coincé contre
+            le bord gauche pendant que le reste du viewport restait vide. */}
+        <h1 className="text-balance text-[2.25rem] font-light leading-[1.15] tracking-tight text-[var(--foreground)] sm:text-[2.75rem] md:text-[3.25rem]">
           {t("workPage.title1")}{" "}
           <span className="relative inline-block font-semibold">
             {t("workPage.titleAccent")}
@@ -32,7 +35,7 @@ export function ProjetsHeader() {
           </span>
         </h1>
 
-        <p className="mt-5 max-w-lg text-[1rem] leading-[1.7] text-[var(--muted)] md:text-[1.0625rem]">
+        <p className="mx-auto mt-5 max-w-xl text-[1rem] leading-[1.7] text-[var(--muted)] md:text-[1.0625rem]">
           {t("workPage.intro")}
         </p>
       </motion.div>

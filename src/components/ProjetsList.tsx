@@ -1,51 +1,27 @@
-"use client";
-
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { ProjectShowcase } from "@/components/ProjectShowcase";
+import { ProjectBand } from "@/components/ProjectBand";
 import { projects } from "@/lib/projects";
-import { useI18n } from "@/lib/i18n/context";
 
 /**
- * Listing de la page /projets.
+ * Listing de la page /projets — mêmes bandes alternées plein cadre que la
+ * section « Réalisations » de l'accueil (ProjectsPreview), mais avec tous les
+ * projets plutôt que les 3 premiers : les deux pages doivent présenter les
+ * réalisations avec le même langage visuel, pas deux styles différents.
  *
- * Extrait de app/projets/page.tsx, qui garde son `metadata` (Server Component)
- * et ne peut donc pas consommer le contexte i18n.
+ * Pas de `.section-container` ici : chaque ProjectBand porte déjà le sien,
+ * nécessaire à son visuel qui déborde jusqu'au bord du viewport (bleed-*) —
+ * l'imbriquer une seconde fois doublerait le padding horizontal.
  *
- * Au passage : la page portait son PROPRE tableau de projets en dur, distinct
- * de lib/projects.ts — mêmes projets, descriptions divergentes. Tout vient
- * désormais de lib/projects.ts pour la donnée et des traductions pour le texte.
+ * `mediaFirst` inversé par rapport à ProjectsPreview : le H1 de ProjetsHeader
+ * est aligné à gauche juste au-dessus, donc le texte du premier projet doit
+ * lui aussi démarrer à gauche (image à droite), sinon le zigzag de
+ * l'alternance surprend dès la première bande.
  */
 export function ProjetsList() {
-  const { t, tList } = useI18n();
-
   return (
-    <section className="section-container min-w-0 pb-20 md:pb-24 lg:pb-32">
-      <div className="space-y-20 md:space-y-24 lg:space-y-32">
-        {projects.map((project, i) => (
-          <div key={project.slug} id={project.slug} className="scroll-mt-28">
-            <ProjectShowcase
-              title={project.title}
-              category={t(`projects.${project.slug}.category`)}
-              description={t(`projects.${project.slug}.summary`)}
-              tags={tList(`projects.${project.slug}.tags`)}
-              year={project.year}
-              url={project.url}
-              images={project.images}
-              index={i}
-            />
-            <div className="mt-6 flex justify-center md:justify-start">
-              <Link
-                href={`/projets/${project.slug}`}
-                className="group inline-flex items-center gap-2 rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/10 px-5 py-2.5 text-[0.8125rem] font-medium text-[var(--accent-soft)] transition-all hover:-translate-y-0.5 hover:bg-[var(--accent)] hover:text-white"
-              >
-                {t("workPage.readCase")}
-                <ArrowRight size={14} strokeWidth={2} className="transition-transform group-hover:translate-x-0.5" />
-              </Link>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
+    <div className="flex flex-col gap-20 pb-20 md:gap-28 md:pb-28 lg:gap-32 lg:pb-32">
+      {projects.map((project, i) => (
+        <ProjectBand key={project.slug} project={project} index={i} mediaFirst={i % 2 === 1} />
+      ))}
+    </div>
   );
 }
