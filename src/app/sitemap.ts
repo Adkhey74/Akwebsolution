@@ -12,6 +12,19 @@ const STATIC_LAST_MODIFIED = new Date("2026-07-27T00:00:00Z");
 // Pages nées avec la version bilingue et les pages d'intention locale.
 const NEW_PAGES_LAST_MODIFIED = new Date("2026-07-30T00:00:00Z");
 
+/**
+ * Pages dont le CONTENU a réellement bougé le 31/07/2026 : le tarif de
+ * maintenance passé à 90 €/mois (offres + les deux pages d'intention locale qui
+ * le citent) et les liens du portfolio (ThermoChrono retiré, Orbit et Kabuki
+ * ajoutés) sur /projets et les études de cas.
+ *
+ * Volontairement séparé de `STATIC_LAST_MODIFIED` : l'accueil, /a-propos et
+ * /contact n'ont pas changé ce jour-là, et les dater d'aujourd'hui pour faire
+ * bonne mesure est exactement ce que le commentaire ci-dessus met en garde de
+ * faire. Un lastmod ne vaut que s'il est vrai.
+ */
+const TOUCHED_2026_07_31 = new Date("2026-07-31T00:00:00Z");
+
 type Entry = {
   /** Chemin en forme racine — le préfixe de langue est ajouté ici. */
   path: string;
@@ -63,19 +76,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/", lastModified: STATIC_LAST_MODIFIED, changeFrequency: "monthly", priority: 1 },
     {
       path: "/offres",
-      lastModified: STATIC_LAST_MODIFIED,
+      lastModified: TOUCHED_2026_07_31,
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       path: "/projets",
-      lastModified: STATIC_LAST_MODIFIED,
+      lastModified: TOUCHED_2026_07_31,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     ...projects.map<Entry>((p) => ({
       path: `/projets/${p.slug}`,
-      lastModified: STATIC_LAST_MODIFIED,
+      lastModified: TOUCHED_2026_07_31,
       changeFrequency: "monthly",
       priority: 0.8,
     })),
@@ -99,15 +112,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    // Ces deux-là citent le tarif de maintenance, passé à 90 € le 31/07.
     {
       path: "/site-web-restaurant-annecy",
-      lastModified: NEW_PAGES_LAST_MODIFIED,
+      lastModified: TOUCHED_2026_07_31,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       path: "/site-web-artisan-annecy",
-      lastModified: NEW_PAGES_LAST_MODIFIED,
+      lastModified: TOUCHED_2026_07_31,
       changeFrequency: "monthly",
       priority: 0.8,
     },

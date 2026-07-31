@@ -261,7 +261,10 @@ export const article: Article = {
   metaDescription:
     "Combien coûte un site vitrine à Annecy en 2026 ? Fourchettes de prix, facteurs, coûts cachés et conseils d’un développeur web freelance en Haute-Savoie.",
   publishedAt: "2026-07-26",
-  updatedAt: "2026-07-26",
+  // 31/07 : le tarif de maintenance cité dans l'article est passé à 90 €/mois.
+  // C'est `updatedAt` qui porte le lastmod du sitemap — sans ce bump, on demande
+  // à Google de réindexer une page qu'on lui présente comme inchangée.
+  updatedAt: "2026-07-31",
   author: "Adil",
   keywords: [
     "prix site vitrine Annecy",
