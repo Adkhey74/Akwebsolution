@@ -27,6 +27,23 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       anchors: true,
+      /*
+       * Lenis ne démonte jamais — le layout racine reste monté d'une page à
+       * l'autre — et garde donc sa position de défilement interne. Sans cette
+       * option, cliquer « Choisir cette offre » en bas de /offres ouvrait
+       * /contact déjà défilée : Next remet bien la page en haut, puis le tick
+       * de RAF suivant de Lenis y réimposait les ~2 000 px hérités de /offres.
+       *
+       * L'option fait appeler `reset()` au moment du CLIC, donc avant la
+       * navigation : Lenis stoppe son animation et se resynchronise sur la
+       * position réelle au lieu de la redonner. C'est le bon moment, et c'est
+       * le seul — après coup, il a déjà rendu une frame à la mauvaise position.
+       *
+       * Portée volontairement limitée aux clics : les retours arrière du
+       * navigateur ne passent pas par là, donc la restauration de position que
+       * fait Next sur « Précédent » n'est pas touchée.
+       */
+      stopInertiaOnNavigate: true,
     });
     lenisRef.current = lenis;
 
