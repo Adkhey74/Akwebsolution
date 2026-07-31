@@ -72,3 +72,18 @@ publier tout de suite : mettre la date du jour.
 
 Déposer les visuels dans `public/images/blog/` (idéalement en `.webp`) et
 référencer `/images/blog/<slug>.webp`. `next/image` s'occupe de l'optimisation.
+
+Convention de style (tenue depuis le 1er article) : rendu abstrait en verre
+violet translucide sur fond noir bleuté, halo, reflet au sol, **aucun texte**
+dans l'image — c'est l'`alt` qui porte l'information. Format 1376 × 768.
+Une couverture + 2 ou 3 visuels répartis dans le corps.
+
+Les visuels du 2ᵉ article sont composés par `scripts/generate-blog-images.mjs`
+(SVG → WebP via `sharp`) plutôt que dessinés à la main : le style est une
+convention, donc autant qu'il soit reproductible. Pour un nouvel article,
+dupliquer les blocs de composition en changeant les formes :
+
+```bash
+node scripts/generate-blog-images.mjs          # → public/images/blog/
+node scripts/generate-blog-images.mjs /tmp/out # relire avant d'écraser
+```
