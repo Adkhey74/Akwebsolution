@@ -67,7 +67,7 @@ export function Contact({
   const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
 
-  /** Formule choisie sur /offres (`/?offer=starter&mode=rental#contact`). */
+  /** Formule choisie sur /offres (`/contact?offer=starter&mode=rental`). */
   const search = useSyncExternalStore(subscribeToNothing, getSearch, getServerSearch);
   const preset = useMemo(() => {
     const params = new URLSearchParams(search);
@@ -90,7 +90,7 @@ export function Contact({
 
   const selectedOffer = preset.index === "" ? null : offers[preset.index];
   /* Une URL saisie à la main peut réclamer la location d'une offre qui ne se
-     vend qu'à l'achat (`?offer=pro&mode=rental`) : on retombe sur l'achat
+     vend qu'à l'achat (`/contact?offer=pro&mode=rental`) : on retombe sur l'achat
      plutôt que d'annoncer une mensualité qui n'existe pas. */
   const mode: Mode | "" =
     presetDismissed || !selectedOffer
