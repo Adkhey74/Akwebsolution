@@ -33,7 +33,7 @@ export function ProjectBand({
   index: number;
   mediaFirst?: boolean;
 }) {
-  const { t, tList } = useI18n();
+  const { t, tList, lp } = useI18n();
 
   return (
     <article className="section-container min-w-0">
@@ -48,7 +48,7 @@ export function ProjectBand({
           transition={{ duration: 0.7, ease: EASE }}
         >
           <Link
-            href={`/projets/${project.slug}`}
+            href={lp(`/projets/${project.slug}`)}
             aria-label={`${t("work.caseStudyOf")} — ${project.title}`}
             tabIndex={-1}
             className={`group relative block overflow-hidden rounded-none bg-[var(--section-alt)] shadow-[0_20px_60px_-30px_var(--shadow-media)] bleed-x lg:rounded-2xl ${
@@ -117,7 +117,7 @@ export function ProjectBand({
 
           <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
             <Link
-              href={`/projets/${project.slug}`}
+              href={lp(`/projets/${project.slug}`)}
               className="group inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 text-[0.875rem] font-medium text-white transition-colors hover:bg-[var(--accent-hover)]"
             >
               {t("work.caseStudy")}

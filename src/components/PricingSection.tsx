@@ -33,7 +33,7 @@ const steps = [
 const EASE = [0.25, 0.46, 0.45, 0.94] as const;
 
 export function PricingSection() {
-  const { t } = useI18n();
+  const { t, lp } = useI18n();
 
   return (
     <section
@@ -125,14 +125,14 @@ export function PricingSection() {
 
           <div className="flex shrink-0 flex-col items-stretch gap-3 sm:flex-row lg:flex-col xl:flex-row">
             <Link
-              href="/#contact"
+              href={lp("/#contact")}
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-7 py-3.5 text-[0.9375rem] font-medium text-white transition-colors hover:bg-[var(--accent-hover)]"
             >
               {t("method.ctaTalk")}
               <ArrowRight size={16} strokeWidth={2} className="transition-transform group-hover:translate-x-0.5" />
             </Link>
             <Link
-              href="/offres"
+              href={lp("/offres")}
               className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[var(--border-hover)] px-7 py-3.5 text-[0.9375rem] font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--card)]"
             >
               {t("method.ctaDetails")}

@@ -22,7 +22,7 @@ const plans = [
 ] as const;
 
 export function MaintenancePlan() {
-  const { t, tList } = useI18n();
+  const { t, tList, lp } = useI18n();
   const features = tList("maintenance.features");
   const [active, setActive] = useState<string>(plans[1].id);
   const groupName = useId();
@@ -152,7 +152,7 @@ export function MaintenancePlan() {
             </div>
 
             <Link
-              href="/#contact"
+              href={lp("/#contact")}
               className="group mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-7 py-3.5 text-[0.875rem] font-medium text-white shadow-[0_10px_40px_-10px_var(--accent)] transition-colors duration-200 hover:bg-[var(--accent-hover)]"
             >
               {t("maintenance.cta")}

@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ChevronDown, Check } from "lucide-react";
 import "flag-icons/css/flag-icons.min.css";
 import { useI18n } from "@/lib/i18n/context";
+import { switchLocale } from "@/lib/i18n/config";
 import type { Locale } from "@/lib/i18n/translations";
 
 const languages: { code: Locale; label: string; codeLabel: string; flagCode: string }[] = [
@@ -28,7 +31,8 @@ export function LanguageSwitcher({
   align?: "left" | "right";
   drop?: "up" | "down";
 }) {
-  const { locale, setLocale, t } = useI18n();
+  const { locale, t } = useI18n();
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -89,18 +93,26 @@ export function LanguageSwitcher({
             align === "left" ? "left-0" : "right-0"
           } ${drop === "up" ? "bottom-full mb-2" : "top-full mt-2"}`}
         >
+          {/*
+            Des liens, et non des boutons : changer de langue est devenu une
+            NAVIGATION. La langue vit dans l'URL (`/` ou `/en/…`), plus dans un
+            état React mémorisé en localStorage — c'est ce qui rend la version
+            anglaise indexable, et ce qui permet d'en partager un lien.
+
+            `hreflang` indique la langue de la page CIBLE, pas celle du libellé :
+            c'est l'usage attendu sur un lien inter-langues.
+          */}
           {languages.map((lang) => {
             const active = lang.code === locale;
             return (
-              <button
+              <Link
                 key={lang.code}
-                type="button"
+                href={switchLocale(pathname, lang.code)}
+                hrefLang={lang.code}
+                lang={lang.code}
                 role="option"
                 aria-selected={active}
-                onClick={() => {
-                  setLocale(lang.code);
-                  setIsOpen(false);
-                }}
+                onClick={() => setIsOpen(false)}
                 className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-colors ${
                   active
                     ? "bg-[var(--accent)] text-white"
@@ -110,7 +122,7 @@ export function LanguageSwitcher({
                 <span className={`fi fi-${lang.flagCode} rounded-[2px]`} aria-hidden />
                 <span className="text-[0.875rem] font-medium">{lang.label}</span>
                 {active && <Check size={14} strokeWidth={2.5} className="ml-auto" aria-hidden />}
-              </button>
+              </Link>
             );
           })}
         </div>

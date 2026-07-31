@@ -9,7 +9,7 @@ import { BorderBeam } from "@/components/ui/border-beam";
 import { useI18n } from "@/lib/i18n/context";
 
 export function AboutPreview() {
-  const { t, tList } = useI18n();
+  const { t, tList, lp } = useI18n();
   const credentials = tList("about.credentials");
 
   return (
@@ -91,7 +91,7 @@ export function AboutPreview() {
             </ul>
 
             <Link
-              href="/a-propos"
+              href={lp("/a-propos")}
               className="group mt-1 inline-flex items-center gap-2 text-[0.9rem] font-medium text-[var(--foreground)] underline underline-offset-4 transition-opacity hover:opacity-60"
             >
               {t("about.more")}

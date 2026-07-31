@@ -7,7 +7,7 @@ import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { useI18n } from "@/lib/i18n/context";
 
 export function ProjetsCta() {
-  const { t } = useI18n();
+  const { t, lp } = useI18n();
 
   return (
     <section className="border-t border-[var(--border)]">
@@ -28,7 +28,7 @@ export function ProjetsCta() {
             {t("workPage.ctaBody")}
           </p>
           <div className="mt-8 flex justify-center">
-            <Link href="/#contact" aria-label={t("workPage.ctaButton")}>
+            <Link href={lp("/#contact")} aria-label={t("workPage.ctaButton")}>
               <ShimmerButton
                 background="var(--accent)"
                 shimmerColor="rgba(255,255,255,0.85)"

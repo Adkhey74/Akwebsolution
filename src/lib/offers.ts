@@ -140,7 +140,7 @@ export const offers: Offer[] = [
  */
 export const maintenance = {
   /** Sans engagement, résiliable à tout moment. */
-  flex: 80,
+  flex: 90,
   /** Avec engagement 1 an. */
   annual: 70,
 } as const;

@@ -187,7 +187,7 @@ function Content() {
         Bonne nouvelle : ces coûts sont souvent regroupables. De mon côté, je
         réunis l’hébergement, le nom de domaine, les sauvegardes, les mises à
         jour de sécurité et deux heures de modifications par mois dans une offre
-        de maintenance à 80 € par mois, ou 70 € par mois avec un engagement d’un
+        de maintenance à 90 € par mois, ou 70 € par mois avec un engagement d’un
         an — le premier mois étant offert sur les offres Site Vitrine
         Complet et Site Pro &amp; Sur Mesure.
       </p>

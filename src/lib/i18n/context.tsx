@@ -1,115 +1,57 @@
 "use client";
 
-import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { translations, type Locale } from "./translations";
+import React, { createContext, useCallback, useContext, useMemo } from "react";
+import type { Locale } from "./translations";
+import { localeHref } from "./config";
+import { translate, translateList } from "./lookup";
 
 type I18nContextType = {
   locale: Locale;
-  setLocale: (locale: Locale) => void;
   /** Traduit une clé « section.cle ». Renvoie la clé telle quelle si introuvable. */
   t: (key: string) => string;
   /** Variante pour les valeurs de type tableau (listes de features, tags…). */
   tList: (key: string) => string[];
+  /**
+   * Préfixe un lien interne de la langue courante — « lp » pour locale path.
+   *
+   * À utiliser pour TOUT `href` interne. Un lien écrit en dur ramènerait le
+   * visiteur anglais sur le site français sans qu'on s'en aperçoive : le site
+   * reste fonctionnel, la langue change juste toute seule — donc le bug ne se
+   * voit pas en test.
+   *
+   * Le chemin s'écrit dans sa forme française (`/offres`, `/#contact`), telle
+   * qu'elle existe à la racine du domaine. Voir `localeHref` pour le cas des
+   * pages qui n'existent qu'en français.
+   */
+  lp: (path: string) => string;
 };
 
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
-const STORAGE_KEY = "locale";
-const LOCALES: Locale[] = ["fr", "en"];
-
-const isLocale = (v: unknown): v is Locale =>
-  typeof v === "string" && (LOCALES as string[]).includes(v);
-
-/** Descend un chemin « a.b.c » dans un objet, ou undefined si la route casse. */
-function resolve(root: unknown, path: string[]): unknown {
-  let value: unknown = root;
-  for (const key of path) {
-    if (value && typeof value === "object" && key in value) {
-      value = (value as Record<string, unknown>)[key];
-    } else {
-      return undefined;
-    }
-  }
-  return value;
-}
-
+/**
+ * La langue vient de l'URL, passée par le layout racine de chaque arbre de
+ * routes — elle n'est plus mémorisée en `localStorage`.
+ *
+ * L'ancienne version stockait la langue côté client : le HTML servi était donc
+ * toujours le français, et l'anglais n'apparaissait qu'après hydratation. Aucun
+ * moteur de recherche ne pouvait indexer la version anglaise, faute d'URL à
+ * indexer. Maintenant `/` et `/en` sont deux pages distinctes, rendues
+ * statiquement, chacune dans sa langue.
+ */
 export function I18nProvider({
   children,
-  defaultLocale = "fr",
+  locale,
 }: {
   children: React.ReactNode;
-  defaultLocale?: Locale;
+  locale: Locale;
 }) {
-  const [locale, setLocaleState] = useState<Locale>(defaultLocale);
+  const t = useCallback((key: string) => translate(locale, key), [locale]);
+  const tList = useCallback((key: string) => translateList(locale, key), [locale]);
+  const lp = useCallback((path: string) => localeHref(locale, path), [locale]);
 
-  // Langue mémorisée. Lue après le montage (et non pendant le rendu) : le HTML
-  // est servi statiquement, il ne peut pas connaître la préférence à l'avance.
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (isLocale(saved)) setLocaleState(saved);
-    } catch {
-      /* stockage refusé : on reste sur la langue par défaut */
-    }
-  }, []);
+  const value = useMemo(() => ({ locale, t, tList, lp }), [locale, t, tList, lp]);
 
-  // Garde <html lang> aligné sur la langue affichée : c'est ce qui indique aux
-  // lecteurs d'écran quelle prononciation utiliser, et à Google quelle langue
-  // il lit.
-  useEffect(() => {
-    document.documentElement.lang = locale;
-  }, [locale]);
-
-  const setLocale = useCallback((next: Locale) => {
-    setLocaleState(next);
-    try {
-      localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      /* navigation privée : la langue changera quand même, elle ne survivra
-         simplement pas au rechargement */
-    }
-  }, []);
-
-  /**
-   * Résolution avec repli sur le français.
-   *
-   * NB : l'implémentation de HernTaxi retombait sur `translations.fr` puis
-   * reparcourait le chemin DEPUIS LE DÉBUT à l'intérieur de la boucle, en
-   * réutilisant la variable déjà partiellement descendue — le repli ne se
-   * déclenchait donc correctement que si la clé cassait au premier segment.
-   * Ici le repli est une seconde résolution complète et indépendante.
-   */
-  const lookup = useCallback(
-    (key: string): unknown => {
-      const path = key.split(".");
-      const hit = resolve(translations[locale], path);
-      if (hit !== undefined) return hit;
-      return resolve(translations.fr, path);
-    },
-    [locale]
-  );
-
-  const t = useCallback(
-    (key: string): string => {
-      const value = lookup(key);
-      return typeof value === "string" ? value : key;
-    },
-    [lookup]
-  );
-
-  const tList = useCallback(
-    (key: string): string[] => {
-      const value = lookup(key);
-      return Array.isArray(value) ? (value as string[]) : [];
-    },
-    [lookup]
-  );
-
-  return (
-    <I18nContext.Provider value={{ locale, setLocale, t, tList }}>
-      {children}
-    </I18nContext.Provider>
-  );
+  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }
 
 export function useI18n() {

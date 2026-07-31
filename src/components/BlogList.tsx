@@ -13,7 +13,7 @@ import { useI18n } from "@/lib/i18n/context";
  * rédactionnels écrits en JSX, ils ne relèvent pas d'un fichier de traductions.
  */
 export function BlogList() {
-  const { t, locale } = useI18n();
+  const { t, locale, lp } = useI18n();
   const posts = getPublishedArticles();
 
   // La date suit la langue affichée (« 14 juillet 2026 » / « 14 July 2026 »).
@@ -55,7 +55,7 @@ export function BlogList() {
               {t("blog.emptyBody")}
             </p>
             <Link
-              href="/offres"
+              href={lp("/offres")}
               className="mt-7 inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 text-[0.875rem] font-medium text-white shadow-[0_10px_40px_-10px_var(--accent)] transition-all hover:-translate-y-0.5 hover:bg-[var(--accent-hover)]"
             >
               {t("blog.emptyCta")}
@@ -67,7 +67,7 @@ export function BlogList() {
             {posts.map((post) => (
               <Link
                 key={post.slug}
-                href={`/blog/${post.slug}`}
+                href={lp(`/blog/${post.slug}`)}
                 className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-sm transition-all hover:border-[var(--border-hover)] hover:shadow-[0_16px_40px_-12px_var(--shadow-card)]"
               >
                 <div className="relative aspect-[16/10] w-full overflow-hidden bg-[var(--section-alt)]">

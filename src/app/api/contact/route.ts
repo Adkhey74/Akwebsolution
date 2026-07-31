@@ -178,10 +178,10 @@ function confirmHtml(name: string, projectType: string, mode: string, message: s
 
     <!-- CTA offres -->
     <p style="margin:0 0 16px;font-size:14px;color:${EMAIL.muted};line-height:1.65;">
-      En attendant, découvrez nos formules détaillées :
+      En attendant, découvrez mes formules détaillées :
     </p>
     <a href="https://akwebsolutions.fr/offres" style="display:inline-block;padding:12px 28px;background:transparent;border:1px solid ${EMAIL.borderLight};color:${EMAIL.foreground};font-size:13px;font-weight:600;letter-spacing:0.05em;text-decoration:none;border-radius:9999px;">
-      Voir nos offres
+      Voir mes offres
     </a>
   `);
 }

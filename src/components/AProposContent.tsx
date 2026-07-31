@@ -10,7 +10,7 @@ import { useI18n } from "@/lib/i18n/context";
 
 
 export function AProposContent() {
-  const { t, tList } = useI18n();
+  const { t, tList, lp } = useI18n();
   const values = tList("aboutPage.values");
 
   return (
@@ -127,14 +127,14 @@ export function AProposContent() {
             transition={{ duration: 0.45, delay: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             <Link
-              href="/#contact"
+              href={lp("/#contact")}
               className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 text-[0.9rem] font-semibold text-white shadow-[0_10px_40px_-10px_var(--accent)] transition-all hover:bg-[var(--accent-hover)]"
             >
               {t("aboutPage.ctaContact")}
               <ArrowRight size={15} strokeWidth={2} />
             </Link>
             <Link
-              href="/projets"
+              href={lp("/projets")}
               className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-6 py-3 text-[0.9rem] font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--card)]"
             >
               {t("aboutPage.ctaWork")}

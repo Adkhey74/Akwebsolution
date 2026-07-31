@@ -26,7 +26,7 @@ import { useI18n } from "@/lib/i18n/context";
  * traductions, indexé par slug.
  */
 export function CaseStudyContent({ slug }: { slug: string }) {
-  const { t, tList } = useI18n();
+  const { t, tList, lp } = useI18n();
 
   const index = projects.findIndex((p) => p.slug === slug);
   if (index === -1) return null;
@@ -41,7 +41,7 @@ export function CaseStudyContent({ slug }: { slug: string }) {
       {/* En-tête */}
       <section className="section-container pt-28 pb-10 sm:pt-36 md:pt-40">
         <Link
-          href="/projets"
+          href={lp("/projets")}
           className="group inline-flex items-center gap-2 text-[0.8125rem] font-medium text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
         >
           <ArrowLeft size={15} strokeWidth={2} className="transition-transform group-hover:-translate-x-0.5" />
@@ -211,7 +211,7 @@ export function CaseStudyContent({ slug }: { slug: string }) {
             <p className="mt-3 text-[0.9375rem] text-[var(--muted)]">{t("workPage.ctaBody")}</p>
           </div>
           <Link
-            href="/#contact"
+            href={lp("/#contact")}
             className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-8 py-4 text-[0.9375rem] font-medium text-white shadow-[0_10px_40px_-10px_var(--accent)] transition-all hover:-translate-y-0.5 hover:bg-[var(--accent-hover)]"
           >
             {t("workPage.ctaButton")}
@@ -219,7 +219,7 @@ export function CaseStudyContent({ slug }: { slug: string }) {
           </Link>
 
           <Link
-            href={`/projets/${next.slug}`}
+            href={lp(`/projets/${next.slug}`)}
             className="group mt-2 inline-flex items-center gap-2 text-[0.8125rem] font-medium text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
           >
             {t("workPage.nextProject")} {next.title}

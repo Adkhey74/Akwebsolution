@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useI18n } from "@/lib/i18n/context";
 
 const LOGO_SRC = "/images/logo3.png";
 
@@ -9,10 +12,11 @@ interface LogoProps {
 }
 
 export function Logo({ variant = "default", className = "" }: LogoProps) {
+  const { lp } = useI18n();
   const isCompact = variant === "compact";
   return (
     <Link
-      href="/"
+      href={lp("/")}
       className={`block transition-opacity hover:opacity-85 ${className}`}
       aria-label="AKWebSolution - Accueil"
     >

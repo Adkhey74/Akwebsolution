@@ -9,7 +9,11 @@ import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useI18n } from "@/lib/i18n/context";
+import { splitLocale } from "@/lib/i18n/config";
 
+// Chemins sous leur forme RACINE (française). Le tableau est au niveau module,
+// donc hors de portée de `lp` — qui dépend du contexte : le préfixe de langue est
+// posé au moment du rendu, sur chaque `href`.
 const navLinks = [
   { href: "/",         key: "header.home"     },
   { href: "/projets",  key: "header.projects" },
@@ -19,11 +23,15 @@ const navLinks = [
 ];
 
 export function Header() {
-  const { t } = useI18n();
+  const { t, lp } = useI18n();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolledPastHero, setScrolledPastHero] = useState(false);
   const pathname = usePathname();
-  const isHome = pathname === "/";
+  /* On compare la forme RACINE du chemin, pas le chemin brut : l'accueil
+     anglais est « /en », qui n'aurait jamais été égal à « / ». La navbar y
+     serait restée opaque en haut de page, sans la transparence prévue
+     par-dessus le hero. */
+  const isHome = splitLocale(pathname).path === "/";
   const showSolidNav = !isHome || scrolledPastHero || menuOpen;
 
   const closeMenu = () => setMenuOpen(false);
@@ -121,7 +129,7 @@ export function Header() {
             {navLinks.map(({ href, key }) => (
               <Link
                 key={href}
-                href={href}
+                href={lp(href)}
                 className={`group relative px-3 py-2 text-[0.8rem] font-medium uppercase tracking-[0.12em] transition-colors ${
                   showSolidNav ? "text-[var(--foreground)]" : "text-[var(--foreground)]"
                 }`}
@@ -145,7 +153,10 @@ export function Header() {
           <LanguageSwitcher className="hidden lg:block" />
           <ThemeToggle className="hidden lg:flex" />
           <Link
-            href="/#contact"
+            /* Vers la page /contact dédiée, et non plus vers l'ancre de
+               l'accueil : le bouton mène désormais à une vraie page, avec ses
+               coordonnées en clair et un lien partageable. */
+            href={lp("/contact")}
             className="group relative inline-flex shrink-0 items-center overflow-hidden whitespace-nowrap rounded-full border border-[var(--accent)]/50 bg-[var(--accent)]/10 px-3 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.1em] text-[var(--accent-soft)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-white hover:shadow-[0_8px_28px_-8px_var(--accent)] sm:px-4 sm:text-[0.75rem] sm:tracking-[0.12em]"
           >
             {/* remplissage violet depuis la gauche */}
@@ -197,7 +208,7 @@ export function Header() {
                   transition={{ delay: 0.05 + i * 0.06, duration: 0.22 }}
                 >
                   <Link
-                    href={href}
+                    href={lp(href)}
                     onClick={closeMenu}
                     className="block border-b border-[var(--border)] py-5 text-[1.75rem] font-light tracking-tight text-[var(--foreground)] transition-colors hover:text-[var(--muted)]"
                   >
@@ -215,7 +226,7 @@ export function Header() {
               className="shrink-0 px-6 py-8"
             >
               <Link
-                href="/offres"
+                href={lp("/offres")}
                 onClick={closeMenu}
                 className="block rounded-full bg-[var(--accent)] px-6 py-4 text-center text-[1rem] font-medium text-white shadow-[0_10px_40px_-10px_var(--accent)] transition-colors hover:bg-[var(--accent-hover)]"
               >

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, useSyncExternalStore } from "react";
+import Link from "next/link";
 import { motion } from "motion/react";
 import { Send, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
@@ -38,8 +39,29 @@ const subscribeToNothing = () => () => {};
 const getSearch = () => window.location.search;
 const getServerSearch = () => "";
 
-export function Contact() {
-  const { t, tList } = useI18n();
+export function Contact({
+  /*
+   * Niveau du titre. Sur l'accueil, la section s'insère parmi d'autres et son
+   * titre est un h2. Sur la page /contact dédiée, c'est LE titre de la page :
+   * un document sans h1 est un défaut d'accessibilité comme de référencement.
+   */
+  as: Heading = "h2",
+  /*
+   * `standalone` = la section ouvre la page (cas de /contact), au lieu de venir
+   * après d'autres sections (cas de l'accueil).
+   *
+   * Deux différences, et elles ne sont pas cosmétiques : le filet supérieur
+   * n'a plus rien à séparer, et le dégagement sous la navbar fixe doit être
+   * PORTÉ PAR LA SECTION. Le poser sur un conteneur extérieur laissait une
+   * bande du fond de page entre la navbar et la section, qui se lisait comme
+   * un écart involontaire.
+   */
+  standalone = false,
+}: {
+  as?: "h1" | "h2";
+  standalone?: boolean;
+} = {}) {
+  const { t, tList, lp } = useI18n();
   const projectTypes = tList("contact.projectTypes");
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [consent, setConsent] = useState(false);
@@ -113,7 +135,14 @@ export function Contact() {
   const inputClass = "w-full rounded-xl border border-[var(--border-input)] bg-[var(--surface)] px-4 py-3 text-[0.9375rem] text-[var(--foreground)] placeholder:text-[var(--muted)] outline-none transition-colors focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/30 hover:border-[var(--foreground)]/70";
 
   return (
-    <section id="contact" className="section-padding border-t border-[var(--border)] bg-[var(--section-alt)] overflow-hidden">
+    <section
+      id="contact"
+      className={`section-padding overflow-hidden bg-[var(--section-alt)] ${
+        standalone
+          ? "pt-[calc(var(--space-section)+5.5rem)] md:pt-[calc(var(--space-section)+6rem)]"
+          : "border-t border-[var(--border)]"
+      }`}
+    >
       <div className="section-container min-w-0">
         <div className="mx-auto w-full max-w-2xl">
 
@@ -126,7 +155,7 @@ export function Contact() {
             transition={{ duration: 0.52, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             <span className="eyebrow mb-5">{t("contact.eyebrow")}</span>
-            <h2 className="text-[2rem] font-light leading-[1.18] tracking-tight text-[var(--foreground)] sm:text-[2.5rem] md:text-[3rem]">
+            <Heading className="text-[2rem] font-light leading-[1.18] tracking-tight text-[var(--foreground)] sm:text-[2.5rem] md:text-[3rem]">
               {t("contact.title1")}{" "}
               <span className="relative inline-block font-semibold">
                 {t("contact.titleAccent")}
@@ -138,7 +167,7 @@ export function Contact() {
                   className="absolute -bottom-0.5 left-0 h-[2.5px] w-full origin-left bg-[var(--accent)]"
                 />
               </span>
-            </h2>
+            </Heading>
             <p className="mt-4 text-[0.9375rem] leading-[1.7] text-[var(--muted)]">
               {t("contact.reassurance")}
             </p>
@@ -277,7 +306,7 @@ export function Contact() {
                   />
                   <span>
                     {t("contact.consent")}{" "}
-                    <a href="/confidentialite" className="text-[var(--accent-soft)] underline underline-offset-2 hover:text-[var(--foreground)]">{t("contact.consentLink")}</a>.
+                    <Link href={lp("/confidentialite")} className="text-[var(--accent-soft)] underline underline-offset-2 hover:text-[var(--foreground)]">{t("contact.consentLink")}</Link>.
                   </span>
                 </label>
 

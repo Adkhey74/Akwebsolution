@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 const STORAGE_KEY = "theme";
 
@@ -18,6 +19,7 @@ const STORAGE_KEY = "theme";
  * côtés, donc aucun avertissement et aucun scintillement de l'icône.
  */
 export function ThemeToggle({ className = "" }: { className?: string }) {
+  const { t } = useI18n();
   // Sert uniquement à savoir si un choix explicite existe déjà, pour décider
   // si l'on doit continuer à suivre les changements de préférence système.
   const [hasChoice, setHasChoice] = useState(false);
@@ -60,10 +62,13 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
     <button
       type="button"
       onClick={toggle}
-      // Libellé statique : il ne peut pas décrire l'état courant sans
-      // réintroduire l'écart d'hydratation. « Basculer » reste exact.
-      aria-label="Basculer entre le thème clair et le thème sombre"
-      title="Changer de thème"
+      /* Libellé statique quant à l'ÉTAT : il ne peut pas décrire le thème
+         courant sans réintroduire l'écart d'hydratation. « Basculer » reste
+         exact. Il est en revanche traduit — les deux clés existaient déjà mais
+         n'étaient pas branchées, si bien qu'un visiteur anglais entendait un
+         libellé français dans son lecteur d'écran. */
+      aria-label={t("header.themeToggle")}
+      title={t("header.themeToggleShort")}
       className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--border-hover)] text-[var(--foreground)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)] ${className}`}
     >
       <Sun size={17} strokeWidth={1.75} className="dark:hidden" aria-hidden />

@@ -40,7 +40,7 @@ export type Mode = "purchase" | "rental";
 const MODES: Mode[] = ["purchase", "rental"];
 
 export function OfferCard({ offer }: { offer: Offer }) {
-  const { t, tList } = useI18n();
+  const { t, tList, lp } = useI18n();
   const [mode, setMode] = useState<Mode>("purchase");
   const groupName = useId();
   const reduceMotion = useReducedMotion();
@@ -58,7 +58,7 @@ export function OfferCard({ offer }: { offer: Offer }) {
   /* Le mode voyage jusqu'au formulaire de contact : c'est ce qui permet de
      savoir, à réception de la demande, s'il faut proposer un achat ou une
      location — sans quoi les deux arrivent sous la même forme. */
-  const href = `/?offer=${offer.id}&mode=${isRental ? "rental" : "purchase"}#contact`;
+  const href = lp(`/?offer=${offer.id}&mode=${isRental ? "rental" : "purchase"}#contact`);
 
   return (
     <motion.div

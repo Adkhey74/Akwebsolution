@@ -17,7 +17,7 @@ export const translations = {
       blog: "Blog",
       about: "À propos",
       contact: "Contact",
-      contactLong: "Nous contacter",
+      contactLong: "Me contacter",
       openMenu: "Ouvrir le menu",
       closeMenu: "Fermer le menu",
       mainNav: "Navigation principale",
@@ -33,14 +33,14 @@ export const translations = {
 
     // ── Hero ────────────────────────────────────────────────────────────
     hero: {
-      badge: "Agence Web à Annecy · Sites sur mesure",
+      badge: "Développeur web freelance à Annecy",
       title1: "Des sites web",
       titleAccent: "élégants",
       title2: "qui vous ressemblent",
       subtitle:
         "Développeur web freelance à Annecy. Sites rapides, clairs et adaptés à votre activité — une présence en ligne professionnelle, à votre image, en Haute-Savoie et partout en France.",
       ctaPrimary: "Démarrer mon projet",
-      ctaSecondary: "Voir nos services",
+      ctaSecondary: "Voir mes services",
       trust: ["Tarifs transparents", "Sans engagement", "Livraison rapide"],
       statExperience: "ans d'expérience",
       statClients: "Clients satisfaits",
@@ -77,7 +77,7 @@ export const translations = {
     // ── Réalisations (aperçu page d'accueil) ────────────────────────────
     work: {
       eyebrow: "Réalisations",
-      title1: "Ce que nous avons",
+      title1: "Ce que j'ai",
       titleAccent: "déjà créé",
       seeAll: "Voir toutes les réalisations",
       caseStudy: "Voir l'étude de cas",
@@ -252,6 +252,22 @@ export const translations = {
       successAgain: "Envoyer un autre message",
     },
 
+    // ── Page Contact dédiée ─────────────────────────────────────────────
+    // Le formulaire de l'accueil ne suffisait pas : une page /contact permet
+    // d'être trouvé sur « contact » + le nom du métier, et de donner les
+    // coordonnées en clair — ce que le formulaire seul ne fait pas.
+    contactPage: {
+      directTitle: "Ou directement",
+      emailLabel: "Email",
+      phoneLabel: "Téléphone",
+      whatsappLabel: "WhatsApp",
+      whatsappValue: "Écrire sur WhatsApp",
+      responseLabel: "Délai de réponse",
+      responseValue: "Sous 24 h ouvrées",
+      areaLabel: "Zone d'intervention",
+      areaValue: "Annecy et Haute-Savoie · à distance partout en France",
+    },
+
     // ── Footer ──────────────────────────────────────────────────────────
     footer: {
       keywords: [
@@ -304,8 +320,8 @@ export const translations = {
       optionsTitleAccent: "offre",
       optionsIntro: "À ajouter à n'importe quelle offre, selon vos besoins.",
       footnote: "Vous ne savez pas quelle formule choisir ?",
-      footnoteLink: "Écrivez-nous",
-      footnoteEnd: ", on vous guide gratuitement.",
+      footnoteLink: "Écrivez-moi",
+      footnoteEnd: ", je vous guide gratuitement.",
 
       landingTitle: "Page Vitrine Rapide",
       landingResult:
@@ -423,10 +439,10 @@ export const translations = {
     // ── Page Réalisations ───────────────────────────────────────────────
     workPage: {
       eyebrow: "Portfolio",
-      title1: "Nos",
+      title1: "Mes",
       titleAccent: "réalisations",
       intro:
-        "Sites vitrines, interfaces sur mesure et designs responsives — chaque réalisation est pensée pour refléter l'identité de notre client.",
+        "Sites vitrines, interfaces sur mesure et designs responsives — chaque réalisation est pensée pour refléter l'identité de son client.",
       ctaEyebrow: "Votre projet",
       ctaTitle1: "Vous avez un projet",
       ctaTitleAccent: "similaire ?",
@@ -491,7 +507,7 @@ export const translations = {
 
     common: {
       skipLink: "Aller au contenu",
-      whatsapp: "Nous contacter sur WhatsApp",
+      whatsapp: "Me contacter sur WhatsApp",
     },
   },
 
@@ -519,14 +535,14 @@ export const translations = {
     },
 
     hero: {
-      badge: "Web studio in Annecy · Bespoke websites",
+      badge: "Freelance web developer in Annecy",
       title1: "Websites that are",
       titleAccent: "elegant",
       title2: "and truly yours",
       subtitle:
         "Freelance web developer based in Annecy, France. Fast, clear websites built around your business — a professional online presence that looks like you, in Haute-Savoie and across France.",
       ctaPrimary: "Start my project",
-      ctaSecondary: "See our services",
+      ctaSecondary: "See my services",
       trust: ["Transparent pricing", "No commitment", "Fast delivery"],
       statExperience: "years of experience",
       statClients: "Happy clients",
@@ -561,9 +577,9 @@ export const translations = {
 
     work: {
       eyebrow: "Work",
-      title1: "What we have",
+      title1: "What I have",
       titleAccent: "already built",
-      seeAll: "See all our work",
+      seeAll: "See all my work",
       caseStudy: "Read the case study",
       caseStudyOf: "Read the case study",
       liveSite: "Visit the live site",
@@ -730,6 +746,18 @@ export const translations = {
       successAgain: "Send another message",
     },
 
+    contactPage: {
+      directTitle: "Or reach me directly",
+      emailLabel: "Email",
+      phoneLabel: "Phone",
+      whatsappLabel: "WhatsApp",
+      whatsappValue: "Message me on WhatsApp",
+      responseLabel: "Response time",
+      responseValue: "Within 24 working hours",
+      areaLabel: "Where I work",
+      areaValue: "Annecy and Haute-Savoie · remotely across France",
+    },
+
     footer: {
       keywords: [
         "Business websites",
@@ -780,8 +808,8 @@ export const translations = {
       optionsTitleAccent: "package",
       optionsIntro: "Add any of these to any package, depending on your needs.",
       footnote: "Not sure which package to pick?",
-      footnoteLink: "Write to us",
-      footnoteEnd: " — we'll guide you, free of charge.",
+      footnoteLink: "Write to me",
+      footnoteEnd: " — I'll guide you, free of charge.",
 
       landingTitle: "Single-Page Site",
       landingResult: "Be visible online in under a week, without overspending.",
@@ -892,10 +920,10 @@ export const translations = {
 
     workPage: {
       eyebrow: "Portfolio",
-      title1: "Our",
+      title1: "My",
       titleAccent: "work",
       intro:
-        "Business websites, bespoke interfaces and responsive design — every project is built to reflect our client's identity.",
+        "Business websites, bespoke interfaces and responsive design — every project is built to reflect its client's identity.",
       ctaEyebrow: "Your project",
       ctaTitle1: "Got something",
       ctaTitleAccent: "similar in mind?",
@@ -958,7 +986,7 @@ export const translations = {
 
     common: {
       skipLink: "Skip to content",
-      whatsapp: "Contact us on WhatsApp",
+      whatsapp: "Contact me on WhatsApp",
     },
   },
 } as const;

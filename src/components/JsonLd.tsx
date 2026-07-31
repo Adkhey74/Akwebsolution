@@ -1,10 +1,18 @@
 import { maintenance, monthlyChangeHours, offers, rentalOffers } from "@/lib/offers";
+import { BASE_URL, HREFLANG, localeUrl } from "@/lib/i18n/config";
+import type { Locale } from "@/lib/i18n/translations";
 
 /**
- * Injects JSON-LD structured data into the page <head>.
- * Added on the root layout so every page benefits from it.
+ * Données structurées JSON-LD, injectées depuis le layout racine — donc
+ * présentes sur toutes les pages.
+ *
+ * L'entité « entreprise » garde le MÊME identifiant dans les deux langues :
+ * c'est une seule société, pas une par version du site. Ce qui change avec la
+ * langue, c'est l'entité « site web » (son URL et sa langue déclarée).
  */
-export function JsonLd() {
+export function JsonLd({ locale }: { locale: Locale }) {
+  const offersUrl = localeUrl(locale, "/offres");
+
   const localBusiness = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
@@ -15,7 +23,7 @@ export function JsonLd() {
     logo: "https://akwebsolutions.fr/images/logo3.png",
     image: "https://akwebsolutions.fr/opengraph-image",
     description:
-      "Agence web spécialisée en création de sites vitrines et sur mesure. Design élégant, responsive, SEO optimisé. Tarifs transparents, livraison rapide.",
+      "Développeur web freelance à Annecy, spécialisé en création de sites vitrines et sur mesure. Design élégant, responsive, SEO optimisé. Tarifs transparents, livraison rapide.",
     telephone: "+33782923806",
     email: "contact@akwebsolutions.fr",
     address: {
@@ -51,7 +59,7 @@ export function JsonLd() {
           description: `${offer.result} ${offer.features.slice(0, 3).join(". ")}.`,
           price: String(offer.price),
           priceCurrency: "EUR",
-          url: "https://akwebsolutions.fr/offres",
+          url: offersUrl,
         })),
         /* Formules location. `UnitPriceSpecification` avec `billingDuration` est
            la façon dont schema.org décrit un abonnement : annoncer la mensualité
@@ -68,7 +76,7 @@ export function JsonLd() {
             unitCode: "MON",
             billingDuration: offer.rental.months,
           },
-          url: "https://akwebsolutions.fr/offres",
+          url: offersUrl,
         })),
         {
           "@type": "Offer",
@@ -76,23 +84,28 @@ export function JsonLd() {
           description: `${monthlyChangeHours} heures de modifications par mois, hébergement, nom de domaine, certificat SSL, sauvegardes quotidiennes, mises à jour de sécurité, rapport mensuel de fréquentation et support prioritaire. ${maintenance.flex} €/mois sans engagement, ${maintenance.annual} €/mois avec engagement 1 an.`,
           price: String(maintenance.annual),
           priceCurrency: "EUR",
-          url: "https://akwebsolutions.fr/offres",
+          url: offersUrl,
         },
       ],
     },
   };
 
+  const home = localeUrl(locale, "/");
+
   const webSite = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "@id": "https://akwebsolutions.fr/#website",
-    url: "https://akwebsolutions.fr",
+    "@id": `${home}#website`,
+    url: home,
     name: "AKWebSolution",
-    description: "Création de sites web sur mesure — AKWebSolution",
+    description:
+      locale === "en"
+        ? "Bespoke website design — AKWebSolution"
+        : "Création de sites web sur mesure — AKWebSolution",
     publisher: {
-      "@id": "https://akwebsolutions.fr/#organization",
+      "@id": `${BASE_URL}/#organization`,
     },
-    inLanguage: "fr-FR",
+    inLanguage: HREFLANG[locale],
   };
 
   return (

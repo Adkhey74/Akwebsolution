@@ -25,13 +25,19 @@ export const AuroraText = memo(
       animationDuration: `${10 / speed}s`,
     }
 
+    /*
+     * Un seul nœud de texte, volontairement.
+     * La version d'origine doublait le contenu (une copie `sr-only` + une copie
+     * visible en `aria-hidden`) : le mot se retrouvait deux fois dans le texte
+     * du H1, donc deux fois pour Google et pour tout ce qui lit le DOM à plat.
+     * Le dégradé n'a pas besoin de ce doublon — `bg-clip-text` conserve un vrai
+     * texte, sélectionnable et lu normalement par les lecteurs d'écran.
+     */
     return (
       <span className={`relative inline-block ${className}`}>
-        <span className="sr-only">{children}</span>
         <span
           className="animate-aurora relative bg-size-[200%_auto] bg-clip-text text-transparent"
           style={gradientStyle}
-          aria-hidden="true"
         >
           {children}
         </span>

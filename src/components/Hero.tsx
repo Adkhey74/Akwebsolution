@@ -1,10 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
-import { usePageLoader } from "@/components/PageLoaderContext";
 import { useI18n } from "@/lib/i18n/context";
 
 import { NumberTicker } from "@/components/ui/number-ticker";
@@ -36,20 +34,14 @@ const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
 export function Hero() {
-  const { t, tList } = useI18n();
-  const loader = usePageLoader();
-  const setVideoReady = loader?.setVideoReady;
-  const isLoading = loader?.isLoading ?? true;
-
-  // Plus de vidéo — on signale immédiatement que le hero est prêt
-  useEffect(() => {
-    if (setVideoReady) setVideoReady();
-  }, [setVideoReady]);
+  const { t, tList, lp } = useI18n();
 
   const trust = tList("hero.trust");
 
-  const animate = !isLoading ? "visible" : "hidden";
-  const statsKey = !isLoading ? "ready" : "loading";
+  // L'entrée se joue dès le montage. Elle attendait auparavant la fin d'un
+  // préchargeur plein écran, supprimé depuis : il retardait d'environ une
+  // seconde une page qui s'affiche en 260 ms.
+  const animate = "visible";
 
   return (
     <section className="relative flex h-[calc(100vh+5.25rem)] min-h-[calc(100dvh+5.25rem)] flex-col overflow-hidden pt-32 -mt-[5.25rem] md:h-[calc(100vh+6rem)] md:min-h-[calc(100dvh+6rem)] md:-mt-24 md:pt-40">
@@ -175,7 +167,7 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.72, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="mt-8 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4"
         >
-          <Link href="/offres" aria-label={t("hero.ctaPrimary")} className="w-full sm:w-auto">
+          <Link href={lp("/offres")} aria-label={t("hero.ctaPrimary")} className="w-full sm:w-auto">
             <ShimmerButton
               background="var(--accent)"
               shimmerColor="rgba(255,255,255,0.85)"
@@ -188,7 +180,7 @@ export function Hero() {
           </Link>
           <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
             <Link
-              href="/#services"
+              href={lp("/#services")}
               className="inline-flex w-full items-center justify-center rounded-full border border-[var(--border-hover)] px-6 py-3 text-[0.875rem] font-medium text-[var(--foreground)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--accent)]/70 hover:bg-[var(--accent)]/10 hover:shadow-[0_8px_28px_-14px_var(--accent)] max-md:backdrop-blur-none sm:w-auto sm:px-10 sm:py-4 sm:text-[0.9375rem]"
             >
               {t("hero.ctaSecondary")}
@@ -229,12 +221,11 @@ export function Hero() {
               <div className="pointer-events-none absolute -top-10 left-1/2 hidden h-20 w-20 -translate-x-1/2 rounded-full bg-[var(--accent)]/20 blur-2xl md:block" />
               <p className="relative flex items-baseline justify-center whitespace-nowrap text-[1.5rem] font-semibold leading-none text-[var(--accent-soft)] sm:text-[2rem]">
                 <NumberTicker
-                  key={`${s.key}-${statsKey}`}
                   value={s.to}
                   delay={0.4}
                   className="text-[var(--accent-soft)]"
                 />
-                <span className="ml-0.5">{s.suffix}</span>
+                {s.suffix && <span className="ml-0.5">{s.suffix}</span>}
               </p>
               <p className="relative mt-1.5 text-center text-[0.58rem] font-medium uppercase leading-tight tracking-[0.1em] text-[var(--muted)] sm:text-[0.68rem]">
                 {t(s.key)}

@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { MotionConfig } from "motion/react";
 import Lenis from "lenis";
-import { usePageLoader } from "@/components/PageLoaderContext";
 
 /**
  * Smooth-scroll global (Lenis) + configuration motion respectant
@@ -14,8 +13,6 @@ import { usePageLoader } from "@/components/PageLoaderContext";
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
   const pathname = usePathname();
-  const pageLoader = usePageLoader();
-  const isLoading = pageLoader?.isLoading ?? false;
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -56,29 +53,43 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
    * page à l'autre : sans ce recalage, son prochain tick de RAF ramenait la
    * page à l'ancienne position au lieu de la section ciblée.
    *
-   * On attend en plus la fin du PageLoader (`isLoading`) avant de calculer la
-   * position de la cible : sur l'accueil, il ne se termine qu'une fois la
-   * vidéo du hero prête, et tant que ce contenu asynchrone n'a pas fini de se
-   * poser, la section #contact peut encore bouger sous l'effet des décalages
-   * de mise en page — scroller trop tôt visait une position qui devenait
-   * fausse une fois la page stabilisée.
+   * On attend en plus que les polices soient posées avant de calculer la
+   * position de la cible : Geist et Fraunces arrivent en `display: swap`, et
+   * la bascule depuis la police de repli change la hauteur de tous les blocs
+   * de texte au-dessus de #contact — scroller avant visait une position qui
+   * devenait fausse une fois la page stabilisée. Ce rôle était tenu jusqu'ici
+   * par l'attente du préchargeur, supprimé depuis.
    */
   useEffect(() => {
     const hash = window.location.hash;
-    if (!hash || isLoading) return;
+    if (!hash) return;
 
-    const id = requestAnimationFrame(() => {
-      const target = document.querySelector(hash);
-      if (!target) return;
-      const lenis = lenisRef.current;
-      if (lenis) {
-        lenis.scrollTo(target as HTMLElement, { duration: 1.1 });
-      } else {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    });
-    return () => cancelAnimationFrame(id);
-  }, [pathname, isLoading]);
+    let rafId = 0;
+    let cancelled = false;
+
+    const scrollToHash = () => {
+      if (cancelled) return;
+      rafId = requestAnimationFrame(() => {
+        const target = document.querySelector(hash);
+        if (!target) return;
+        const lenis = lenisRef.current;
+        if (lenis) {
+          lenis.scrollTo(target as HTMLElement, { duration: 1.1 });
+        } else {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    };
+
+    // `fonts.ready` est déjà résolu quand les polices sont en cache : dans ce
+    // cas le `.then` part au microtask suivant, sans délai perceptible.
+    document.fonts.ready.then(scrollToHash).catch(scrollToHash);
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(rafId);
+    };
+  }, [pathname]);
 
   return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
 }

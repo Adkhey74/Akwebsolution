@@ -7,18 +7,24 @@ import { Mail, MessageCircle, MapPin } from "lucide-react";
 import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { Marquee } from "@/components/ui/marquee";
 import { useI18n } from "@/lib/i18n/context";
+import { landings } from "@/lib/landings";
 
+// Chemins sous leur forme RACINE (française). Le tableau est au niveau module,
+// donc hors de portée de `lp` — qui dépend du contexte : le préfixe de langue est
+// posé au moment du rendu, sur chaque `href`.
 const navLinks = [
   { href: "/",          key: "header.home"     },
   { href: "/#services", key: "footer.servicesTitle" },
   { href: "/projets",   key: "header.projects" },
   { href: "/offres",    key: "header.offers"   },
+  { href: "/blog",      key: "header.blog"     },
   { href: "/a-propos",  key: "header.about"    },
-  { href: "/#contact",  key: "header.contact"  },
+  // Page dédiée plutôt que l'ancre de l'accueil, désormais qu'elle existe.
+  { href: "/contact",   key: "header.contact"  },
 ];
 
 export function Footer() {
-  const { t, tList } = useI18n();
+  const { t, tList, lp, locale } = useI18n();
   const year = new Date().getFullYear();
   const keywords = tList("footer.keywords");
   const services = tList("footer.services");
@@ -115,13 +121,31 @@ export function Footer() {
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
-                  href={link.href}
+                  href={lp(link.href)}
                   className="group flex items-center gap-2 text-[0.875rem] text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
                 >
                   <span className="h-px w-0 bg-[var(--accent)] transition-all duration-200 group-hover:w-3" />
                   {t(link.key)}
                 </Link>
               ))}
+
+              {/*
+                Pages d'intention locale — affichées en français seulement.
+                D'une part elles n'existent qu'en français ; d'autre part c'est
+                leur seul lien depuis le reste du site, et une page vers laquelle
+                rien ne pointe ne se référence pas.
+              */}
+              {locale === "fr" &&
+                landings.map((landing) => (
+                  <Link
+                    key={landing.path}
+                    href={landing.path}
+                    className="group flex items-center gap-2 text-[0.875rem] text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
+                  >
+                    <span className="h-px w-0 bg-[var(--accent)] transition-all duration-200 group-hover:w-3" />
+                    {landing.navLabel}
+                  </Link>
+                ))}
             </nav>
           </motion.div>
 
@@ -170,7 +194,7 @@ export function Footer() {
               {t("footer.startBody")}
             </p>
             <Link
-              href="/offres"
+              href={lp("/offres")}
               className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/10 px-5 py-2.5 text-[0.8125rem] font-medium text-[var(--accent-soft)] transition-all hover:bg-[var(--accent)] hover:text-white"
             >
               {t("footer.seeOffers")}

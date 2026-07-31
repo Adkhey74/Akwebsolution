@@ -28,7 +28,7 @@ const featured = projects.slice(0, HOME_COUNT);
 const EASE = [0.25, 0.46, 0.45, 0.94] as const;
 
 export function ProjectsPreview() {
-  const { t } = useI18n();
+  const { t, lp } = useI18n();
 
   return (
     <section id="realisations" className="section-padding border-t border-[var(--border)]">
@@ -59,7 +59,7 @@ export function ProjectsPreview() {
           </div>
 
           <Link
-            href="/projets"
+            href={lp("/projets")}
             className="group hidden items-center gap-2 text-[0.875rem] font-medium text-[var(--muted)] transition-colors hover:text-[var(--foreground)] md:flex"
           >
             {t("work.seeAll")}
@@ -78,7 +78,7 @@ export function ProjectsPreview() {
       {/* ── CTA mobile ── */}
       <div className="section-container mt-16 flex justify-center md:hidden">
         <Link
-          href="/projets"
+          href={lp("/projets")}
           className="inline-flex items-center gap-2 rounded-full border border-[var(--border-hover)] px-6 py-3 text-[0.875rem] font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--card)]"
         >
           {t("work.seeAll")}
