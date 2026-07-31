@@ -17,6 +17,7 @@
 
 import type { ComponentType } from "react";
 import { article as combienCouteSiteVitrineAnnecy2026 } from "@/content/blog/combien-coute-site-vitrine-annecy-2026";
+import { article as combienDeTempsPourCreerUnSiteInternet } from "@/content/blog/combien-de-temps-pour-creer-un-site-internet";
 
 export type Article = {
   slug: string;
@@ -35,14 +36,13 @@ export type Article = {
 };
 
 /**
- * Les articles sont ajoutés un par un ici. Exemple une fois le 1er créé :
- *
- *   import { article as combienCouteSiteVitrine }
- *     from "@/content/blog/combien-coute-site-vitrine-annecy-2026";
- *
- *   export const articles: Article[] = [combienCouteSiteVitrine];
+ * Les articles sont ajoutés un par un ici. L'ordre n'a pas d'importance :
+ * l'affichage et le sitemap trient sur `publishedAt`.
  */
-export const articles: Article[] = [combienCouteSiteVitrineAnnecy2026];
+export const articles: Article[] = [
+  combienDeTempsPourCreerUnSiteInternet,
+  combienCouteSiteVitrineAnnecy2026,
+];
 
 /** Un article est-il publié à l'instant `now` ? */
 export function isPublished(a: Article, now: Date = new Date()): boolean {
