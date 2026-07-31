@@ -34,7 +34,7 @@ export const projects: CaseStudy[] = [
     sector: "Protection rapprochée & mobilité (executive protection)",
     year: "2026",
     location: "International",
-    url: undefined,
+    url: "https://www.orbit-group.co.uk/",
     summary:
       "Site vitrine premium et confidentiel pour un partenaire de sécurité et de mobilité au service des family offices, dirigeants et grands principaux. Design sombre, discret et haut de gamme, couverture internationale et prise de contact confidentielle.",
     challenge:
@@ -75,7 +75,7 @@ export const projects: CaseStudy[] = [
     sector: "Restauration",
     year: "2025",
     location: "France",
-    url: undefined,
+    url: "https://kabuki-gamma.vercel.app/",
     summary:
       "Site vitrine pour un restaurant japonais : une carte appétissante, les incontournables mis en avant et la réservation en ligne, le tout dans une ambiance élégante et responsive.",
     challenge:
@@ -151,7 +151,12 @@ export const projects: CaseStudy[] = [
     sector: "E-commerce",
     year: "2025",
     location: "France",
-    url: "https://thermochrono.fr",
+    /* Pas de lien : le domaine ne sert plus le site (erreur Vercel
+       « DEPLOYMENT_NOT_FOUND », vérifié le 31/07/2026). L'étude de cas reste,
+       le bouton « Voir le site » disparaît — `url` étant optionnel, les deux
+       endroits qui l'affichent (ProjectBand, CaseStudyContent) le testent déjà.
+       À remettre si la boutique est redéployée. */
+    url: undefined,
     summary:
       "Boutique e-commerce de gourdes connectées affichant la température en temps réel : catalogue produits, panier, paiement sécurisé (CB, Apple Pay) et livraison rapide.",
     challenge:

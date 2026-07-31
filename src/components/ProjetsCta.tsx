@@ -28,7 +28,8 @@ export function ProjetsCta() {
             {t("workPage.ctaBody")}
           </p>
           <div className="mt-8 flex justify-center">
-            <Link href={lp("/#contact")} aria-label={t("workPage.ctaButton")}>
+            {/* Page /contact, pas l'ancre de l'accueil : cf. OfferCard. */}
+            <Link href={lp("/contact")} aria-label={t("workPage.ctaButton")}>
               <ShimmerButton
                 background="var(--accent)"
                 shimmerColor="rgba(255,255,255,0.85)"

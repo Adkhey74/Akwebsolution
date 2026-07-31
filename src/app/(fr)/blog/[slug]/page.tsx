@@ -208,8 +208,9 @@ export default async function ArticlePage({
                   Découvrir mes offres
                   <ArrowRight size={16} strokeWidth={2} />
                 </Link>
+                {/* Page /contact, pas l'ancre de l'accueil : cf. OfferCard. */}
                 <Link
-                  href="/#contact"
+                  href="/contact"
                   className="inline-flex w-full items-center justify-center rounded-full border border-[var(--border-hover)] px-7 py-3.5 text-[0.9375rem] font-medium text-[var(--foreground)] transition-colors hover:border-[var(--accent)]/70 hover:bg-[var(--accent)]/10 sm:w-auto"
                 >
                   Me contacter

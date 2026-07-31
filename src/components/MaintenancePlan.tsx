@@ -151,8 +151,11 @@ export function MaintenancePlan() {
               </p>
             </div>
 
+            {/* Page /contact plutôt que l'ancre de l'accueil : depuis /offres,
+                viser une ancre d'une autre page laissait le visiteur en haut de
+                l'accueil (cf. le commentaire de OfferCard). */}
             <Link
-              href={lp("/#contact")}
+              href={lp("/contact")}
               className="group mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-7 py-3.5 text-[0.875rem] font-medium text-white shadow-[0_10px_40px_-10px_var(--accent)] transition-colors duration-200 hover:bg-[var(--accent-hover)]"
             >
               {t("maintenance.cta")}

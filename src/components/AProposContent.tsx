@@ -126,8 +126,9 @@ export function AProposContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, delay: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
+            {/* Page /contact, pas l'ancre de l'accueil : cf. OfferCard. */}
             <Link
-              href={lp("/#contact")}
+              href={lp("/contact")}
               className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 text-[0.9rem] font-semibold text-white shadow-[0_10px_40px_-10px_var(--accent)] transition-all hover:bg-[var(--accent-hover)]"
             >
               {t("aboutPage.ctaContact")}

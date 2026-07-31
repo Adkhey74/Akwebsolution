@@ -210,8 +210,9 @@ export function CaseStudyContent({ slug }: { slug: string }) {
             </h2>
             <p className="mt-3 text-[0.9375rem] text-[var(--muted)]">{t("workPage.ctaBody")}</p>
           </div>
+          {/* Page /contact, pas l'ancre de l'accueil : cf. OfferCard. */}
           <Link
-            href={lp("/#contact")}
+            href={lp("/contact")}
             className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-8 py-4 text-[0.9375rem] font-medium text-white shadow-[0_10px_40px_-10px_var(--accent)] transition-all hover:-translate-y-0.5 hover:bg-[var(--accent-hover)]"
           >
             {t("workPage.ctaButton")}

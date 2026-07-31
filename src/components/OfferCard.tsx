@@ -57,8 +57,17 @@ export function OfferCard({ offer }: { offer: Offer }) {
 
   /* Le mode voyage jusqu'au formulaire de contact : c'est ce qui permet de
      savoir, à réception de la demande, s'il faut proposer un achat ou une
-     location — sans quoi les deux arrivent sous la même forme. */
-  const href = lp(`/?offer=${offer.id}&mode=${isRental ? "rental" : "purchase"}#contact`);
+     location — sans quoi les deux arrivent sous la même forme.
+
+     Vers la page /contact, et non plus vers l'ancre `/#contact` de l'accueil.
+     Viser une ancre située à plusieurs milliers de pixels du haut d'une AUTRE
+     page fait courir trois mécanismes de défilement en même temps — l'ancre
+     native, celui de Next, et la boucle de Lenis, qui ne démonte jamais et
+     réimpose sa position de la page précédente. Le visiteur restait donc en
+     haut de l'accueil, sans le formulaire. Sur /contact le formulaire ouvre la
+     page : plus rien à faire défiler, donc plus rien à rater. La présélection
+     de la formule suit dans la query string, que le formulaire lit déjà. */
+  const href = lp(`/contact?offer=${offer.id}&mode=${isRental ? "rental" : "purchase"}`);
 
   return (
     <motion.div
