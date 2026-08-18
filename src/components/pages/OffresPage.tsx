@@ -12,7 +12,7 @@ import {
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { BlurFade } from "@/components/ui/blur-fade";
-import { MaintenancePlan } from "@/components/MaintenancePlan";
+import { AfterLaunch } from "@/components/AfterLaunch";
 import { OfferCard } from "@/components/OfferCard";
 import { offers } from "@/lib/offers";
 import { useI18n } from "@/lib/i18n/context";
@@ -160,11 +160,12 @@ export function OffresPage() {
               </div>
             </div>
 
-            {/* Maintenance — mt-16 et non plus mt-4 : les options ne sont plus
-                un panneau posé juste au-dessus, mais une section à part entière
-                avec son propre en-tête. */}
+            {/* Après la mise en ligne — mt-16 et non plus mt-4 : les options ne
+                sont plus un panneau posé juste au-dessus, mais une section à
+                part entière avec son propre en-tête. Idem ici : l'échelle des
+                trois paliers porte le sien. */}
             <BlurFade delay={0.25} inView className="mt-16 block">
-              <MaintenancePlan />
+              <AfterLaunch />
             </BlurFade>
 
             {/* Note bas de page */}

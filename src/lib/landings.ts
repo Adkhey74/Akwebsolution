@@ -84,7 +84,7 @@ export const landings: Landing[] = [
       },
       {
         title: "Combien ça coûte",
-        body: "Une refonte se facture comme une création, parce que c'est le même travail : à partir de 1 500 € pour un site de 3 à 5 pages, ou 700 € si une seule page suffit. Les tarifs sont publics et détaillés sur la page Offres — pas de devis opaque.",
+        body: "Une refonte se facture comme une création, parce que c'est le même travail : à partir de 1 500 € pour un site de 3 à 5 pages, ou 900 € si une seule page suffit. Les tarifs sont publics et détaillés sur la page Offres — pas de devis opaque.",
       },
     ],
     faq: [
@@ -145,7 +145,7 @@ export const landings: Landing[] = [
       },
       {
         title: "Tarifs et délai",
-        body: "À partir de 700 € pour une page complète avec carte, horaires et contact, livrée en 5 à 7 jours ouvrés. À partir de 1 500 € pour un site de plusieurs pages, avec le référencement local travaillé et la fiche Google. Tarifs publics, détaillés sur la page Offres.",
+        body: "À partir de 900 € pour une page complète avec carte, horaires et contact, livrée en 5 à 7 jours ouvrés. À partir de 1 500 € pour un site de plusieurs pages, avec le référencement local travaillé et la fiche Google. Tarifs publics, détaillés sur la page Offres.",
       },
     ],
     faq: [
@@ -201,8 +201,8 @@ export const landings: Landing[] = [
         body: "C'est ce qui convainc, plus que n'importe quel texte. Des photos prises au téléphone suffisent — je m'occupe du cadrage et du poids des images. Si vous n'en avez pas encore, on démarre sans et on les ajoute ensuite.",
       },
       {
-        title: "Sans avancer 700 € d'un coup",
-        body: "La location existe pour ça : 200 € de mise en route puis 79 €/mois tout compris — hébergement, nom de domaine, maintenance et vos petites modifications — sur 24 mois. À noter, et c'est important : en location le site reste ma propriété. Vous pouvez le racheter au terme des 24 mois pour 500 €. À l'achat, il est à vous dès la livraison.",
+        title: "Sans avancer 900 € d'un coup",
+        body: "La location existe pour ça : 250 € de mise en route puis 99 €/mois tout compris — hébergement, nom de domaine, maintenance et vos petites modifications — avec douze mois d'engagement, puis sans engagement, résiliable avec un mois de préavis. À noter, et c'est important : en location le site reste ma propriété. Vous pouvez le racheter à partir du douzième mois pour 650 €. À l'achat, il est à vous dès la livraison.",
       },
     ],
     faq: [
@@ -216,7 +216,7 @@ export const landings: Landing[] = [
       },
       {
         q: "Location ou achat ?",
-        a: "L'achat coûte moins cher au total et le site est à vous immédiatement. La location évite d'avancer la somme et inclut la maintenance. Sur 24 mois de location vous payez plus qu'à l'achat, et le site ne devient le vôtre qu'en le rachetant au terme.",
+        a: "L'achat revient moins cher si vous ne prenez pas de maintenance, et le site est à vous dès la livraison. La location évite d'avancer la somme et comprend l'hébergement, la maintenance et vos modifications : sur les douze mois d'engagement, elle coûte moins qu'un achat suivi de la maintenance. En contrepartie, le site reste ma propriété tant que vous ne l'avez pas racheté.",
       },
       {
         q: "Et une fois le site en ligne, je fais comment pour le modifier ?",

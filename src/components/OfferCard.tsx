@@ -7,6 +7,7 @@ import { Check, Clock, KeyRound, Plus, Rocket, Star, Zap } from "lucide-react";
 import { BorderBeam } from "@/components/ui/border-beam";
 import {
   formatEuros,
+  hosting,
   maintenanceEntryPrice,
   monthlyChangeHours,
   type Offer,
@@ -178,7 +179,18 @@ export function OfferCard({ offer }: { offer: Offer }) {
             <span className="text-4xl font-bold tracking-tight text-[var(--foreground)]">
               {formatEuros(offer.price)} €
             </span>
+            {/* Deux lignes, et sur la carte elle-même : le prix du site n'est
+                pas tout ce que le client paiera. L'hébergement est dû dès la
+                mise en ligne, la maintenance reste optionnelle — les deux se
+                lisent avant de cliquer, pas après signature. Depuis que la
+                première année n'est plus offerte, cette ligne porte une vraie
+                dépense d'entrée : la masquer serait exactement la mauvaise
+                surprise que la promesse de transparence interdit. */}
             <p className="mt-1.5 text-[0.75rem] leading-relaxed text-[var(--muted)]">
+              {t("offers.purchaseHostingNote")} {formatEuros(hosting.monthly)} €{" "}
+              {t("maintenance.perMonth")}
+            </p>
+            <p className="mt-1 text-[0.75rem] leading-relaxed text-[var(--muted)]">
               {t("offers.purchaseMaintenanceNote")} {formatEuros(maintenanceEntryPrice)} €{" "}
               {t("maintenance.perMonth")}
             </p>
@@ -247,6 +259,14 @@ export function OfferCard({ offer }: { offer: Offer }) {
             </ul>
             <p className="mt-3.5 text-[0.75rem] leading-relaxed text-[var(--muted)]">
               {t("offers.rentalNote")}
+            </p>
+
+            {/* Ce qui se passe au terme. Un engagement annoncé sans sa sortie
+                se lit comme un piège — c'est exactement le reproche que
+                l'article de blog adresse aux locations vendues par démarchage.
+                Le dire ici, et pas dans des conditions générales. */}
+            <p className="mt-2.5 text-[0.75rem] leading-relaxed text-[var(--muted)]">
+              {t("offers.rentalAfterCommitment")}
             </p>
 
             {/* Propriété du site. Affiché noir sur blanc plutôt que renvoyé aux

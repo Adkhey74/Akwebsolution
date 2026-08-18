@@ -44,9 +44,12 @@ export function MaintenancePlan() {
             <LifeBuoy size={18} strokeWidth={1.75} className="text-[var(--accent)]" />
           </div>
           <span className="eyebrow mb-4">{t("maintenance.eyebrow")}</span>
-          <h2 className="font-display text-[1.5rem] font-semibold italic leading-[1.2] tracking-tight text-[var(--foreground)] sm:text-[1.875rem]">
+          {/* h3 et non plus h2 : ce bloc est devenu le palier 2 d'une section
+              (« Après la mise en ligne ») dont le titre est le h2. Les trois
+              paliers doivent être des frères au même niveau de titre. */}
+          <h3 className="font-display text-[1.5rem] font-semibold italic leading-[1.2] tracking-tight text-[var(--foreground)] sm:text-[1.875rem]">
             {t("maintenance.title")}
-          </h2>
+          </h3>
           <p className="mt-3 max-w-md text-[0.9375rem] leading-relaxed text-[var(--muted)]">
             {t("maintenance.introStart")}{" "}
             <span className="text-[var(--foreground)]">{t("maintenance.introStrong")}</span>{" "}

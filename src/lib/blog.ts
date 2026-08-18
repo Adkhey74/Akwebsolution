@@ -18,6 +18,7 @@
 import type { ComponentType } from "react";
 import { article as combienCouteSiteVitrineAnnecy2026 } from "@/content/blog/combien-coute-site-vitrine-annecy-2026";
 import { article as combienDeTempsPourCreerUnSiteInternet } from "@/content/blog/combien-de-temps-pour-creer-un-site-internet";
+import { article as freelanceOuAgenceWebAnnecy } from "@/content/blog/freelance-ou-agence-web-annecy";
 
 export type Article = {
   slug: string;
@@ -40,6 +41,7 @@ export type Article = {
  * l'affichage et le sitemap trient sur `publishedAt`.
  */
 export const articles: Article[] = [
+  freelanceOuAgenceWebAnnecy,
   combienDeTempsPourCreerUnSiteInternet,
   combienCouteSiteVitrineAnnecy2026,
 ];

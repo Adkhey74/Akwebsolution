@@ -112,14 +112,14 @@ export const PAGES = {
     fr: {
       title: "Offres & Tarifs",
       description:
-        "Offres de création de site web AKWebSolution : Page Vitrine Rapide dès 700 €, Site Vitrine Complet dès 1 500 €, Site Pro dès 2 500 €. Ou en location à partir de 79 €/mois, tout compris. Tarifs transparents.",
+        "Offres de création de site web AKWebSolution : Page Vitrine Rapide dès 900 €, Site Vitrine Complet dès 1 500 €, Site Pro dès 2 500 €. Ou en location à partir de 99 €/mois, tout compris. Tarifs transparents.",
       ogDescription:
         "Offres de création de site web avec tarifs transparents : à l'achat ou en location tout compris. Page vitrine, site vitrine complet, sur mesure. Livraison rapide.",
     },
     en: {
       title: "Pricing & Packages",
       description:
-        "AKWebSolution website packages: Single-Page Site from €700, Full Business Website from €1,500, Bespoke Pro Site from €2,500. Or rent from €79/month, all inclusive. Transparent pricing, no hidden fees.",
+        "AKWebSolution website packages: Single-Page Site from €900, Full Business Website from €1,500, Bespoke Pro Site from €2,500. Or rent from €99/month, all inclusive. Transparent pricing, no hidden fees.",
       ogDescription:
         "Website packages with transparent pricing — buy outright or rent all-inclusive. Single-page, full business site, or fully bespoke. Fast delivery.",
     },
@@ -237,7 +237,7 @@ export const PAGES = {
     fr: {
       title: "Création de site web pour restaurant à Annecy",
       description:
-        "Site web pour restaurant à Annecy : carte à jour, horaires, réservation et fiche Google Business. À partir de 700 €, livré en 5 à 7 jours. Version anglaise disponible.",
+        "Site web pour restaurant à Annecy : carte à jour, horaires, réservation et fiche Google Business. À partir de 900 €, livré en 5 à 7 jours. Version anglaise disponible.",
       ogTitle: "Site web pour restaurant à Annecy | AKWebSolution",
       ogDescription:
         "Carte, horaires, réservation et fiche Google — un site de restaurant qui remplit la salle.",
@@ -249,10 +249,10 @@ export const PAGES = {
     fr: {
       title: "Création de site web pour artisan à Annecy",
       description:
-        "Site web pour artisan et TPE à Annecy : être trouvé sur Google quand on cherche votre métier près de chez vous. À partir de 700 €, ou 79 €/mois en location.",
+        "Site web pour artisan et TPE à Annecy : être trouvé sur Google quand on cherche votre métier près de chez vous. À partir de 900 €, ou 99 €/mois en location.",
       ogTitle: "Site web pour artisan à Annecy | AKWebSolution",
       ogDescription:
-        "Être trouvé sur Google quand un client cherche votre métier à Annecy — à partir de 700 €.",
+        "Être trouvé sur Google quand un client cherche votre métier à Annecy — à partir de 900 €.",
     },
   },
 } as const satisfies Record<string, PageSeo>;

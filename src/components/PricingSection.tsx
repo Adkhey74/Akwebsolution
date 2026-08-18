@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import Link from "next/link";
 import { ArrowRight, MessagesSquare, PenTool, Rocket } from "lucide-react";
-import { entryPrice, formatEuros } from "@/lib/offers";
+import { entryPrice, formatEuros, hosting, maintenanceEntryPrice } from "@/lib/offers";
 import { useI18n } from "@/lib/i18n/context";
 
 /**
@@ -147,7 +147,13 @@ export function PricingSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.45, delay: 0.4 }}
         >
-          {t("method.maintenanceNote")}
+          {/* Les deux tarifs récurrents étaient écrits en dur dans la
+              traduction, donc faux en silence — et dans les deux langues — à la
+              première hausse. Ils sont désormais lus dans lib/offers.ts.
+              Deux jetons distincts : `t()` ne fait pas d'interpolation. */}
+          {t("method.maintenanceNote")
+            .replace("{h}", formatEuros(hosting.monthly))
+            .replace("{m}", formatEuros(maintenanceEntryPrice))}
         </motion.p>
 
       </div>

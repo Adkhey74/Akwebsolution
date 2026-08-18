@@ -396,6 +396,128 @@ const planning = {
   `,
 };
 
+/* ═══ Article « Freelance ou agence web à Annecy » ═════════════════════ */
+
+/** Sphère de verre — un interlocuteur. */
+function orb(cx, cy, r) {
+  return `
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="url(#glass)" stroke="url(#rim)" stroke-width="1.5"/>
+    <circle cx="${cx - r * 0.3}" cy="${cy - r * 0.34}" r="${r * 0.32}" fill="#FFFFFF" opacity="0.55"/>
+  `;
+}
+
+/* ── Visuel 1 — couverture : deux organisations face à face ───────────── */
+
+// À gauche l'agence (quatre volumes assemblés), à droite l'indépendant (un
+// seul, de la même hauteur totale). Les deux groupes reposent sur la MÊME
+// ligne de sol : c'est ce qui fait lire une comparaison plutôt qu'un
+// classement — aucune des deux n'est posée plus haut que l'autre.
+const FLOOR = 520;
+
+const choiceCover = {
+  file: "freelance-ou-agence-web-annecy.webp",
+  seed: 5505,
+  base: background(0.5, 0.28),
+  glow: `
+    ${lightBeam(-28, 1000, 190)}
+    <ellipse cx="440" cy="410" rx="250" ry="180" fill="${VIOLET}" opacity="0.45"/>
+    <ellipse cx="955" cy="390" rx="170" ry="220" fill="${VIOLET}" opacity="0.5"/>
+    <rect x="686" y="140" width="28" height="520" fill="${VIOLET}" opacity="0.55"/>
+  `,
+  soft: `
+    ${reflection(block(300, 300, 130, 90, 22), FLOOR, 0.3, 0.2)}
+    ${reflection(block(455, 300, 130, 90, 22), FLOOR, 0.3, 0.2)}
+    ${reflection(block(300, 430, 130, 90, 22), FLOOR, 0.3, 0.2)}
+    ${reflection(block(455, 430, 130, 90, 22), FLOOR, 0.3, 0.2)}
+    ${reflection(block(880, 250, 150, 270, 30), FLOOR, 0.3, 0.22)}
+  `,
+  main: `
+    <rect x="694" y="150" width="12" height="500" fill="url(#beam)" opacity="0.9"/>
+    ${block(300, 300, 130, 90, 22)}
+    ${block(455, 300, 130, 90, 22)}
+    ${block(300, 430, 130, 90, 22)}
+    ${block(455, 430, 130, 90, 22)}
+    ${block(880, 250, 150, 270, 30)}
+    ${dust(5505, 16, { x: 1080, y: 160, w: 250, h: 450 })}
+    ${dust(55, 8, { x: 150, y: 200, w: 130, h: 380 })}
+  `,
+};
+
+/* ── Visuel 2 — la chaîne d'interlocuteurs ────────────────────────────── */
+
+// Haut : le message traverse cinq personnes. Bas : il ne traverse personne.
+// Même largeur de trajet dans les deux cas, pour que la seule différence
+// lisible soit le nombre d'étapes.
+function chain(y, n, x0, x1, r) {
+  const gap = (x1 - x0) / (n - 1);
+  let out = `<rect x="${x0}" y="${y - 2}" width="${x1 - x0}" height="4" rx="2" fill="url(#beam)" opacity="0.85"/>`;
+  for (let i = 0; i < n; i++) out += orb(x0 + i * gap, y, r);
+  return out;
+}
+
+const interlocutors = {
+  file: "freelance-ou-agence-web-annecy-interlocuteurs.webp",
+  seed: 6606,
+  base: background(0.5, 0.3),
+  glow: `
+    ${lightBeam(-30, 1040, 210)}
+    <rect x="250" y="264" width="880" height="32" rx="16" fill="${VIOLET}" opacity="0.4"/>
+    <rect x="250" y="496" width="880" height="48" rx="24" fill="${VIOLET}" opacity="0.55"/>
+    <circle cx="250" cy="520" r="70" fill="${VIOLET}" opacity="0.6"/>
+    <circle cx="1130" cy="520" r="70" fill="${VIOLET}" opacity="0.6"/>
+  `,
+  main: `
+    ${chain(280, 6, 250, 1130, 24)}
+    ${chain(520, 2, 250, 1130, 46)}
+    ${dust(6606, 9, { x: 60, y: 150, w: 150, h: 470 })}
+    ${dust(66, 9, { x: 1180, y: 150, w: 150, h: 470 })}
+  `,
+};
+
+/* ── Visuel 3 — les sept questions ────────────────────────────────────── */
+
+// Sept plaques en arc, une seule allumée : on les pose l'une après l'autre.
+// L'arc plutôt que l'alignement — sept plaques de front feraient une palissade.
+function arcPanes(n, cx, cy, radius, spread, lit) {
+  let out = "";
+  const w = 104;
+  const h = 146;
+  for (let i = 0; i < n; i++) {
+    const t = i / (n - 1);
+    const deg = -spread / 2 + spread * t;
+    const ang = ((-90 + deg) * Math.PI) / 180;
+    const x = cx + radius * Math.cos(ang);
+    const y = cy + radius * Math.sin(ang);
+    const isLit = i === lit;
+    out += `
+      <g transform="rotate(${deg.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)})">
+        ${pane(x - w / 2, y - h / 2, w, h, 14, isLit ? 1 : 0.88, isLit ? "glass" : "glassDim")}
+        ${isLit ? `<rect x="${x - w / 2 + 10}" y="${y - h / 2 + 10}" width="${w - 20}" height="${h - 20}" rx="9" fill="#FFFFFF" opacity="0.28"/>` : ""}
+      </g>
+    `;
+  }
+  return out;
+}
+
+const ARC = { n: 7, cx: 688, cy: 940, radius: 560, spread: 78, lit: 3 };
+
+const questions = {
+  file: "freelance-ou-agence-web-annecy-questions.webp",
+  seed: 7707,
+  base: background(0.5, 0.24),
+  glow: `
+    ${lightBeam(-16, 700, 180)}
+    <ellipse cx="688" cy="400" rx="470" ry="210" fill="${VIOLET}" opacity="0.4"/>
+    <rect x="656" y="-30" width="64" height="450" fill="${VIOLET}" opacity="0.7"/>
+    <circle cx="688" cy="382" r="90" fill="${LILAC}" opacity="0.5"/>
+  `,
+  main: `
+    <rect x="672" y="-30" width="32" height="410" fill="url(#beam)" opacity="0.7"/>
+    ${arcPanes(ARC.n, ARC.cx, ARC.cy, ARC.radius, ARC.spread, ARC.lit)}
+    ${dust(7707, 18, { x: 300, y: 150, w: 780, h: 240 })}
+  `,
+};
+
 /* ── Rendu ────────────────────────────────────────────────────────────── */
 
 /**
@@ -440,7 +562,13 @@ async function build({ file, seed, base, glow, soft, main }) {
 }
 
 await mkdir(OUT, { recursive: true });
-for (const spec of [cover, durations, delays, planning]) {
+
+// Second argument : ne régénérer que les fichiers dont le nom contient ce
+// filtre. Sans lui, ajouter un article réécrivait les visuels de tous les
+// précédents — inutile, et bruyant dans un diff.
+const ONLY = process.argv[3];
+const SPECS = [cover, durations, delays, planning, choiceCover, interlocutors, questions];
+for (const spec of SPECS.filter((s) => !ONLY || s.file.includes(ONLY))) {
   const name = await build(spec);
   console.log(`✓ ${name}`);
 }

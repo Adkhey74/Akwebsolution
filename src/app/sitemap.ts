@@ -25,6 +25,40 @@ const NEW_PAGES_LAST_MODIFIED = new Date("2026-07-30T00:00:00Z");
  */
 const TOUCHED_2026_07_31 = new Date("2026-07-31T00:00:00Z");
 
+/**
+ * Pages dont le CONTENU a réellement bougé le 17/08/2026 :
+ *
+ * 1. la Page Vitrine Rapide passe de 700 à 900 € (et sa location de
+ *    200 € + 79 €/mois à 250 € + 99 €/mois, rachat 650 €) ;
+ * 2. deux offres récurrentes apparaissent — le socle hébergement et nom de
+ *    domaine (35 €/mois, 1ʳᵉ année incluse) et le pack d'articles.
+ *
+ * Sont concernées les pages qui les affichent : /offres, l'accueil — dont le
+ * bloc tarifs dérive le prix d'entrée et la note récurrente de `offers.ts` —
+ * et les trois pages d'intention locale, qui citent le tarif d'entrée en
+ * toutes lettres. /projets, les études de cas, /a-propos et /contact ne
+ * changent pas : elles gardent leur date.
+ */
+const TOUCHED_2026_08_17 = new Date("2026-08-17T00:00:00Z");
+
+/**
+ * Pages dont le CONTENU a réellement bougé le 18/08/2026, deux décisions
+ * commerciales prises le même jour :
+ *
+ * 1. l'engagement de la location passe de 24 à 12 mois (mise en route,
+ *    mensualité et rachat inchangés), puis sans engagement avec un mois de
+ *    préavis, et rachat accessible dès le 12ᵉ mois ;
+ * 2. la première année d'hébergement n'est plus comprise dans le prix du site
+ *    — le socle est dû dès la mise en ligne.
+ *
+ * Sont concernées : /offres, qui affiche les deux, et /site-web-artisan-annecy,
+ * seule page d'intention locale à détailler la location. L'accueil garde sa
+ * date : son bloc tarifs n'annonce ni la durée d'engagement ni l'inclusion, et
+ * les deux autres pages d'intention locale non plus. L'article « Freelance ou
+ * agence web », lui, porte son propre `updatedAt`.
+ */
+const TOUCHED_2026_08_18 = new Date("2026-08-18T00:00:00Z");
+
 type Entry = {
   /** Chemin en forme racine — le préfixe de langue est ajouté ici. */
   path: string;
@@ -73,10 +107,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     : STATIC_LAST_MODIFIED;
 
   const entries: Entry[] = [
-    { path: "/", lastModified: STATIC_LAST_MODIFIED, changeFrequency: "monthly", priority: 1 },
+    { path: "/", lastModified: TOUCHED_2026_08_17, changeFrequency: "monthly", priority: 1 },
     {
       path: "/offres",
-      lastModified: TOUCHED_2026_07_31,
+      lastModified: TOUCHED_2026_08_18,
       changeFrequency: "monthly",
       priority: 0.9,
     },
@@ -106,22 +140,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
 
     // Pages d'intention locale — françaises uniquement.
+    // Les trois citent le tarif d'entrée, passé à 900 € le 17/08.
     {
       path: "/refonte-site-web",
-      lastModified: NEW_PAGES_LAST_MODIFIED,
+      lastModified: TOUCHED_2026_08_17,
       changeFrequency: "monthly",
       priority: 0.8,
     },
-    // Ces deux-là citent le tarif de maintenance, passé à 90 € le 31/07.
     {
       path: "/site-web-restaurant-annecy",
-      lastModified: TOUCHED_2026_07_31,
+      lastModified: TOUCHED_2026_08_17,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       path: "/site-web-artisan-annecy",
-      lastModified: TOUCHED_2026_07_31,
+      lastModified: TOUCHED_2026_08_18,
       changeFrequency: "monthly",
       priority: 0.8,
     },

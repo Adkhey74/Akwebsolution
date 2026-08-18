@@ -24,15 +24,39 @@ export type Rental = {
   setup: number;
   /** Mensualité tout compris, en euros HT. */
   monthly: number;
-  /** Durée d'engagement, en mois. */
+  /**
+   * Durée d'engagement **minimale**, en mois — et non la durée totale du
+   * contrat : passé ce terme, la location continue au mois le mois.
+   *
+   * Ramenée de 24 à 12 mois le 18/08/2026. Le coût du site est couvert bien
+   * avant le terme (dès le 7ᵉ mois sur `landing`, le 8ᵉ sur `starter`) : les
+   * mois suivants étaient du revenu, pas de la sécurité. Surtout, à 24 mois la
+   * location finissait par coûter **plus cher** au client qu'un achat suivi de
+   * la maintenance — le croisement tombe au 22ᵉ mois sur `landing` et au
+   * 16ᵉ sur `starter`. L'engagement emmenait donc le client au-delà du point
+   * où sa propre formule se retourne contre lui, ce qui ne se défend pas en
+   * rendez-vous dès qu'il fait le calcul. À 12 mois, la location lui revient
+   * encore moins cher que l'achat (−302 € et −272 €).
+   *
+   * ⚠️ Ce qui se passe APRÈS ce terme est une clause contractuelle, pas un
+   * chiffre : « sans engagement, un mois de préavis ». Elle est écrite en
+   * toutes lettres dans `offers.rentalAfterCommitment`, en FR et en EN — la
+   * mettre en donnée produirait une grammaire fausse dans l'une des deux
+   * langues pour une valeur qui ne bougera pas. Si le préavis change un jour,
+   * ce sont ces deux clés qu'il faut aligner, et elles seules.
+   */
   months: number;
   /**
-   * Rachat, en euros HT, **au terme de la durée d'engagement**.
+   * Rachat, en euros HT, **à partir du terme de la durée d'engagement**.
    *
    * En location, le site n'appartient jamais au client : il reste la propriété
-   * d'AKWebSolution. Le racheter à la fin des `months` mois est la seule façon
-   * dont la propriété change de mains — il n'y a pas de transfert automatique,
-   * et pas de rachat anticipé.
+   * d'AKWebSolution. Le racheter est la seule façon dont la propriété change de
+   * mains — il n'y a pas de transfert automatique, et pas de rachat anticipé.
+   *
+   * Le montant est resté le même quand l'engagement est passé de 24 à 12 mois :
+   * la porte de sortie s'ouvre donc un an plus tôt, au même prix. Le baisser
+   * aurait fait racheter tout le monde au 12ᵉ mois, ce qui supprimerait le
+   * revenu récurrent que cette formule existe précisément pour créer.
    */
   buyout: number;
 };
@@ -69,7 +93,7 @@ export const offers: Offer[] = [
     id: "landing",
     badge: null,
     title: "Page Vitrine Rapide",
-    price: 700,
+    price: 900,
     result: "Soyez visible en ligne en moins d'une semaine, sans budget excessif.",
     target: "Idéal pour tester votre concept avant d'investir davantage",
     delivery: "5 à 7 jours ouvrés",
@@ -80,10 +104,10 @@ export const offers: Offer[] = [
       "S'affiche parfaitement sur téléphone, tablette et ordinateur",
       "Formulaire de contact et bouton d'appel direct",
       "Référencé sur Google, mentions légales et RGPD conformes",
-      "Mise en ligne, nom de domaine et hébergement configurés pour vous",
+      "Mise en ligne, nom de domaine et hébergement mis en place pour vous",
       "1 série de retouches, à demander dans les 14 jours",
     ],
-    rental: { setup: 200, monthly: 79, months: 24, buyout: 500 },
+    rental: { setup: 250, monthly: 99, months: 12, buyout: 650 },
   },
   {
     id: "starter",
@@ -105,9 +129,10 @@ export const offers: Offer[] = [
       "1er mois de maintenance offert",
       "2 séries de retouches",
     ],
-    /* Rachat aligné sur le rapport entre les deux offres : le double de la mise
-       en route, comme les 500 € du Page Vitrine Rapide le sont pour la sienne. */
-    rental: { setup: 400, monthly: 139, months: 24, buyout: 1000 },
+    /* Rachat aligné sur le rapport entre les deux offres : environ deux fois et
+       demie la mise en route, comme les 650 € du Page Vitrine Rapide le sont
+       pour la sienne. */
+    rental: { setup: 400, monthly: 139, months: 12, buyout: 1000 },
   },
   {
     id: "pro",
@@ -147,6 +172,79 @@ export const maintenance = {
 
 /** Tarif de maintenance le plus bas — celui annoncé comme point d'entrée. */
 export const maintenanceEntryPrice = Math.min(maintenance.flex, maintenance.annual);
+
+/**
+ * Socle technique : hébergement, nom de domaine et certificat de sécurité.
+ *
+ * Ce qu'il corrige : l'offre promettait « nom de domaine et hébergement
+ * configurés pour vous » sans jamais dire qui paie ensuite. Le client le
+ * découvrait après coup — et un achat ne produisait aucun revenu récurrent
+ * tant qu'il refusait la maintenance.
+ *
+ * Il sert aussi d'ancre sous la maintenance : l'écart avec l'engagement 1 an
+ * n'est plus que de 35 €/mois pour 2 h de travail mensuel, ce qui rend la
+ * montée d'un cran évidente. Isolé, ce palier coûterait de l'argent ; en bas
+ * de l'échelle, il en rapporte.
+ */
+export const hosting = {
+  /** Prix d'appel, affiché au mois — c'est le repère du client. */
+  monthly: 35,
+  /**
+   * Ce qui est réellement encaissé, en une fois, par année.
+   *
+   * Aucune facturation automatique n'est branchée sur le site : douze
+   * prélèvements de 35 € par client, ce sont douze relances à faire à la main.
+   * Deux mois d'écart avec le mensuel × 12 (420 €) : l'annuel est la formule
+   * avantageuse, et c'est celle qui est vendue.
+   */
+  yearly: 390,
+  /**
+   * La première année est-elle comprise dans le prix d'achat du site ?
+   *
+   * **Non depuis le 18/08/2026** — décidé par Adil, au lendemain de la mise en
+   * place du socle. Le socle se facture donc dès la signature, dans les mêmes
+   * termes que les années suivantes : 390 € par an.
+   *
+   * ⚠️ Ce que ça change et qu'il faut assumer à l'oral : le ticket d'entrée
+   * d'une Page Vitrine Rapide passe de 900 € à **1 290 €**. C'est exactement
+   * l'objection que la formule location est censée lever — la première version
+   * de ce champ existait pour l'éviter. Le drapeau est conservé plutôt que
+   * supprimé pour que le retour en arrière tienne en une ligne.
+   *
+   * Il pilote le badge « 1ʳᵉ année incluse » du palier 1 (`AfterLaunch.tsx`),
+   * qui n'est donc plus rendu. La clé `afterLaunch.hostingBadge` reste définie
+   * dans les deux langues pour la même raison.
+   */
+  firstYearIncluded: false,
+} as const;
+
+/**
+ * Contenu éditorial publié pour le client : des articles qui répondent aux
+ * questions que ses clients tapent dans Google.
+ *
+ * Vendu en **pack** et non en abonnement, volontairement : le référencement ne
+ * produit rien avant trois à six mois. Un abonnement sans engagement se fait
+ * résilier au deuxième mois par un client qui « ne voit rien venir » — on a
+ * alors travaillé pour rien, et il en conclut que le référencement ne marche
+ * pas. Le pack impose la durée que la méthode exige, et se facture en une fois.
+ */
+export const content = {
+  /** Nombre d'articles compris dans le pack. */
+  packArticles: 6,
+  /** Prix du pack, en euros HT. */
+  packPrice: 990,
+  /** Article acheté seul, hors pack. */
+  unitPrice: 190,
+  /**
+   * Ajout d'une section blog au site, pour les offres qui n'en ont pas — seul
+   * le Site Pro en comprend une. Prix volontairement bas : c'est la porte
+   * d'entrée du pack d'articles, pas un poste de marge.
+   */
+  blogSetup: 390,
+} as const;
+
+/** Prix à l'article dans le pack — dérivé, pour ne pas avoir à le recalculer. */
+export const contentPackUnitPrice = Math.round(content.packPrice / content.packArticles);
 
 /**
  * Heures de modifications comprises chaque mois — en maintenance comme en

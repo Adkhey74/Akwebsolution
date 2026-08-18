@@ -27,7 +27,7 @@ function Content() {
       </p>
       <ul>
         <li>
-          <strong>Site vitrine d’une page (landing page) : à partir de 700 €.</strong>{" "}
+          <strong>Site vitrine d’une page (landing page) : à partir de 900 €.</strong>{" "}
           Idéal pour présenter une activité simple, avec un formulaire de contact
           et l’essentiel de votre offre.
         </li>
@@ -103,7 +103,7 @@ function Content() {
       </ul>
       <p>
         En clair : le prix reflète le temps et l’expertise investis. Un site à
-        700 € et un site à 3 000 € ne répondent tout simplement pas au même
+        900 € et un site à 3 000 € ne répondent tout simplement pas au même
         besoin.
       </p>
 
@@ -152,6 +152,15 @@ function Content() {
         d’une agence reste le choix le plus rentable sur le long terme.
         L’économie réalisée sur un site bâclé se paie souvent plus tard, en
         clients perdus faute d’une première impression convaincante.
+      </p>
+
+      <p>
+        Ce choix mérite mieux qu’un paragraphe : je l’ai détaillé dans un
+        article à part, avec les cas où une agence reste le meilleur choix et{" "}
+        <Link href="/blog/freelance-ou-agence-web-annecy">
+          les sept questions à poser avant de signer
+        </Link>
+        .
       </p>
 
       <h2 id="couts-recurrents">Les coûts récurrents à ne pas oublier</h2>
@@ -242,7 +251,7 @@ function Content() {
         <Link href="/offres">offres</Link>.
       </p>
       <p>
-        Alors, combien coûte un site vitrine à Annecy en 2026 ? De 700 € pour une
+        Alors, combien coûte un site vitrine à Annecy en 2026 ? De 900 € pour une
         page efficace à 5 000 € et plus pour du sur mesure haut de gamme, selon
         vos ambitions. L’essentiel n’est pas de payer le moins cher, mais
         d’investir juste : un site clair, rapide et bien référencé qui vous ramène
@@ -262,9 +271,12 @@ export const article: Article = {
     "Combien coûte un site vitrine à Annecy en 2026 ? Fourchettes de prix, facteurs, coûts cachés et conseils d’un développeur web freelance en Haute-Savoie.",
   publishedAt: "2026-07-26",
   // 31/07 : le tarif de maintenance cité dans l'article est passé à 90 €/mois.
+  // 17/08 : la fourchette d'entrée passe à 900 €, alignée sur la Page Vitrine
+  // Rapide — un article qui annonce 700 € pendant que /offres affiche 900 €
+  // décrédibilise les deux.
   // C'est `updatedAt` qui porte le lastmod du sitemap — sans ce bump, on demande
   // à Google de réindexer une page qu'on lui présente comme inchangée.
-  updatedAt: "2026-07-31",
+  updatedAt: "2026-08-18",
   author: "Adil",
   keywords: [
     "prix site vitrine Annecy",

@@ -84,6 +84,17 @@ convention, donc autant qu'il soit reproductible. Pour un nouvel article,
 dupliquer les blocs de composition en changeant les formes :
 
 ```bash
-node scripts/generate-blog-images.mjs          # → public/images/blog/
+node scripts/generate-blog-images.mjs          # → public/images/blog/ (tout)
 node scripts/generate-blog-images.mjs /tmp/out # relire avant d'écraser
+node scripts/generate-blog-images.mjs /tmp/out mon-slug   # un seul article
 ```
+
+Le **second argument filtre par nom de fichier** : sans lui, ajouter un
+article réécrit les visuels de tous les précédents — inutile, et bruyant dans
+un diff. Le rendu étant déterministe (graine fixe), la bonne méthode reste :
+générer dans un dossier temporaire, regarder, puis copier ce qu'on garde.
+
+⚠️ Piège rencontré sur le 3ᵉ article : le dégradé `beam` est **horizontal**.
+Un rectangle **vertical** rempli avec lui a donc un bord franc en haut et en
+bas — la même « ligne d'horizon » que celle dont le dégradé `floor` se
+protège. Faire sortir la coupure du cadre plutôt que d'ajouter un masque.

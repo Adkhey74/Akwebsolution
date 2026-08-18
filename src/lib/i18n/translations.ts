@@ -201,8 +201,11 @@ export const translations = {
         "Le tarif dépend du nombre de pages et de ce que le site doit faire. Je vous dis laquelle des trois offres vous convient — gratuitement, avant tout engagement. Livraison de 5 jours à 3 semaines.",
       ctaTalk: "Parlons de votre projet",
       ctaDetails: "Voir le détail des offres",
+      /* `{h}` et `{m}` sont remplacés par les tarifs lus dans lib/offers.ts :
+         ils y étaient écrits en dur, donc faux en silence à la première hausse
+         — et faux dans les deux langues à la fois. */
       maintenanceNote:
-        "Maintenance en option à partir de 70 €/mois — hébergement, sauvegardes et vos modifications faites pour vous.",
+        "Après la mise en ligne : hébergement et nom de domaine à {h} €/mois, ou maintenance complète à partir de {m} €/mois — vos modifications faites pour vous.",
     },
 
     // ── À propos (aperçu) ───────────────────────────────────────────────
@@ -334,7 +337,7 @@ export const translations = {
         "S'affiche parfaitement sur téléphone, tablette et ordinateur",
         "Formulaire de contact et bouton d'appel direct",
         "Référencé sur Google, mentions légales et RGPD conformes",
-        "Mise en ligne, nom de domaine et hébergement configurés pour vous",
+        "Mise en ligne, nom de domaine et hébergement mis en place pour vous",
         "1 série de retouches, à demander dans les 14 jours",
       ],
 
@@ -385,6 +388,11 @@ export const translations = {
       modePurchase: "Achat",
       modeRental: "Location",
       purchaseOnly: "Achat unique",
+      /* Affiché sur la carte, et non renvoyé à une note de bas de page : le
+         prix du site n'est pas tout ce que le client paiera, et l'apprendre
+         après signature est exactement la mauvaise surprise que la promesse de
+         transparence interdit. */
+      purchaseHostingNote: "+ hébergement et nom de domaine :",
       purchaseMaintenanceNote: "+ maintenance en option à partir de",
       rentalSetupPrefix: "+",
       rentalSetupSuffix: "de mise en route",
@@ -399,16 +407,89 @@ export const translations = {
       ],
       rentalNote:
         "Rien de lourd à sortir au démarrage : votre site est mis en ligne, hébergé et suivi pendant toute la durée de l'engagement.",
+      // Ce qui se passe au terme de l'engagement — la question que se pose
+      // tout prospect à qui on annonce une durée, et à laquelle la carte ne
+      // répondait pas. Clause contractuelle : cf. le commentaire du champ
+      // `months` dans lib/offers.ts avant de la modifier.
+      rentalAfterCommitment:
+        "Au-delà, sans engagement : la location continue au mois le mois, résiliable avec un mois de préavis.",
       rentalOwnershipTitle: "Propriété du site",
       rentalOwnership:
         "En location, le site reste la propriété d'AKWebSolution : la mensualité couvre son usage, son hébergement et son suivi.",
-      rentalBuyoutPrefix: "Au terme des {n} mois de location, vous pouvez en devenir propriétaire pour",
+      rentalBuyoutPrefix: "À partir du {n}ᵉ mois, vous pouvez en devenir propriétaire pour",
       chooseRental: "Choisir la location",
+    },
+
+    /* ── Après la mise en ligne : les trois paliers ──────────────────────
+       Présentés comme une échelle et non comme trois options concurrentes.
+       Le socle seul se lirait sinon comme une maintenance au rabais, et
+       cannibaliserait la formule qui fait vivre l'activité. */
+    afterLaunch: {
+      eyebrow: "Après la mise en ligne",
+      title1: "Ce qui se passe",
+      titleAccent: "ensuite",
+      intro:
+        "Un site en ligne demande trois choses : qu'il reste accessible, qu'il reste à jour, et qu'il continue de vous amener des clients. Trois paliers, du strict nécessaire au plus complet — vous montez quand vous en avez besoin.",
+      // Intitulé de la colonne des prestations, partagé par les paliers 1 et 3.
+      // Le palier 2 garde le sien (`maintenance.featuresTitle`) : son bloc est
+      // autonome et sert aussi de source aux cartes d'offres.
+      featuresTitle: "Ce qui est inclus",
+
+      // ── Palier 1 : le socle technique ──
+      hostingStep: "Palier 1 · indispensable",
+      hostingTitle: "Hébergement & nom de domaine",
+      hostingLead:
+        "Ce qui garde votre site en ligne et votre adresse à votre nom. Sans ça, un site ne s'affiche pas.",
+      // Non rendu tant que `hosting.firstYearIncluded` vaut false (lib/offers.ts).
+      hostingBadge: "1ʳᵉ année incluse",
+      // `{n}` : le montant réellement facturé, une fois par an.
+      hostingBilling: "Facturé {n} € par an, dès la mise en ligne.",
+      hostingFeatures: [
+        "Hébergement rapide, dimensionné pour le trafic de votre site",
+        "Nom de domaine déposé à votre nom et renouvelé pour vous",
+        "Certificat de sécurité et redirections maintenus",
+        "Sauvegardes quotidiennes et mises à jour de sécurité",
+      ],
+      hostingNote:
+        "Le nom de domaine vous appartient : si un jour vous partez ailleurs, il part avec vous.",
+
+      // ── Palier 3 : le contenu ──
+      // Raccourci : posé dans la pastille de l'en-tête, l'intitulé long
+      // (« pour aller chercher des clients ») passait à la ligne.
+      contentStep: "Palier 3 · trouver des clients",
+      contentTitle: "Articles & visibilité Google",
+      contentLead:
+        "Chaque article répond à une question que vos clients tapent déjà dans Google — et c'est cette page-là qu'ils trouvent, avant même de connaître votre nom.",
+      // `{n}` : nombre d'articles du pack.
+      contentPackLabel: "le pack de {n} articles",
+      // `{n}` : prix ramené à l'article, dérivé du pack.
+      contentPerArticle: "soit {n} € l'article",
+      // Libellé court + note : ces deux tarifs vivent dans une ligne où le
+      // montant s'aligne à droite. Une question entière en guise de libellé
+      // repoussait le prix hors de son alignement.
+      contentUnitLabel: "Article à l'unité",
+      contentUnitNote: "hors pack",
+      contentBlogLabel: "Ajout d'une section blog",
+      contentBlogNote: "si votre site n'en a pas encore",
+      contentFeatures: [
+        "Sujet choisi sur ce que vos clients cherchent vraiment, pas au hasard",
+        "Article rédigé, illustré et publié — vous n'avez rien à écrire",
+        "Titres, structure et liens internes travaillés pour Google",
+        "Ajouté au plan du site pour être trouvé sans attendre",
+      ],
+      /* La phrase la plus importante du bloc : promettre une position dans
+         Google est le réflexe de tous ceux qui vendent mal ce service, et
+         c'est invérifiable. Refuser de le promettre est ici l'argument. */
+      contentHonesty:
+        "Je ne promets aucune place dans Google : personne ne peut la garantir, et méfiez-vous de qui le fait. Ce que je garantis, c'est une publication régulière sur les bons sujets. Comptez trois à six mois avant d'en voir les effets — c'est pourquoi les articles se vendent par pack, et non au mois.",
+      cta: "En parler",
     },
 
     // ── Maintenance ─────────────────────────────────────────────────────
     maintenance: {
-      eyebrow: "Après la mise en ligne",
+      // L'échelle porte désormais le titre de section : cet intitulé sert à
+      // situer le palier, pas à répéter « Après la mise en ligne ».
+      eyebrow: "Palier 2 · le plus choisi",
       title: "Maintenance",
       introStart: "Votre site suivi toute l'année.",
       introStrong: "Vos modifications faites pour vous, sans rien apprendre",
@@ -699,7 +780,7 @@ export const translations = {
       ctaTalk: "Let's talk about your project",
       ctaDetails: "See full pricing",
       maintenanceNote:
-        "Optional maintenance from €70/month — hosting, backups and your changes made for you.",
+        "After launch: hosting and domain name at €{h}/month, or full maintenance from €{m}/month — your changes made for you.",
     },
 
     about: {
@@ -870,6 +951,7 @@ export const translations = {
       modePurchase: "Buy",
       modeRental: "Rent",
       purchaseOnly: "One-off purchase",
+      purchaseHostingNote: "+ hosting and domain name:",
       purchaseMaintenanceNote: "+ optional maintenance from",
       rentalSetupPrefix: "+",
       rentalSetupSuffix: "set-up fee",
@@ -883,15 +965,61 @@ export const translations = {
       ],
       rentalNote:
         "Nothing heavy to pay upfront: your site goes live, stays hosted and is looked after for the whole commitment period.",
+      rentalAfterCommitment:
+        "After that, no commitment: the rental carries on month to month, cancellable with one month's notice.",
       rentalOwnershipTitle: "Site ownership",
       rentalOwnership:
         "While renting, the site remains the property of AKWebSolution: the monthly fee covers its use, hosting and upkeep.",
-      rentalBuyoutPrefix: "At the end of the {n}-month rental, you can become its owner for",
+      rentalBuyoutPrefix: "From month {n} onwards, you can become its owner for",
       chooseRental: "Choose renting",
     },
 
-    maintenance: {
+    afterLaunch: {
       eyebrow: "After launch",
+      title1: "What happens",
+      titleAccent: "next",
+      intro:
+        "A live site needs three things: to stay reachable, to stay up to date, and to keep bringing you clients. Three tiers, from the bare minimum to the full package — you move up when you need to.",
+      featuresTitle: "What's included",
+
+      hostingStep: "Tier 1 · essential",
+      hostingTitle: "Hosting & domain name",
+      hostingLead:
+        "What keeps your site online and your address in your name. Without it, a site simply doesn't load.",
+      hostingBadge: "First year included",
+      hostingBilling: "Billed €{n} per year, from the moment your site goes live.",
+      hostingFeatures: [
+        "Fast hosting, sized for your site's traffic",
+        "Domain name registered in your name and renewed for you",
+        "Security certificate and redirects kept in working order",
+        "Daily backups and security updates",
+      ],
+      hostingNote:
+        "The domain name is yours: if you ever move elsewhere, it goes with you.",
+
+      contentStep: "Tier 3 · finding clients",
+      contentTitle: "Articles & Google visibility",
+      contentLead:
+        "Each article answers a question your clients are already typing into Google — and that's the page they find, before they even know your name.",
+      contentPackLabel: "the {n}-article pack",
+      contentPerArticle: "that's €{n} per article",
+      contentUnitLabel: "Single article",
+      contentUnitNote: "outside the pack",
+      contentBlogLabel: "Adding a blog section",
+      contentBlogNote: "if your site doesn't have one yet",
+      contentFeatures: [
+        "Topic chosen from what your clients actually search for, never at random",
+        "Article written, illustrated and published — you write nothing",
+        "Headings, structure and internal links worked for Google",
+        "Added to your sitemap so it gets found without waiting",
+      ],
+      contentHonesty:
+        "I promise no ranking in Google: nobody can guarantee one, and be wary of anyone who does. What I do guarantee is regular publishing on the right topics. Expect three to six months before you see the effects — which is why articles are sold as a pack, not by the month.",
+      cta: "Talk it through",
+    },
+
+    maintenance: {
+      eyebrow: "Tier 2 · most chosen",
       title: "Maintenance",
       introStart: "Your site looked after all year round.",
       introStrong: "Your changes made for you, with nothing to learn",

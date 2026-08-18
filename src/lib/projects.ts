@@ -75,7 +75,7 @@ export const projects: CaseStudy[] = [
     sector: "Restauration",
     year: "2025",
     location: "France",
-    url: "https://kabuki-gamma.vercel.app/",
+    url: "https://kabuki.akwebsolutions.fr/",
     summary:
       "Site vitrine pour un restaurant japonais : une carte appétissante, les incontournables mis en avant et la réservation en ligne, le tout dans une ambiance élégante et responsive.",
     challenge:
