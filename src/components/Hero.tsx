@@ -8,11 +8,12 @@ import { useI18n } from "@/lib/i18n/context";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { AuroraText } from "@/components/ui/aurora-text";
-import { HeroBackground } from "@/components/HeroBackground";
+import { HeroVideo } from "@/components/HeroVideo";
 
 // Référencées en variables CSS : le thème clair a besoin de violets foncés
 // (les lavandes pâles disparaissent sur blanc), le thème sombre de l'inverse.
-// Les valeurs vivent dans globals.css (:root et .dark).
+// Les valeurs vivent dans globals.css (:root et .dark) — et, pour ce Hero
+// posé sur une vidéo, dans `.hero-video`, qui les éclaircit encore.
 const AURORA = [
   "var(--aurora-1)",
   "var(--aurora-2)",
@@ -29,10 +30,6 @@ const stats = [
   { to: 24,  suffix: "h", key: "hero.statResponse"   },
 ];
 
-// Grain SVG (fractal noise) encodé en data-URI
-const GRAIN =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
-
 export function Hero() {
   const { t, tList, lp } = useI18n();
 
@@ -44,10 +41,17 @@ export function Hero() {
   const animate = "visible";
 
   return (
-    <section className="relative flex h-[calc(100vh+5.25rem)] min-h-[calc(100dvh+5.25rem)] flex-col overflow-hidden pt-32 -mt-[5.25rem] md:h-[calc(100vh+6rem)] md:min-h-[calc(100dvh+6rem)] md:-mt-24 md:pt-40">
+    /* `dark` dans les deux thèmes : sur une vidéo, un texte foncé ne se lit pas
+       et un voile clair la délaverait. La classe re-déclare les variables du
+       thème sombre pour toute la section (et le bandeau fait de même tant
+       qu'il est transparent, cf. Header). */
+    <section className="dark hero-video relative flex h-[calc(100vh+5.25rem)] min-h-[calc(100dvh+5.25rem)] flex-col overflow-hidden bg-[var(--background)] pt-32 -mt-[5.25rem] md:h-[calc(100vh+6rem)] md:min-h-[calc(100dvh+6rem)] md:-mt-24 md:pt-40">
 
-      {/* Fond animé CSS (remplace les Beams three.js — perf) */}
-      <HeroBackground />
+      {/* Fond : la vidéo et son voile sont dans <HeroVideo />,
+          en fin de section. L'ancien fond CSS animé (`HeroBackground`, toujours
+          présent pour revenir en arrière) est retiré, avec le halo, la vignette
+          et le grain qui l'accompagnaient : posés sur une image, chacun de ces
+          calques rendait le contraste du texte impossible à garantir. */}
 
       {/* — Ancien fond Beams (three.js), conservé pour revenir en arrière :
       <Beams
@@ -60,37 +64,6 @@ export function Hero() {
         scale={0.18}
         rotation={20}
       /> */}
-
-      {/* Halo violet derrière le titre — masqué sur mobile (le blur(50px)
-          fait ramer Safari pendant l'animation d'entrée ; le dégradé du
-          fond statique prend le relais) */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-[42%] z-[1] hidden h-[420px] w-[860px] max-w-[95vw] -translate-x-1/2 -translate-y-1/2 rounded-full md:block"
-        style={{ background: "radial-gradient(ellipse at center, var(--hero-halo) 0%, transparent 70%)", filter: "blur(50px)" }}
-        aria-hidden
-      />
-
-      {/* Vignette — assombrit les bords en thème sombre, les éclaircit vers le
-          fond de page en thème clair (cf. --hero-vignette) */}
-      <div
-        className="pointer-events-none absolute inset-0 z-[2]"
-        style={{ background: "radial-gradient(ellipse 85% 80% at 50% 45%, transparent 35%, var(--hero-vignette) 100%)" }}
-        aria-hidden
-      />
-
-      {/* Grain — masqué sur mobile : un mix-blend plein écran force Safari à
-          re-blender tout le Hero à chaque frame d'animation.
-          Le mode de fusion dépend du thème : `overlay` sur fond sombre,
-          `multiply` sur fond clair (overlay y écraserait les teintes). */}
-      <div
-        className="pointer-events-none absolute inset-0 z-[3] hidden md:block"
-        style={{
-          backgroundImage: GRAIN,
-          opacity: "var(--grain-opacity)",
-          mixBlendMode: "var(--grain-blend)" as React.CSSProperties["mixBlendMode"],
-        }}
-        aria-hidden
-      />
 
       {/* ── Contenu centré ── */}
       <div className="section-container relative z-10 flex flex-1 flex-col items-center justify-center text-center">
@@ -112,8 +85,12 @@ export function Hero() {
           </span>
         </motion.div>
 
-        {/* H1 — Fraunces, XXL */}
-        <h1 className="max-w-5xl text-[2.25rem] font-normal leading-[1.02] tracking-[-0.02em] text-[var(--foreground)] sm:text-[3rem] md:text-[4rem] lg:text-[5rem]">
+        {/* H1 — Fraunces, XXL. Taille fluide, calée sur la plus petite des
+            deux dimensions de l'écran : les paliers fixes (jusqu'à 5rem dès
+            1024 px de large) ignoraient la hauteur, et sur un portable
+            1366×768 le titre écrasait tout le Hero. `svh` plutôt que `vh` :
+            la barre d'adresse mobile ne fait pas sauter la taille. */}
+        <h1 className="max-w-5xl text-[length:clamp(2rem,min(7vw,7.5svh),5rem)] font-normal leading-[1.02] tracking-[-0.02em] text-[var(--foreground)]">
           <span className="block overflow-hidden pb-[0.08em]">
             <motion.span
               className="block"
@@ -154,7 +131,7 @@ export function Hero() {
           animate={animate}
           variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0 } }}
           transition={{ duration: 0.6, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="mt-6 max-w-[40rem] text-center text-[0.9375rem] leading-[1.6] text-[var(--muted)] md:text-[1.0625rem]"
+          className="mt-6 max-w-[40rem] text-center text-[0.9375rem] leading-[1.6] text-[var(--muted)] [text-shadow:0_1px_12px_rgb(0_0_0/0.45)] md:text-[1.0625rem]"
         >
           {t("hero.subtitle")}
         </motion.p>
@@ -194,7 +171,7 @@ export function Hero() {
           animate={animate}
           variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
           transition={{ duration: 0.6, delay: 0.88, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2"
+          className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 [text-shadow:0_1px_12px_rgb(0_0_0/0.45)]"
         >
           {trust.map((item) => (
             <span key={item} className="flex items-center gap-1.5 text-[0.75rem] text-[var(--muted)] sm:text-[0.8rem]">
@@ -234,6 +211,8 @@ export function Hero() {
           ))}
         </motion.div>
       </div>
+
+      <HeroVideo />
     </section>
   );
 }

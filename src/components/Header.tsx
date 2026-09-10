@@ -69,12 +69,20 @@ export function Header() {
 
   return (
     <>
+    {/* Transparent, le bandeau est posé sur la vidéo du hero : il prend alors
+        la classe `dark` quel que soit le thème choisi, comme le hero — en haut
+        de l'accueil, rien ne change au clic sur le bouton de thème, sauf son
+        icône (voulu par Adil). Sans ça, le thème clair écrirait du texte foncé
+        sur la vidéo (1:1). Déduit de l'URL et du défilement comme le reste de
+        `showSolidNav`, donc déjà juste dans le HTML prérendu.
+        ⚠️ L'icône du ThemeToggle ne doit PAS lire cette classe : elle lit celle
+        de <html> (cf. ThemeToggle.tsx). */}
     <motion.header
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       className={`fixed left-0 right-0 top-0 z-50 transition-colors duration-200 ${
-        showSolidNav ? "border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur-md" : "bg-transparent"
+        showSolidNav ? "border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur-md" : "dark bg-transparent"
       }`}
     >
       <div className="grid h-[5.25rem] w-full min-w-0 grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 sm:gap-4 sm:px-6 md:h-24 md:px-10 lg:px-14 xl:px-20">
@@ -85,7 +93,7 @@ export function Header() {
           <button
             type="button"
             onClick={() => setMenuOpen((v) => !v)}
-            className={`flex items-center justify-center p-2 transition-colors lg:hidden ${
+            className={`flex items-center justify-center p-2 transition-colors xl:hidden ${
               showSolidNav ? "text-[var(--foreground)] hover:text-[var(--accent)]" : "text-[var(--foreground)] hover:text-[var(--muted)]"
             }`}
             aria-label={menuOpen ? t("header.closeMenu") : t("header.openMenu")}
@@ -123,19 +131,28 @@ export function Header() {
               La langue est prioritaire sur le thème — un visiteur anglophone en
               a besoin tout de suite. La bascule de thème reste accessible dans
               le menu, avec la version complète du sélecteur de langue. */}
-          <LanguageSwitcher className="lg:hidden" compact align="left" />
+          <LanguageSwitcher className="xl:hidden" compact align="left" />
 
-          <nav className="hidden lg:flex lg:items-center lg:gap-2" aria-label={t("header.mainNav")}>
+          {/* Nav complète à partir de `xl` (1280 px) et non plus `lg` : les cinq
+              libellés en capitales (« RÉALISATIONS » en tête) ne tenaient pas
+              dans la colonne de gauche à 1024 px et venaient buter contre le
+              logo. Entre 1280 et ~1560 px, taille et espacement des libellés
+              sont fluides (`--nav-px`, `clamp`) pour garder de l'air avant le
+              logo ; au-delà, on retrouve les valeurs d'origine (0.8rem, 0.75rem).
+              ⚠️ Tous les `xl:` de ce fichier forment un seul seuil : burger,
+              sélecteurs de langue et de thème, libellé du bouton Contact et
+              menu plein écran doivent basculer ensemble. */}
+          <nav className="hidden [--nav-px:clamp(0.375rem,2vw_-_1.2rem,0.75rem)] xl:flex xl:items-center" aria-label={t("header.mainNav")}>
             {navLinks.map(({ href, key }) => (
               <Link
                 key={href}
                 href={lp(href)}
-                className={`group relative px-3 py-2 text-[0.8rem] font-medium uppercase tracking-[0.12em] transition-colors ${
+                className={`group relative px-(--nav-px) py-2 text-[length:clamp(0.72rem,0.25rem_+_0.6vw,0.8rem)] font-medium uppercase tracking-[0.12em] transition-colors ${
                   showSolidNav ? "text-[var(--foreground)]" : "text-[var(--foreground)]"
                 }`}
               >
                 {t(key)}
-                <span className="absolute bottom-0 left-3 right-3 h-px origin-left scale-x-0 bg-[var(--accent)] transition-transform duration-300 group-hover:scale-x-100" />
+                <span className="absolute bottom-0 left-(--nav-px) right-(--nav-px) h-px origin-left scale-x-0 bg-[var(--accent)] transition-transform duration-300 group-hover:scale-x-100" />
               </Link>
             ))}
           </nav>
@@ -150,8 +167,8 @@ export function Header() {
 
         {/* Right : bascule (desktop uniquement) + bouton contact */}
         <div className="flex min-h-10 items-center justify-end gap-2 sm:gap-3">
-          <LanguageSwitcher className="hidden lg:block" />
-          <ThemeToggle className="hidden lg:flex" />
+          <LanguageSwitcher className="hidden xl:block" />
+          <ThemeToggle className="hidden xl:flex" />
           <Link
             /* Vers la page /contact dédiée, et non plus vers l'ancre de
                l'accueil : le bouton mène désormais à une vraie page, avec ses
@@ -163,8 +180,8 @@ export function Header() {
             <span aria-hidden className="absolute inset-0 origin-left scale-x-0 bg-[var(--accent)] transition-transform duration-300 ease-out group-hover:scale-x-100" />
             {/* reflet qui balaye */}
             <span aria-hidden className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full" />
-            <span className="relative z-10 lg:hidden">{t("header.contact")}</span>
-            <span className="relative z-10 hidden lg:inline">{t("header.contactLong")}</span>
+            <span className="relative z-10 xl:hidden">{t("header.contact")}</span>
+            <span className="relative z-10 hidden xl:inline">{t("header.contactLong")}</span>
           </Link>
         </div>
       </div>
@@ -183,7 +200,7 @@ export function Header() {
             role="dialog"
             aria-modal="true"
             aria-label={t("header.menuLabel")}
-            className="fixed inset-0 z-9999 flex flex-col bg-[var(--background)] lg:hidden"
+            className="fixed inset-0 z-9999 flex flex-col bg-[var(--background)] xl:hidden"
           >
             {/* Header du menu */}
             <div className="relative flex h-[5.25rem] shrink-0 items-center justify-center px-5">

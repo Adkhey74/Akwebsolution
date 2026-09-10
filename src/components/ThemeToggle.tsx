@@ -12,11 +12,16 @@ const STORAGE_KEY = "theme";
  * Le thème est posé sur <html class="dark"> par le script inline de layout.tsx
  * avant le premier rendu ; ce composant ne fait que le basculer ensuite.
  *
- * Les deux icônes sont rendues en permanence et c'est la CSS (variante `dark:`)
- * qui montre la bonne. C'est volontaire : lire le thème en JS pour choisir quoi
- * afficher provoquerait un écart d'hydratation, le serveur ne pouvant pas
- * connaître la préférence du visiteur. Ici le markup est identique des deux
- * côtés, donc aucun avertissement et aucun scintillement de l'icône.
+ * Les deux icônes sont rendues en permanence et c'est la CSS qui montre la
+ * bonne. C'est volontaire : lire le thème en JS pour choisir quoi afficher
+ * provoquerait un écart d'hydratation, le serveur ne pouvant pas connaître la
+ * préférence du visiteur. Ici le markup est identique des deux côtés, donc
+ * aucun avertissement et aucun scintillement de l'icône.
+ *
+ * ⚠️ Le sélecteur vise `:root.dark`, et PAS la variante `dark:` : celle-ci
+ * s'active sous n'importe quel ancêtre `.dark`. Or le bandeau prend `dark` sur
+ * la vidéo du hero, quel que soit le thème — l'icône y restait donc bloquée
+ * sur la lune, et le clic semblait ne rien faire.
  */
 export function ThemeToggle({ className = "" }: { className?: string }) {
   const { t } = useI18n();
@@ -71,8 +76,8 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
       title={t("header.themeToggleShort")}
       className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--border-hover)] text-[var(--foreground)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)] ${className}`}
     >
-      <Sun size={17} strokeWidth={1.75} className="dark:hidden" aria-hidden />
-      <Moon size={17} strokeWidth={1.75} className="hidden dark:block" aria-hidden />
+      <Sun size={17} strokeWidth={1.75} className="[:root.dark_&]:hidden" aria-hidden />
+      <Moon size={17} strokeWidth={1.75} className="hidden [:root.dark_&]:block" aria-hidden />
     </button>
   );
 }

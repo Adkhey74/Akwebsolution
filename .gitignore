@@ -32,6 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...sauf le modèle, qui ne contient que des NOMS de variables : c'est le
+# seul endroit où l'on découvre qu'il faut une clé Google pour les avis.
+!.env.example
 
 # vercel
 .vercel

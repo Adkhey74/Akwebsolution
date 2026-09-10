@@ -689,6 +689,57 @@ body {
   --beam-color: rgba(167, 139, 250, 0.9);
 }
 
+/* ── Hero vidéo ─────────────────────────────────────────────────────────
+   La section porte `dark` dans les deux thèmes. Ce bloc n'ajuste que ce que
+   le thème sombre ne pouvait pas prévoir : un fond qui change à chaque image.
+   ⚠️ Il doit rester APRÈS `.dark` — même spécificité, c'est l'ordre qui
+   départage les variables re-déclarées ci-dessous.
+
+   Voile mesuré image par image (40 images sur les 10 s, chaque pixel des
+   zones de texte), sur 1920×1080, 1440×900, 1280×720, 1024×768, 768×1024,
+   430×932, 390×844 et 360×740. Sans voile, le ciel au coucher de soleil
+   ramène le texte à 1,0:1. Avec, pire cas relevé :
+     sous-titre et réassurance ≥ 5,1:1 · « élégants » ≥ 3,6:1 (grand texte)
+     · CTA secondaire ≥ 5,5:1 · liens du bandeau ≥ 9,9:1 · Contact ≥ 5,2:1.
+   Changer une opacité, une couleur ci-dessous ou la vidéo = refaire la
+   mesure : un voile réglé à l'œil passe sur l'image qu'on regarde, pas sur
+   la plus claire des 240 qui défilent. */
+.hero-video {
+  --hdr: 5.25rem; /* hauteur du bandeau, pour caler le voile du haut */
+  /* Plus clair que le --muted sombre (0.70) : sur une image, le texte
+     secondaire doit tenir 4,5:1 contre les pixels les plus clairs. */
+  --muted: oklch(0.88 0.01 285);
+  /* Les violets du thème sombre (#6d5eff…) tombaient à 1,6:1 sur le ciel
+     voilé. Même teinte, plus claire. */
+  --aurora-1: #c4b5fd;
+  --aurora-2: #d8ccff;
+  --aurora-3: #b9a8ff;
+  --aurora-4: #e2d9ff;
+}
+/* Mobile et tablette : le texte occupe presque toute la hauteur, un voile
+   concentré au centre n'y protège rien — il est donc uniforme. Couleur :
+   le --background sombre. */
+.hero-video__scrim {
+  background:
+    linear-gradient(to bottom, oklch(0.09 0.012 285 / 0.4) calc(var(--hdr) + 40px), transparent calc(var(--hdr) + 200px)),
+    linear-gradient(to top, oklch(0.09 0.012 285 / 0.3), transparent 30%),
+    oklch(0.09 0.012 285 / 0.66);
+}
+@media (min-width: 48rem) {
+  .hero-video { --hdr: 6rem; }
+}
+/* Ordinateur : bords plus légers pour laisser voir le lac, voile dense sous
+   la colonne de texte et sous le bandeau. */
+@media (min-width: 64rem) {
+  .hero-video__scrim {
+    background:
+      linear-gradient(to bottom, oklch(0.09 0.012 285 / 0.65) calc(var(--hdr) + 40px), transparent calc(var(--hdr) + 220px)),
+      radial-gradient(80% 62% at 50% 55%, oklch(0.09 0.012 285 / 0.5) 0%, oklch(0.09 0.012 285 / 0.45) 60%, transparent 100%),
+      linear-gradient(to top, oklch(0.09 0.012 285 / 0.5), transparent 30%),
+      oklch(0.09 0.012 285 / 0.42);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

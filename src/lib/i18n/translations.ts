@@ -85,6 +85,19 @@ export const translations = {
       liveSite: "Voir le site en ligne",
     },
 
+    // ── Avis clients ────────────────────────────────────────────────────
+    // Les avis eux-mêmes ne sont PAS ici : ils viennent de la fiche Google, via
+    // lib/reviews.ts. Seuls les libellés de la section se traduisent.
+    testimonials: {
+      eyebrow: "Avis clients",
+      title1: "Ils m'ont fait",
+      titleAccent: "confiance",
+      onGoogle: "sur {n} avis Google",
+      onGoogleOne: "sur {n} avis Google",
+      translated: "Traduit par Google",
+      readOnGoogle: "Voir l'avis",
+    },
+
     // Champs traduisibles des études de cas, indexés par slug.
     // La donnée non traduisible (images, année, url) reste dans lib/projects.ts.
     projects: {
@@ -664,6 +677,16 @@ export const translations = {
       caseStudy: "Read the case study",
       caseStudyOf: "Read the case study",
       liveSite: "Visit the live site",
+    },
+
+    testimonials: {
+      eyebrow: "Client reviews",
+      title1: "They chose to",
+      titleAccent: "trust me",
+      onGoogle: "from {n} Google reviews",
+      onGoogleOne: "from {n} Google review",
+      translated: "Translated by Google",
+      readOnGoogle: "See the review",
     },
 
     projects: {
