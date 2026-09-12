@@ -21,10 +21,24 @@ const POSTER = "/video/hero-poster.webp";
  * pouvoir s'arrêter) : le site ne le remplit donc plus. Seuls les visiteurs
  * en mouvement réduit ont une vidéo à l'arrêt.
  *
- * Les fichiers sont des réencodages de `public/video/hero.mp4` (H.264, sans
- * piste audio, index en tête de fichier pour démarrer avant la fin du
- * téléchargement) : 1,5 Mo en 1080p, 0,6 Mo en 720p, contre 3,5 Mo à
- * l'origine. Le voile est réglé dans globals.css (`.hero-video__scrim`).
+ * Les fichiers sont des réencodages de `public/video/hero.mp4` (sans piste
+ * audio, index en tête de fichier pour démarrer avant la fin du
+ * téléchargement), en deux formats et deux définitions :
+ *
+ *   1080p — WebM/VP9 724 Ko · MP4/H.264 1,5 Mo
+ *    720p — WebM/VP9 335 Ko · MP4/H.264 594 Ko   (servi sous 768 px)
+ *
+ * contre 3,5 Mo pour l'original. Les WebM sont encodés en `-crf 37` (1080p) et
+ * `-crf 40` (720p), mesurés à SSIM 0,992 et 0,990 contre le MP4 : l'écart ne
+ * se voit pas, y compris dans le dégradé du ciel — le pire cas pour le
+ * banding. Regénérer avec ffmpeg (`libvpx-vp9`, `-b:v 0`, `-an`) et **revoir
+ * la mesure** si la vidéo change.
+ *
+ * ⚠️ Les fichiers de `public/video/` sont servis en `immutable` pour un an
+ * (cf. `next.config.ts`) : pour remplacer la vidéo, **changer son nom**, sinon
+ * les visiteurs déjà venus garderont l'ancienne.
+ *
+ * Le voile est réglé dans globals.css (`.hero-video__scrim`).
  */
 export function HeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -75,9 +89,16 @@ export function HeroVideo() {
         disableRemotePlayback
         tabIndex={-1}
       >
-        {/* Sous 768 px, l'écran n'affiche qu'une bande verticale de l'image :
-            le 720p suffit, pour 2,5 fois moins de données. */}
+        {/* Ordre imposé par le navigateur : il prend la PREMIÈRE source dont le
+            `media` correspond ET dont le type est lisible. Donc WebM avant MP4
+            (VP9 pèse ~50 % du H.264 à qualité égale, et le MP4 reste le repli
+            des navigateurs qui l'ignorent), et mobile avant desktop.
+
+            Sous 768 px, l'écran n'affiche qu'une bande verticale de l'image :
+            le 720p suffit, pour bien moins de données. */}
+        <source src="/video/hero-720.webm" type="video/webm" media="(max-width: 767px)" />
         <source src="/video/hero-720.mp4" type="video/mp4" media="(max-width: 767px)" />
+        <source src="/video/hero-1080.webm" type="video/webm" />
         <source src="/video/hero-1080.mp4" type="video/mp4" />
       </video>
       <div className="hero-video__scrim absolute inset-0" />
