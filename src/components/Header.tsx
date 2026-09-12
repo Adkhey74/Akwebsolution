@@ -31,8 +31,30 @@ export function Header() {
      anglais est « /en », qui n'aurait jamais été égal à « / ». La navbar y
      serait restée opaque en haut de page, sans la transparence prévue
      par-dessus le hero. */
-  const isHome = splitLocale(pathname).path === "/";
+  const currentPath = splitLocale(pathname).path;
+  const isHome = currentPath === "/";
   const showSolidNav = !isHome || scrolledPastHero || menuOpen;
+
+  /* Page courante : le lien garde son soulignement au lieu de l'afficher au
+     seul survol — sur un site où presque toutes les pages se ressemblent en
+     haut, rien ne disait où on se trouvait.
+     ⚠️ L'accueil se compare exactement : sans ça, « / » serait préfixe de tout
+     et les cinq liens seraient actifs en permanence. Les autres acceptent
+     leurs sous-pages, sinon « Réalisations » s'éteindrait sur une étude de cas
+     et « Blog » sur un article — précisément là où on a le plus besoin de
+     savoir d'où l'on vient. */
+  const isActive = (href: string) =>
+    href === "/"
+      ? currentPath === "/"
+      : currentPath === href || currentPath.startsWith(`${href}/`);
+
+  /* Le trait est le seul repère visuel de la page courante : c'est un élément
+     d'interface porteur d'information, il lui faut 3:1 (WCAG 1.4.11). Sur le
+     hero, le bandeau est transparent et forcé en `dark` — l'accent violet y
+     tombe à ~1,9:1 sur la vidéo voilée, le même piège que les violets du mot
+     « élégants ». `--accent-soft` y vaut le violet clair (#B7A6FF, ~4,7:1) et
+     existe précisément pour ça. */
+  const railClass = showSolidNav ? "bg-[var(--accent)]" : "bg-[var(--accent-soft)]";
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -143,18 +165,29 @@ export function Header() {
               sélecteurs de langue et de thème, libellé du bouton Contact et
               menu plein écran doivent basculer ensemble. */}
           <nav className="hidden [--nav-px:clamp(0.375rem,2vw_-_1.2rem,0.75rem)] xl:flex xl:items-center" aria-label={t("header.mainNav")}>
-            {navLinks.map(({ href, key }) => (
-              <Link
-                key={href}
-                href={lp(href)}
-                className={`group relative px-(--nav-px) py-2 text-[length:clamp(0.72rem,0.25rem_+_0.6vw,0.8rem)] font-medium uppercase tracking-[0.12em] transition-colors ${
-                  showSolidNav ? "text-[var(--foreground)]" : "text-[var(--foreground)]"
-                }`}
-              >
-                {t(key)}
-                <span className="absolute bottom-0 left-(--nav-px) right-(--nav-px) h-px origin-left scale-x-0 bg-[var(--accent)] transition-transform duration-300 group-hover:scale-x-100" />
-              </Link>
-            ))}
+            {navLinks.map(({ href, key }) => {
+              const active = isActive(href);
+              return (
+                <Link
+                  key={href}
+                  href={lp(href)}
+                  /* `aria-current` porte l'information pour les lecteurs
+                     d'écran : un trait n'est pas annoncé. */
+                  aria-current={active ? "page" : undefined}
+                  className="group relative px-(--nav-px) py-2 text-[length:clamp(0.72rem,0.25rem_+_0.6vw,0.8rem)] font-medium uppercase tracking-[0.12em] text-[var(--foreground)] transition-colors"
+                >
+                  {t(key)}
+                  {/* Même trait pour le survol et la page courante : sur la
+                      page active il est simplement déjà déplié, et l'animation
+                      ne se rejoue pas au survol. */}
+                  <span
+                    className={`absolute bottom-0 left-(--nav-px) right-(--nav-px) h-px origin-left transition-transform duration-300 ${railClass} ${
+                      active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                    }`}
+                  />
+                </Link>
+              );
+            })}
           </nav>
         </div>
 
@@ -174,6 +207,9 @@ export function Header() {
                l'accueil : le bouton mène désormais à une vraie page, avec ses
                coordonnées en clair et un lien partageable. */
             href={lp("/contact")}
+            /* Le bouton se distingue déjà à l'œil ; ce qui manquait, c'est
+               l'annonce aux lecteurs d'écran quand on est sur /contact. */
+            aria-current={isActive("/contact") ? "page" : undefined}
             className="group relative inline-flex shrink-0 items-center overflow-hidden whitespace-nowrap rounded-full border border-[var(--accent)]/50 bg-[var(--accent)]/10 px-3 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.1em] text-[var(--accent-soft)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-white hover:shadow-[0_8px_28px_-8px_var(--accent)] sm:px-4 sm:text-[0.75rem] sm:tracking-[0.12em]"
           >
             {/* remplissage violet depuis la gauche */}
@@ -217,22 +253,33 @@ export function Header() {
 
             {/* Liens de navigation */}
             <nav className="flex flex-1 flex-col justify-center gap-1 px-6" aria-label={t("header.mobileNav")}>
-              {navLinks.map(({ href, key }, i) => (
-                <motion.div
-                  key={href}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.05 + i * 0.06, duration: 0.22 }}
-                >
-                  <Link
-                    href={lp(href)}
-                    onClick={closeMenu}
-                    className="block border-b border-[var(--border)] py-5 text-[1.75rem] font-light tracking-tight text-[var(--foreground)] transition-colors hover:text-[var(--muted)]"
+              {navLinks.map(({ href, key }, i) => {
+                const active = isActive(href);
+                return (
+                  <motion.div
+                    key={href}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.05 + i * 0.06, duration: 0.22 }}
                   >
-                    {t(key)}
-                  </Link>
-                </motion.div>
-              ))}
+                    <Link
+                      href={lp(href)}
+                      onClick={closeMenu}
+                      aria-current={active ? "page" : undefined}
+                      className="block border-b border-[var(--border)] py-5 text-[1.75rem] font-light tracking-tight text-[var(--foreground)] transition-colors hover:text-[var(--muted)]"
+                    >
+                      {/* Le trait souligne le libellé, pas la ligne entière :
+                          celle-ci porte déjà un séparateur, un second filet
+                          pleine largeur ne se lirait pas comme un état.
+                          Le menu n'est ouvert que bandeau opaque, donc
+                          `--accent` suffit ici — pas de fond photo dessous. */}
+                      <span className={active ? "border-b-2 border-[var(--accent)] pb-1" : undefined}>
+                        {t(key)}
+                      </span>
+                    </Link>
+                  </motion.div>
+                );
+              })}
             </nav>
 
             {/* Footer */}
