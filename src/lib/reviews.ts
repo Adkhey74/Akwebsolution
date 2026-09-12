@@ -87,16 +87,50 @@ export type GoogleReviews = {
   rating: number;
   /** Nombre total d'avis sur la fiche. */
   count: number;
+  /**
+   * Faut-il annoncer le nombre d'avis à côté de la note ? Voir
+   * `MIN_REVIEWS_TO_COUNT` — la décision est prise ici et non dans le rendu,
+   * pour qu'elle reste à côté des règles qu'elle applique.
+   */
+  showCount: boolean;
   reviews: GoogleReview[];
 };
 
 /**
- * En dessous de ce nombre, la section entière est masquée. Choix d'Adil
- * (10/09/2026) : un avis unique fait plus « section vide » que preuve sociale.
- * La section réapparaît toute seule dès qu'un deuxième avis est ajouté à
- * `REVIEWS` — rien d'autre à toucher.
+ * En dessous de ce nombre, la section entière est masquée.
+ *
+ * ⚠️ **Repassé à 1 le 12/09/2026, à la demande d'Adil** — il valait 2 depuis le
+ * 10/09, au motif qu'un avis unique faisait plus « section vide » que preuve
+ * sociale. Ce motif ne tenait qu'à la mise en page : un seul avis étiré dans une
+ * bande prévue pour plusieurs sonnait creux. `TestimonialsList` a désormais un
+ * rendu dédié à l'avis unique (carte centrée, citation mise en avant), et la
+ * question ne se pose plus.
+ *
+ * Le seuil est conservé plutôt que supprimé : il documente le choix, et le
+ * retour en arrière tient en un chiffre. Passer à 2 remasque la section sans
+ * rien casser d'autre.
  */
-const MIN_REVIEWS_TO_SHOW = 2;
+const MIN_REVIEWS_TO_SHOW = 1;
+
+/**
+ * En dessous de ce nombre, la note est affichée **sans** le volume d'avis :
+ * « 5,0/5 sur Google » plutôt que « 5,0/5 sur 1 avis Google ».
+ *
+ * Demandé par Adil le 12/09/2026 — annoncer soi-même « 1 avis » désamorce la
+ * preuve sociale qu'on vient chercher, alors que la note, elle, est vraie et
+ * vérifiable. Rien n'est masqué pour autant : le lien d'attribution mène à la
+ * fiche, qui affiche le compte — on ne le met simplement pas en avant.
+ *
+ * ⚠️ **Ne pas confondre avec un chiffre arrondi ou embelli** : la note reste
+ * celle de la fiche, et aucun volume n'est suggéré. Écrire « sur de nombreux
+ * avis », ou tout autre volume non exact, serait de la publicité trompeuse
+ * (art. L121-2 du code de la consommation) — la même règle qui interdit les
+ * témoignages inventés en tête de ce fichier.
+ *
+ * Le volume redevient un argument quand il y en a assez : à partir de ce
+ * seuil, il s'affiche de nouveau tout seul.
+ */
+const MIN_REVIEWS_TO_COUNT = 5;
 
 /** Les avis dans la langue de la page ; `null` s'il n'y en a pas assez (section masquée). */
 export function getReviews(locale: Locale): GoogleReviews | null {
@@ -105,6 +139,7 @@ export function getReviews(locale: Locale): GoogleReviews | null {
   return {
     rating: FICHE.rating,
     count: FICHE.count,
+    showCount: FICHE.count >= MIN_REVIEWS_TO_COUNT,
     reviews: REVIEWS.map((review) => ({
       id: review.id,
       author: review.author,

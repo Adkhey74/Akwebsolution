@@ -94,6 +94,8 @@ export const translations = {
       titleAccent: "confiance",
       onGoogle: "sur {n} avis Google",
       onGoogleOne: "sur {n} avis Google",
+      // Sous le seuil de `MIN_REVIEWS_TO_COUNT` : la note, sans le volume.
+      onGoogleNoCount: "sur Google",
       translated: "Traduit par Google",
       readOnGoogle: "Voir l'avis",
     },
@@ -685,6 +687,7 @@ export const translations = {
       titleAccent: "trust me",
       onGoogle: "from {n} Google reviews",
       onGoogleOne: "from {n} Google review",
+      onGoogleNoCount: "on Google",
       translated: "Translated by Google",
       readOnGoogle: "See the review",
     },
