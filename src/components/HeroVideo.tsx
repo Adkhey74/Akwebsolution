@@ -61,18 +61,43 @@ export function HeroVideo() {
       connection?.saveData === true;
     if (held) return;
 
-    // Hors de l'écran, la vidéo s'arrête : inutile de décoder 24 images par
-    // seconde pendant que le visiteur lit les offres.
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) video.pause();
-      else {
+    // Deux conditions pour jouer : le hero est à l'écran ET l'onglet est
+    // visible. Les deux sont suivies séparément parce qu'aucune ne prévient de
+    // l'autre.
+    let inView = false;
+
+    const sync = () => {
+      if (inView && document.visibilityState === "visible") {
         video.play().catch(() => {
           // Lecture refusée (iOS en économie d'énergie) : l'image fixe reste.
         });
+      } else {
+        video.pause();
       }
+    };
+
+    // Hors de l'écran, la vidéo s'arrête : inutile de décoder 24 images par
+    // seconde pendant que le visiteur lit les offres.
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      sync();
     });
     observer.observe(video);
-    return () => observer.disconnect();
+
+    // Sur téléphone, le navigateur met la vidéo en pause quand on change
+    // d'onglet ou d'application — et au retour, l'observer ne se redéclenche
+    // pas, puisque le hero n'a pas bougé : la vidéo restait figée (signalé par
+    // Adil le 14/09/2026). D'où `visibilitychange`, plus `pageshow` pour une
+    // page restaurée depuis le cache de navigation (bouton Précédent de
+    // Safari), où aucun des deux autres événements ne part.
+    document.addEventListener("visibilitychange", sync);
+    window.addEventListener("pageshow", sync);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", sync);
+      window.removeEventListener("pageshow", sync);
+    };
   }, []);
 
   return (
