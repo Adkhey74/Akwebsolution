@@ -1,9 +1,56 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, type MouseEvent } from "react";
 import { usePathname } from "next/navigation";
 import { MotionConfig } from "motion/react";
 import Lenis from "lenis";
+import { splitLocale } from "@/lib/i18n/config";
+
+/**
+ * Retour au hero quand on clique le logo ou « Accueil » DEPUIS l'accueil.
+ *
+ * Un lien vers la page où l'on se trouve déjà n'est pas une navigation pour
+ * Next : rien ne se passe, la page reste où elle est. Mesuré le 14/09/2026 —
+ * sur l'accueil, défilé à 3 200 px, le clic laissait la page à 3 200 px sur
+ * les trois chemins de défilement du site (Lenis, natif sur mobile, mouvement
+ * réduit). Depuis une autre page, la navigation arrive déjà en haut : on n'y
+ * touche pas.
+ *
+ * Le défilement passe par Lenis quand il tourne — un `window.scrollTo` direct
+ * serait repris au tick suivant par sa position interne, le piège déjà
+ * rencontré sur les ancres ci-dessous.
+ */
+const ScrollToTopContext = createContext<(() => void) | null>(null);
+
+/**
+ * Gestionnaire de clic à poser sur les liens vers l'accueil. Sur une autre
+ * page, il ne fait rien et laisse Next naviguer ; sur l'accueil, il remonte au
+ * hero au lieu d'une navigation qui n'aurait aucun effet.
+ */
+export function useHomeLinkClick() {
+  const scrollToTop = useContext(ScrollToTopContext);
+  const pathname = usePathname();
+
+  return useCallback(
+    (e: MouseEvent<HTMLAnchorElement>) => {
+      // Forme racine : l'accueil anglais est « /en », pas « / ».
+      if (splitLocale(pathname).path !== "/") return;
+      // Cmd/Ctrl/Maj-clic : le visiteur veut un nouvel onglet, pas un défilement.
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+      e.preventDefault();
+      // Arrivé sur « /#services » via une ancre, le lien vise « / » : on retire
+      // le fragment, sinon l'URL continuerait de désigner une section qu'on
+      // vient de quitter. L'état d'historique de Next est conservé tel quel.
+      if (window.location.hash) {
+        window.history.replaceState(window.history.state, "", window.location.pathname + window.location.search);
+      }
+      if (scrollToTop) scrollToTop();
+      else window.scrollTo({ top: 0 });
+    },
+    [pathname, scrollToTop],
+  );
+}
 
 /**
  * Smooth-scroll global (Lenis) + configuration motion respectant
@@ -13,6 +60,19 @@ import Lenis from "lenis";
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
   const pathname = usePathname();
+
+  const scrollToTop = useCallback(() => {
+    const lenis = lenisRef.current;
+    if (lenis) {
+      lenis.scrollTo(0, { duration: 1.1 });
+      return;
+    }
+    // Lenis est coupé sur tactile et en mouvement réduit. Le `behavior` passé
+    // en JS l'emporte sur le `scroll-behavior: auto` de globals.css : il faut
+    // donc respecter la préférence ici, explicitement.
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -137,5 +197,9 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     };
   }, [pathname]);
 
-  return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
+  return (
+    <ScrollToTopContext.Provider value={scrollToTop}>
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
+    </ScrollToTopContext.Provider>
+  );
 }

@@ -10,6 +10,7 @@ import { ThemeToggle } from "./ThemeToggle";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useI18n } from "@/lib/i18n/context";
 import { splitLocale } from "@/lib/i18n/config";
+import { useHomeLinkClick } from "./SmoothScroll";
 
 // Chemins sous leur forme RACINE (française). Le tableau est au niveau module,
 // donc hors de portée de `lp` — qui dépend du contexte : le préfixe de langue est
@@ -24,6 +25,8 @@ const navLinks = [
 
 export function Header() {
   const { t, lp } = useI18n();
+  // « Accueil » depuis l'accueil : retour au hero plutôt qu'un clic sans effet.
+  const onHomeClick = useHomeLinkClick();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolledPastHero, setScrolledPastHero] = useState(false);
   const pathname = usePathname();
@@ -171,6 +174,7 @@ export function Header() {
                 <Link
                   key={href}
                   href={lp(href)}
+                  onClick={href === "/" ? onHomeClick : undefined}
                   /* `aria-current` porte l'information pour les lecteurs
                      d'écran : un trait n'est pas annoncé. */
                   aria-current={active ? "page" : undefined}
@@ -240,7 +244,7 @@ export function Header() {
           >
             {/* Header du menu */}
             <div className="relative flex h-[5.25rem] shrink-0 items-center justify-center px-5">
-              <Logo variant="compact" className="h-[5.25rem] w-auto brightness-0 dark:invert" />
+              <Logo variant="compact" className="h-[5.25rem] w-auto brightness-0 dark:invert" onNavigate={closeMenu} />
               <button
                 type="button"
                 onClick={closeMenu}
@@ -264,7 +268,14 @@ export function Header() {
                   >
                     <Link
                       href={lp(href)}
-                      onClick={closeMenu}
+                      onClick={
+                        href === "/"
+                          ? (e) => {
+                              onHomeClick(e);
+                              closeMenu();
+                            }
+                          : closeMenu
+                      }
                       aria-current={active ? "page" : undefined}
                       className="block border-b border-[var(--border)] py-5 text-[1.75rem] font-light tracking-tight text-[var(--foreground)] transition-colors hover:text-[var(--muted)]"
                     >
