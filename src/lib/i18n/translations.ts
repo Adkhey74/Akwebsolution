@@ -13,7 +13,7 @@ export const translations = {
     header: {
       home: "Accueil",
       projects: "Réalisations",
-      offers: "Offres",
+      offers: "Tarifs",
       blog: "Blog",
       about: "À propos",
       contact: "Contact",

@@ -8,6 +8,7 @@ import {
   rentalOffers,
 } from "@/lib/offers";
 import { BASE_URL, HREFLANG, localeUrl } from "@/lib/i18n/config";
+import { GOOGLE_PLACE_URL, GOOGLE_SHARE_URL } from "@/lib/reviews";
 import type { Locale } from "@/lib/i18n/translations";
 
 /**
@@ -38,7 +39,10 @@ export function JsonLd({ locale }: { locale: Locale }) {
       "@type": "PostalAddress",
       addressLocality: "Annecy",
       addressRegion: "Haute-Savoie",
-      postalCode: "74000",
+      // Celui de la fiche Google Business (13 rue Henri Verjus, 74600 Annecy) :
+      // Google rapproche site et fiche sur la cohérence de l'adresse, un code
+      // postal différent l'en empêche. À garder aligné sur la fiche.
+      postalCode: "74600",
       addressCountry: "FR",
     },
     areaServed: [
@@ -50,7 +54,16 @@ export function JsonLd({ locale }: { locale: Locale }) {
     currenciesAccepted: "EUR",
     paymentAccepted: "Virement bancaire, Carte bancaire",
     openingHours: "Mo-Fr 09:00-18:00",
+    /*
+     * La fiche Google Business figure ici pour que Google rattache le site à
+     * la fiche. Deux URL, volontairement : le lien de partage fourni par
+     * Google, et l'URL par Place ID, qui est l'identifiant stable (le lien de
+     * partage n'est qu'une redirection). Les deux viennent de `lib/reviews.ts`,
+     * où vivent déjà les identifiants de la fiche.
+     */
     sameAs: [
+      GOOGLE_SHARE_URL,
+      GOOGLE_PLACE_URL,
       "https://www.instagram.com/adil.khd/",
       "https://www.linkedin.com/in/adil-khadich/",
     ],

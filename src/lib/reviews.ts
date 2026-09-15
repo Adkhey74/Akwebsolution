@@ -30,6 +30,17 @@ export const GOOGLE_PLACE_ID = "ChIJJyAus4Cbi0cRA6LlAnklpgY";
 /** Lien vers la fiche complète (format officiel de lien par Place ID). */
 export const GOOGLE_PLACE_URL = `https://www.google.com/maps/place/?q=place_id:${GOOGLE_PLACE_ID}`;
 
+/**
+ * Lien de partage de la fiche, tel que Google le fournit (15/09/2026). Il sert
+ * au `sameAs` du JSON-LD, qui relie le site à la fiche.
+ *
+ * ⚠️ C'est un jeton de redirection (`share.google` → `google.com/share.google`),
+ * pas l'adresse de la fiche : il ne dit rien par lui-même de l'établissement.
+ * Le `sameAs` porte donc AUSSI `GOOGLE_PLACE_URL`, construite sur le Place ID,
+ * qui est l'identifiant stable. Ne pas retirer l'une au profit de l'autre.
+ */
+export const GOOGLE_SHARE_URL = "https://share.google/5z0Mq6m6uG6VzVzyI";
+
 /** Note et nombre d'avis de la fiche, tels que relevés — à tenir à jour à la main. */
 const FICHE = { rating: 5, count: 1, releveLe: "2026-09-10" };
 
